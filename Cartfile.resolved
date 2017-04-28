@@ -1,0 +1,5 @@
+github "antitypical/Result" "3.2.1"
+github "ishkawa/APIKit" "3.1.2"
+github "realm/realm-cocoa" "v2.6.2"
+github "sora0077/Alter" "53ff13d518bf25e02d75b51505d0b0fa3941a44d"
+github "sora0077/DribbbleKit" "796e5492e199ba21292b5d2f6e390a4a79c4f493"
