@@ -8,10 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0783B7779BF2A8D2AFE06D72 /* Pods_DribbblerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6854B567CAC3F55C38271A8 /* Pods_DribbblerTests.framework */; };
-		8BB3F4B1958BCFA9B8386A87 /* Pods_Dribbbler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0A9403C18B1FFB0C892610 /* Pods_Dribbbler.framework */; };
 		D9D1ADE21EB39D1500CD4748 /* Dribbbler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADD81EB39D1500CD4748 /* Dribbbler.framework */; };
 		D9D1ADE71EB39D1500CD4748 /* DribbblerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D1ADE61EB39D1500CD4748 /* DribbblerTests.swift */; };
 		D9D1ADE91EB39D1500CD4748 /* Dribbbler.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D1ADDB1EB39D1500CD4748 /* Dribbbler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9D1ADF71EB3A37D00CD4748 /* Alter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADF21EB3A37D00CD4748 /* Alter.framework */; };
+		D9D1ADF81EB3A37D00CD4748 /* APIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADF31EB3A37D00CD4748 /* APIKit.framework */; };
+		D9D1ADF91EB3A37D00CD4748 /* DribbbleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADF41EB3A37D00CD4748 /* DribbbleKit.framework */; };
+		D9D1ADFA1EB3A37D00CD4748 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADF51EB3A37D00CD4748 /* Realm.framework */; };
+		D9D1ADFB1EB3A37D00CD4748 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADF61EB3A37D00CD4748 /* Result.framework */; };
+		D9D1ADFE1EB3A6B600CD4748 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADFD1EB3A6B600CD4748 /* RealmSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +41,12 @@
 		D9D1ADE11EB39D1500CD4748 /* DribbblerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DribbblerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D1ADE61EB39D1500CD4748 /* DribbblerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DribbblerTests.swift; sourceTree = "<group>"; };
 		D9D1ADE81EB39D1500CD4748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9D1ADF21EB3A37D00CD4748 /* Alter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alter.framework; path = Carthage/Build/iOS/Alter.framework; sourceTree = "<group>"; };
+		D9D1ADF31EB3A37D00CD4748 /* APIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APIKit.framework; path = Carthage/Build/iOS/APIKit.framework; sourceTree = "<group>"; };
+		D9D1ADF41EB3A37D00CD4748 /* DribbbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DribbbleKit.framework; path = Carthage/Build/iOS/DribbbleKit.framework; sourceTree = "<group>"; };
+		D9D1ADF51EB3A37D00CD4748 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		D9D1ADF61EB3A37D00CD4748 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		D9D1ADFD1EB3A6B600CD4748 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		E6854B567CAC3F55C38271A8 /* Pods_DribbblerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DribbblerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -44,7 +55,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BB3F4B1958BCFA9B8386A87 /* Pods_Dribbbler.framework in Frameworks */,
+				D9D1ADF81EB3A37D00CD4748 /* APIKit.framework in Frameworks */,
+				D9D1ADF71EB3A37D00CD4748 /* Alter.framework in Frameworks */,
+				D9D1ADFE1EB3A6B600CD4748 /* RealmSwift.framework in Frameworks */,
+				D9D1ADFB1EB3A37D00CD4748 /* Result.framework in Frameworks */,
+				D9D1ADF91EB3A37D00CD4748 /* DribbbleKit.framework in Frameworks */,
+				D9D1ADFA1EB3A37D00CD4748 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +79,12 @@
 		93F2C702610E85870FB0FEC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D9D1ADFD1EB3A6B600CD4748 /* RealmSwift.framework */,
+				D9D1ADF21EB3A37D00CD4748 /* Alter.framework */,
+				D9D1ADF31EB3A37D00CD4748 /* APIKit.framework */,
+				D9D1ADF41EB3A37D00CD4748 /* DribbbleKit.framework */,
+				D9D1ADF51EB3A37D00CD4748 /* Realm.framework */,
+				D9D1ADF61EB3A37D00CD4748 /* Result.framework */,
 				AA0A9403C18B1FFB0C892610 /* Pods_Dribbbler.framework */,
 				E6854B567CAC3F55C38271A8 /* Pods_DribbblerTests.framework */,
 			);
@@ -136,12 +158,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9D1ADEC1EB39D1500CD4748 /* Build configuration list for PBXNativeTarget "Dribbbler" */;
 			buildPhases = (
-				29ED10C34B18BB1D14A11B45 /* [CP] Check Pods Manifest.lock */,
+				D9D1ADFC1EB3A45800CD4748 /* Run SwiftLint */,
 				D9D1ADD31EB39D1500CD4748 /* Sources */,
 				D9D1ADD41EB39D1500CD4748 /* Frameworks */,
 				D9D1ADD51EB39D1500CD4748 /* Headers */,
 				D9D1ADD61EB39D1500CD4748 /* Resources */,
-				D8C6281D1579174FFD11EA86 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -156,12 +177,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9D1ADEF1EB39D1500CD4748 /* Build configuration list for PBXNativeTarget "DribbblerTests" */;
 			buildPhases = (
-				1142D541CEC3154B87558ADB /* [CP] Check Pods Manifest.lock */,
 				D9D1ADDD1EB39D1500CD4748 /* Sources */,
 				D9D1ADDE1EB39D1500CD4748 /* Frameworks */,
 				D9D1ADDF1EB39D1500CD4748 /* Resources */,
-				C20B8878BCDDD2DE2CAD8359 /* [CP] Embed Pods Frameworks */,
-				E23E92EA8C2BDDE1159B9174 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -229,80 +247,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1142D541CEC3154B87558ADB /* [CP] Check Pods Manifest.lock */ = {
+		D9D1ADFC1EB3A45800CD4748 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "Run SwiftLint";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		29ED10C34B18BB1D14A11B45 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		C20B8878BCDDD2DE2CAD8359 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DribbblerTests/Pods-DribbblerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D8C6281D1579174FFD11EA86 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dribbbler/Pods-Dribbbler-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E23E92EA8C2BDDE1159B9174 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DribbblerTests/Pods-DribbblerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "if [ -f ${PODS_ROOT}/SwiftLint/swiftlint ]; then\n    ${PODS_ROOT}/SwiftLint/swiftlint autocorrect\n    ${PODS_ROOT}/SwiftLint/swiftlint\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -443,6 +400,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Dribbbler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -462,6 +423,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Dribbbler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -515,6 +480,7 @@
 				D9D1ADEE1EB39D1500CD4748 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D9D1ADEF1EB39D1500CD4748 /* Build configuration list for PBXNativeTarget "DribbblerTests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +489,7 @@
 				D9D1ADF11EB39D1500CD4748 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
