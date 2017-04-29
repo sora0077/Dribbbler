@@ -17,6 +17,7 @@
 		D9D1ADFA1EB3A37D00CD4748 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADF51EB3A37D00CD4748 /* Realm.framework */; };
 		D9D1ADFB1EB3A37D00CD4748 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADF61EB3A37D00CD4748 /* Result.framework */; };
 		D9D1ADFE1EB3A6B600CD4748 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADFD1EB3A6B600CD4748 /* RealmSwift.framework */; };
+		D9D1AE021EB464BB00CD4748 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D1AE011EB464BB00CD4748 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		D9D1ADF51EB3A37D00CD4748 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		D9D1ADF61EB3A37D00CD4748 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		D9D1ADFD1EB3A6B600CD4748 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		D9D1AE011EB464BB00CD4748 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E6854B567CAC3F55C38271A8 /* Pods_DribbblerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DribbblerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 		D9D1ADDA1EB39D1500CD4748 /* Dribbbler */ = {
 			isa = PBXGroup;
 			children = (
+				D9D1ADFF1EB463AE00CD4748 /* Sources */,
 				D9D1ADDB1EB39D1500CD4748 /* Dribbbler.h */,
 				D9D1ADDC1EB39D1500CD4748 /* Info.plist */,
 			);
@@ -127,6 +130,22 @@
 				D9D1ADE81EB39D1500CD4748 /* Info.plist */,
 			);
 			path = DribbblerTests;
+			sourceTree = "<group>";
+		};
+		D9D1ADFF1EB463AE00CD4748 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				D9D1AE001EB4647C00CD4748 /* Entity */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		D9D1AE001EB4647C00CD4748 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				D9D1AE011EB464BB00CD4748 /* User.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		DF1050A30FB6C53C547C5D39 /* Pods */ = {
@@ -203,6 +222,7 @@
 				TargetAttributes = {
 					D9D1ADD71EB39D1500CD4748 = {
 						CreatedOnToolsVersion = 8.3.2;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					D9D1ADE01EB39D1500CD4748 = {
@@ -268,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9D1AE021EB464BB00CD4748 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +416,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D8EF78FEBEC0EFCCDFCB232E /* Pods-Dribbbler.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -410,6 +432,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jp.sora0077.Dribbbler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -418,6 +441,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AFEF257D597CF41E4B11B245 /* Pods-Dribbbler.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -441,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C433290E2B282D48FCF336E0 /* Pods-DribbblerTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = DribbblerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.sora0077.DribbblerTests;
@@ -453,6 +478,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A492EA10A0947FD6AC2E8A22 /* Pods-DribbblerTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = DribbblerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.sora0077.DribbblerTests;
