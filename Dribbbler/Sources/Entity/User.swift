@@ -52,6 +52,10 @@ final class _User: Object, UserData {  // swiftlint:disable:this type_name
 
     override class func primaryKey() -> String? { return "id" }
 
+    override class func ignoredProperties() -> [String] {
+        return ["htmlURL", "avatarURL", "bucketsURL", "followersURL", "followingURL", "likesURL", "shotsURL", "teamsURL"]
+    }
+
     convenience init(
         id: Identifier,
         name: String,
