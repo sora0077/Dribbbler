@@ -14,7 +14,7 @@ final class _User: Object, UserData {  // swiftlint:disable:this type_name
     private(set) dynamic var id: Int = 0
     private(set) dynamic var name: String = ""
     private(set) dynamic var username: String = ""
-    private(set) dynamic var  bio: String = ""
+    private(set) dynamic var bio: String = ""
     private(set) dynamic var location: String = ""
     private(set) dynamic var bucketsCount: Int = 0
     private(set) dynamic var commentsRecievedCount: Int = 0

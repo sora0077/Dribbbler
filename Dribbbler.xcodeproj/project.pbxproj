@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0783B7779BF2A8D2AFE06D72 /* Pods_DribbblerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6854B567CAC3F55C38271A8 /* Pods_DribbblerTests.framework */; };
+		D96AAC971EB89F9C00E9CD41 /* Shot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC961EB89F9C00E9CD41 /* Shot.swift */; };
 		D9D1ADE21EB39D1500CD4748 /* Dribbbler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADD81EB39D1500CD4748 /* Dribbbler.framework */; };
 		D9D1ADE71EB39D1500CD4748 /* DribbblerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D1ADE61EB39D1500CD4748 /* DribbblerTests.swift */; };
 		D9D1ADE91EB39D1500CD4748 /* Dribbbler.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D1ADDB1EB39D1500CD4748 /* Dribbbler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -90,6 +91,7 @@
 		AFEF257D597CF41E4B11B245 /* Pods-Dribbbler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dribbbler.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dribbbler/Pods-Dribbbler.release.xcconfig"; sourceTree = "<group>"; };
 		C433290E2B282D48FCF336E0 /* Pods-DribbblerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbblerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DribbblerTests/Pods-DribbblerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D8EF78FEBEC0EFCCDFCB232E /* Pods-Dribbbler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dribbbler.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dribbbler/Pods-Dribbbler.debug.xcconfig"; sourceTree = "<group>"; };
+		D96AAC961EB89F9C00E9CD41 /* Shot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shot.swift; sourceTree = "<group>"; };
 		D9D1ADD81EB39D1500CD4748 /* Dribbbler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dribbbler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D1ADDB1EB39D1500CD4748 /* Dribbbler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dribbbler.h; sourceTree = "<group>"; };
 		D9D1ADDC1EB39D1500CD4748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				D9D1AE011EB464BB00CD4748 /* User.swift */,
+				D96AAC961EB89F9C00E9CD41 /* Shot.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -292,7 +295,6 @@
 				D9D1ADD31EB39D1500CD4748 /* Sources */,
 				D9D1ADD41EB39D1500CD4748 /* Frameworks */,
 				D9D1ADD51EB39D1500CD4748 /* Headers */,
-				D9D1ADD61EB39D1500CD4748 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -410,13 +412,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D9D1ADD61EB39D1500CD4748 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D9D1ADDF1EB39D1500CD4748 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -466,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9D1AE021EB464BB00CD4748 /* User.swift in Sources */,
+				D96AAC971EB89F9C00E9CD41 /* Shot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -809,6 +805,7 @@
 				D9D1AE231EB49E4700CD4748 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D9D1AE241EB49E4700CD4748 /* Build configuration list for PBXNativeTarget "DemoTests" */ = {
 			isa = XCConfigurationList;
@@ -817,6 +814,7 @@
 				D9D1AE261EB49E4700CD4748 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
