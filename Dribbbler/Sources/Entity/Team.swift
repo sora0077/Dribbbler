@@ -58,7 +58,7 @@ final class _Team: Object, TeamData {  // swiftlint:disable:this type_name
     }
 
     convenience init(
-        id: Team.Identifier,
+        id: Identifier,
         name: String,
         username: String,
         htmlURL: URL,
