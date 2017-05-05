@@ -31,25 +31,25 @@ final class _Team: Object, TeamData {  // swiftlint:disable:this type_name
     private(set) dynamic var createdAt: Date = .distantPast
     private(set) dynamic var updatedAt: Date = .distantPast
 
-    private(set) lazy var htmlURL: URL = URL(string: self._html)!
-    private(set) lazy var avatarURL: URL = URL(string: self._avatar)!
-    private(set) lazy var bucketsURL: URL = URL(string: self._buckets)!
-    private(set) lazy var followersURL: URL = URL(string: self._followers)!
-    private(set) lazy var followingURL: URL = URL(string: self._following)!
-    private(set) lazy var likesURL: URL = URL(string: self._likes)!
-    private(set) lazy var membersURL: URL = URL(string: self._members)!
-    private(set) lazy var shotsURL: URL = URL(string: self._shots)!
-    private(set) lazy var teamShotsURL: URL = URL(string: self._teamShots)!
+    private(set) lazy var htmlURL: URL = URL(string: self._htmlUrl)!
+    private(set) lazy var avatarURL: URL = URL(string: self._avatarUrl)!
+    private(set) lazy var bucketsURL: URL = URL(string: self._bucketsUrl)!
+    private(set) lazy var followersURL: URL = URL(string: self._followersUrl)!
+    private(set) lazy var followingURL: URL = URL(string: self._followingUrl)!
+    private(set) lazy var likesURL: URL = URL(string: self._likesUrl)!
+    private(set) lazy var membersURL: URL = URL(string: self._membersUrl)!
+    private(set) lazy var shotsURL: URL = URL(string: self._shotsUrl)!
+    private(set) lazy var teamShotsURL: URL = URL(string: self._teamShotsUrl)!
 
-    private dynamic var _html: String = ""
-    private dynamic var _avatar: String = ""
-    private dynamic var _buckets: String = ""
-    private dynamic var _followers: String = ""
-    private dynamic var _following: String = ""
-    private dynamic var _likes: String = ""
-    private dynamic var _members: String = ""
-    private dynamic var _shots: String = ""
-    private dynamic var _teamShots: String = ""
+    private dynamic var _htmlUrl: String = ""
+    private dynamic var _avatarUrl: String = ""
+    private dynamic var _bucketsUrl: String = ""
+    private dynamic var _followersUrl: String = ""
+    private dynamic var _followingUrl: String = ""
+    private dynamic var _likesUrl: String = ""
+    private dynamic var _membersUrl: String = ""
+    private dynamic var _shotsUrl: String = ""
+    private dynamic var _teamShotsUrl: String = ""
 
     override class func primaryKey() -> String? { return "id" }
 
@@ -93,8 +93,8 @@ final class _Team: Object, TeamData {  // swiftlint:disable:this type_name
         self.id = Int(id)
         self.name = name
         self.username = username
-        self._html = htmlURL.absoluteString
-        self._avatar = avatarURL.absoluteString
+        self._htmlUrl = htmlURL.absoluteString
+        self._avatarUrl = avatarURL.absoluteString
         self.bio = bio
         self.location = location
         self.bucketsCount = bucketsCount
@@ -109,12 +109,12 @@ final class _Team: Object, TeamData {  // swiftlint:disable:this type_name
         self.canUploadShot = canUploadShot
         self.type = type
         self.pro = pro
-        self._buckets = bucketsURL.absoluteString
-        self._followers = followersURL.absoluteString
-        self._following = followingURL.absoluteString
-        self._likes = likesURL.absoluteString
-        self._shots = shotsURL.absoluteString
-        self._teamShots = teamShotsURL.absoluteString
+        self._bucketsUrl = bucketsURL.absoluteString
+        self._followersUrl = followersURL.absoluteString
+        self._followingUrl = followingURL.absoluteString
+        self._likesUrl = likesURL.absoluteString
+        self._shotsUrl = shotsURL.absoluteString
+        self._teamShotsUrl = teamShotsURL.absoluteString
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }

@@ -24,24 +24,26 @@ final class _Shot: Object, ShotData {  // swiftlint:disable:this type_name
     private(set) dynamic var createdAt: Date = .distantPast
     private(set) dynamic var updatedAt: Date = .distantPast
     private(set) dynamic var animated: Bool = false
+    var _user: _User?
+    var _team: _Team?
 
     override var description: String { return _description }
-    private(set) lazy var htmlURL: URL = URL(string: self._html)!
-    private(set) lazy var attachmentsURL: URL = URL(string: self._attachments)!
-    private(set) lazy var bucketsURL: URL = URL(string: self._buckets)!
-    private(set) lazy var commentsURL: URL = URL(string: self._comments)!
-    private(set) lazy var likesURL: URL = URL(string: self._likes)!
-    private(set) lazy var projectsURL: URL = URL(string: self._projects)!
-    private(set) lazy var reboundsURL: URL = URL(string: self._rebounds)!
+    private(set) lazy var htmlURL: URL = URL(string: self._htmlUrl)!
+    private(set) lazy var attachmentsURL: URL = URL(string: self._attachmentsUrl)!
+    private(set) lazy var bucketsURL: URL = URL(string: self._bucketsUrl)!
+    private(set) lazy var commentsURL: URL = URL(string: self._commentsUrl)!
+    private(set) lazy var likesURL: URL = URL(string: self._likesUrl)!
+    private(set) lazy var projectsURL: URL = URL(string: self._projectsUrl)!
+    private(set) lazy var reboundsURL: URL = URL(string: self._reboundsUrl)!
 
     private dynamic var _description: String = ""
-    private dynamic var _html: String = ""
-    private dynamic var _attachments: String = ""
-    private dynamic var _buckets: String = ""
-    private dynamic var _comments: String = ""
-    private dynamic var _likes: String = ""
-    private dynamic var _projects: String = ""
-    private dynamic var _rebounds: String = ""
+    private dynamic var _htmlUrl: String = ""
+    private dynamic var _attachmentsUrl: String = ""
+    private dynamic var _bucketsUrl: String = ""
+    private dynamic var _commentsUrl: String = ""
+    private dynamic var _likesUrl: String = ""
+    private dynamic var _projectsUrl: String = ""
+    private dynamic var _reboundsUrl: String = ""
 
     override class func primaryKey() -> String? { return "id" }
 
@@ -88,13 +90,13 @@ final class _Shot: Object, ShotData {  // swiftlint:disable:this type_name
         self.bucketsCount = bucketsCount
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        self._html = htmlURL.absoluteString
-        self._attachments = attachmentsURL.absoluteString
-        self._buckets = bucketsURL.absoluteString
-        self._comments = commentsURL.absoluteString
-        self._likes = likesURL.absoluteString
-        self._projects = projectsURL.absoluteString
-        self._rebounds = reboundsURL.absoluteString
+        self._htmlUrl = htmlURL.absoluteString
+        self._attachmentsUrl = attachmentsURL.absoluteString
+        self._bucketsUrl = bucketsURL.absoluteString
+        self._commentsUrl = commentsURL.absoluteString
+        self._likesUrl = likesURL.absoluteString
+        self._projectsUrl = projectsURL.absoluteString
+        self._reboundsUrl = reboundsURL.absoluteString
         self.animated = animated
     }
 }
