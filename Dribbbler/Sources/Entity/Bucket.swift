@@ -16,7 +16,7 @@ final class _Bucket: Object, BucketData {  // swiftlint:disable:this type_name
     private(set) dynamic var shotsCount: Int = 0
     private(set) dynamic var createdAt: Date = .distantPast
     private(set) dynamic var updatedAt: Date = .distantPast
-    var user: _User?
+    dynamic var _user: _User?
 
     override var description: String { return _description }
 

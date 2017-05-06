@@ -10,8 +10,13 @@ import Foundation
 import DribbbleKit
 import RealmSwift
 
-final class _User: Object, UserData {  // swiftlint:disable:this type_name
-    private(set) dynamic var id: Int = 0
+public protocol User {
+    typealias Identifier = UserData.Identifier
+    var id: Identifier { get }
+}
+
+final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
+    private(set) dynamic var _id: Int = 0
     private(set) dynamic var name: String = ""
     private(set) dynamic var username: String = ""
     private(set) dynamic var bio: String = ""
@@ -31,8 +36,10 @@ final class _User: Object, UserData {  // swiftlint:disable:this type_name
     private(set) dynamic var pro: Bool = false
     private(set) dynamic var createdAt: Date = .distantPast
     private(set) dynamic var updatedAt: Date = .distantPast
-    let _shots = LinkingObjects(fromType: _Shot.self, property: "_shot")
+    let _shots = LinkingObjects(fromType: _Shot.self, property: "_user")
+    let _buckets = LinkingObjects(fromType: _Bucket.self, property: "_user")
 
+    var id: Identifier { return DribbbleKit.User.Identifier(_id) }
     private(set) lazy var htmlURL: URL = URL(string: self._htmlUrl)!
     private(set) lazy var avatarURL: URL = URL(string: self._avatarUrl)!
     private(set) lazy var bucketsURL: URL = URL(string: self._bucketsUrl)!
@@ -51,7 +58,7 @@ final class _User: Object, UserData {  // swiftlint:disable:this type_name
     private dynamic var _shotsUrl: String = ""
     private dynamic var _teamsUrl: String = ""
 
-    override class func primaryKey() -> String? { return "id" }
+    override class func primaryKey() -> String? { return "_id" }
 
     override class func ignoredProperties() -> [String] {
         return ["htmlURL", "avatarURL", "bucketsURL", "followersURL", "followingURL", "likesURL", "shotsURL", "teamsURL"]
@@ -67,7 +74,7 @@ final class _User: Object, UserData {  // swiftlint:disable:this type_name
         location: String,
         links: [String : URL],
         bucketsCount: Int,
-        commentsRecievedCount: Int,
+        commentsReceivedCount: Int,
         followersCount: Int,
         followingsCount: Int,
         likesCount: Int,
@@ -89,7 +96,7 @@ final class _User: Object, UserData {  // swiftlint:disable:this type_name
         updatedAt: Date
         ) throws {
         self.init()
-        self.id = Int(id)
+        self._id = Int(id)
         self.name = name
         self.username = username
         self._htmlUrl = htmlURL.absoluteString
@@ -97,7 +104,7 @@ final class _User: Object, UserData {  // swiftlint:disable:this type_name
         self.bio = bio
         self.location = location
         self.bucketsCount = bucketsCount
-        self.commentsReceivedCount = commentsRecievedCount
+        self.commentsReceivedCount = commentsReceivedCount
         self.followersCount = followersCount
         self.followingsCount = followingsCount
         self.likesCount = likesCount

@@ -10,6 +10,10 @@ import Foundation
 import RealmSwift
 import DribbbleKit
 
+protocol Shot {
+
+}
+
 final class _Shot: Object, ShotData {  // swiftlint:disable:this type_name
     private(set) dynamic var id: Int = 0
     private(set) dynamic var title: String = ""
@@ -24,8 +28,8 @@ final class _Shot: Object, ShotData {  // swiftlint:disable:this type_name
     private(set) dynamic var createdAt: Date = .distantPast
     private(set) dynamic var updatedAt: Date = .distantPast
     private(set) dynamic var animated: Bool = false
-    var _user: _User?
-    var _team: _Team?
+    dynamic var _user: _User?
+    dynamic var _team: _Team?
 
     override var description: String { return _description }
     private(set) lazy var htmlURL: URL = URL(string: self._htmlUrl)!

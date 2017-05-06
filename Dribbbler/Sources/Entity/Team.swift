@@ -30,6 +30,7 @@ final class _Team: Object, TeamData {  // swiftlint:disable:this type_name
     private(set) dynamic var pro: Bool = false
     private(set) dynamic var createdAt: Date = .distantPast
     private(set) dynamic var updatedAt: Date = .distantPast
+    let _shots = LinkingObjects(fromType: _Shot.self, property: "_team")
 
     private(set) lazy var htmlURL: URL = URL(string: self._htmlUrl)!
     private(set) lazy var avatarURL: URL = URL(string: self._avatarUrl)!
