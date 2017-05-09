@@ -8,22 +8,24 @@
 
 import Foundation
 import DribbbleKit
+import RealmSwift
 
-protocol Fetcher: NetworkStateHolder {
-    associatedtype Request: PaginatorRequest
-
-    func _request() -> Request?
-    func _fetch()
+extension Realm {
+    func recreate<T: Cache>(_ object: T, of predicateFormat: String, _ args: Any...) {
+        delete(objects(T.self).filter(NSPredicate(format: predicateFormat, argumentArray: args)))
+        add(object)
+    }
 }
 
-//extension Fetcher {
-//    func _fetch() {
-//        guard let request = _request() else { return }
-//        RequestController(request, stateHolder: self).run { response in
-//            
-//        }
-//    }
-//}
+final class UserShotsCache: Cache {
+    dynamic var _user: _User?
+    let shots = List<_Shot>()
+
+    convenience init(user: _User) {
+        self.init()
+        _user = user
+    }
+}
 
 public final class Shots {
     public init() {
@@ -51,19 +53,29 @@ public final class UserShots: NetworkStateHolder {
         guard let user = Realm().object(ofType: _User.self, forPrimaryKey: Int(userId)) else {
             RequestController(GetUser(id: userId), stateHolder: self).runNext { response in
                 write { realm in
-                    realm.add(response.data, update: true)
+                    let user = response.data
+                    realm.add(user, update: true)
+                    realm.recreate(UserShotsCache(user: user), of: "_user._id == %@", Int(user.id))
                 }
                 return (.waiting, self.fetch)
             }
             return
         }
         RequestController(next ?? ListUserShots(id: user.id), stateHolder: self).run { paginator in
+            let userId = Int(self.userId)
             write { realm in
-                let owner = realm.object(ofType: _User.self, forPrimaryKey: Int(self.userId))
-                paginator.data.elements.forEach { shot, team in
+                let owner = realm.object(ofType: _User.self, forPrimaryKey: userId)
+                let shots = paginator.data.elements.map { shot, team -> _Shot in
                     shot._team = team
                     shot._user = owner
-                    realm.add(shot, update: true)
+                    return shot
+                }
+                realm.add(shots, update: true)
+
+                if let cache = realm.objects(UserShotsCache.self).filter("_user._id == %@", userId).first {
+                    cache.update {
+                        cache.shots.append(objectsIn: shots)
+                    }
                 }
             }
             self.next = paginator.data.next

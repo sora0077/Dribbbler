@@ -15,6 +15,10 @@ public protocol User {
     var id: Identifier { get }
 }
 
+extension User {
+    var impl: _User { return self as! _User }  // swiftlint:disable:this force_cast
+}
+
 final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
     private(set) dynamic var _id: Int = 0
     private(set) dynamic var name: String = ""
