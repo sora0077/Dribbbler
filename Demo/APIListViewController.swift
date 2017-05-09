@@ -7,14 +7,19 @@
 //
 
 import UIKit
-import DribbbleKit
+import Dribbbler
 
 final class APIListViewController: UITableViewController {
 
     @IBAction
     private func authorizeAction() {
-        guard let clientId = UserDefaults.standard.clientId else { return }
-        UIApplication.shared.open(
-            OAuth.authorizeURL(clientId: clientId, scopes: [.public]), options: [:], completionHandler: nil)
+        do {
+            try UIApplication.shared.open(
+                OAuth().authorizeURL(with: [.public]), options: [:], completionHandler: nil)
+        } catch let error as OAuth.Error {
+
+        } catch {
+
+        }
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Dribbbler
 
 class ViewController: UIViewController {
     @IBOutlet private var clientIdField: UITextField!
@@ -16,11 +17,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
 
-        let defaults = UserDefaults.standard
-        clientIdField.text = defaults.clientId
-        clientSecretField.text = defaults.clientSecret
-//        accessTokenLabel.text = defaults.authorization?.accessToken
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let client = OAuth().client()
+        clientIdField.text = client?.id
+        clientSecretField.text = client?.secret
+        accessTokenLabel.text = client?.accessToken
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,11 +39,7 @@ class ViewController: UIViewController {
             let clientId = clientIdField.text, !clientId.isEmpty,
             let clientSecret = clientSecretField.text, !clientSecret.isEmpty else { return }
 
-        let defaults = UserDefaults.standard
-        defaults.clientId = clientId
-        defaults.clientSecret = clientSecret
-        defaults.synchronize()
-
+        OAuth().saveClient(id: clientId, secret: clientSecret)
         performSegue(withIdentifier: "Launch", sender: nil)
     }
 }

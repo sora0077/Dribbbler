@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0783B7779BF2A8D2AFE06D72 /* Pods_DribbblerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6854B567CAC3F55C38271A8 /* Pods_DribbblerTests.framework */; };
+		D9692DBD1EC2144800727C93 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBC1EC2144800727C93 /* Authorization.swift */; };
+		D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBE1EC216D300727C93 /* OAuth.swift */; };
+		D9692DC11EC2201600727C93 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DC01EC2201600727C93 /* Client.swift */; };
+		D9692DC31EC23BB900727C93 /* PredicateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9692DC21EC23BB900727C93 /* PredicateKit.framework */; };
+		D9692DC51EC23BC100727C93 /* ErrorEventHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9692DC41EC23BC100727C93 /* ErrorEventHandler.framework */; };
+		D9692DC61EC23BD300727C93 /* ErrorEventHandler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9692DC41EC23BC100727C93 /* ErrorEventHandler.framework */; };
+		D9692DC71EC23BD300727C93 /* ErrorEventHandler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D9692DC41EC23BC100727C93 /* ErrorEventHandler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D9692DC81EC23BD300727C93 /* PredicateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9692DC21EC23BB900727C93 /* PredicateKit.framework */; };
+		D9692DC91EC23BD300727C93 /* PredicateKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D9692DC21EC23BB900727C93 /* PredicateKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D96AAC971EB89F9C00E9CD41 /* Shot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC961EB89F9C00E9CD41 /* Shot.swift */; };
 		D96AAC991EB8D45800E9CD41 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC981EB8D45800E9CD41 /* Team.swift */; };
 		D96AAC9B1EBC1C9F00E9CD41 /* Bucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC9A1EBC1C9F00E9CD41 /* Bucket.swift */; };
@@ -81,6 +90,8 @@
 			dstSubfolderSpec = 10;
 			files = (
 				D9D1AE351EB49EA100CD4748 /* Realm.framework in Embed Frameworks */,
+				D9692DC91EC23BD300727C93 /* PredicateKit.framework in Embed Frameworks */,
+				D9692DC71EC23BD300727C93 /* ErrorEventHandler.framework in Embed Frameworks */,
 				D9D1AE371EB49EA100CD4748 /* Result.framework in Embed Frameworks */,
 				D9D1AE331EB49EA100CD4748 /* DribbbleKit.framework in Embed Frameworks */,
 				D9D1AE2D1EB49EA100CD4748 /* RealmSwift.framework in Embed Frameworks */,
@@ -99,6 +110,11 @@
 		AFEF257D597CF41E4B11B245 /* Pods-Dribbbler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dribbbler.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dribbbler/Pods-Dribbbler.release.xcconfig"; sourceTree = "<group>"; };
 		C433290E2B282D48FCF336E0 /* Pods-DribbblerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbblerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DribbblerTests/Pods-DribbblerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D8EF78FEBEC0EFCCDFCB232E /* Pods-Dribbbler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dribbbler.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dribbbler/Pods-Dribbbler.debug.xcconfig"; sourceTree = "<group>"; };
+		D9692DBC1EC2144800727C93 /* Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
+		D9692DBE1EC216D300727C93 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
+		D9692DC01EC2201600727C93 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		D9692DC21EC23BB900727C93 /* PredicateKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PredicateKit.framework; path = Carthage/Build/iOS/PredicateKit.framework; sourceTree = "<group>"; };
+		D9692DC41EC23BC100727C93 /* ErrorEventHandler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ErrorEventHandler.framework; path = Carthage/Build/iOS/ErrorEventHandler.framework; sourceTree = "<group>"; };
 		D96AAC961EB89F9C00E9CD41 /* Shot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shot.swift; sourceTree = "<group>"; };
 		D96AAC981EB8D45800E9CD41 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		D96AAC9A1EBC1C9F00E9CD41 /* Bucket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bucket.swift; sourceTree = "<group>"; };
@@ -139,6 +155,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9692DC31EC23BB900727C93 /* PredicateKit.framework in Frameworks */,
+				D9692DC51EC23BC100727C93 /* ErrorEventHandler.framework in Frameworks */,
 				D9D1ADF81EB3A37D00CD4748 /* APIKit.framework in Frameworks */,
 				D9D1ADF71EB3A37D00CD4748 /* Alter.framework in Frameworks */,
 				D9D1ADFE1EB3A6B600CD4748 /* RealmSwift.framework in Frameworks */,
@@ -162,6 +180,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9D1AE341EB49EA100CD4748 /* Realm.framework in Frameworks */,
+				D9692DC81EC23BD300727C93 /* PredicateKit.framework in Frameworks */,
+				D9692DC61EC23BD300727C93 /* ErrorEventHandler.framework in Frameworks */,
 				D9D1AE361EB49EA100CD4748 /* Result.framework in Frameworks */,
 				D9D1AE321EB49EA100CD4748 /* DribbbleKit.framework in Frameworks */,
 				D9D1AE2C1EB49EA100CD4748 /* RealmSwift.framework in Frameworks */,
@@ -184,6 +204,8 @@
 		93F2C702610E85870FB0FEC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D9692DC41EC23BC100727C93 /* ErrorEventHandler.framework */,
+				D9692DC21EC23BB900727C93 /* PredicateKit.framework */,
 				D9D1ADFD1EB3A6B600CD4748 /* RealmSwift.framework */,
 				D9D1ADF21EB3A37D00CD4748 /* Alter.framework */,
 				D9D1ADF31EB3A37D00CD4748 /* APIKit.framework */,
@@ -200,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				D96AACA11EBC832200E9CD41 /* Shots.swift */,
+				D9692DBE1EC216D300727C93 /* OAuth.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -275,6 +298,8 @@
 				D96AAC9A1EBC1C9F00E9CD41 /* Bucket.swift */,
 				D96AAC9C1EBC2B0700E9CD41 /* Follow.swift */,
 				D96AAC9E1EBC324A00E9CD41 /* Like.swift */,
+				D9692DBC1EC2144800727C93 /* Authorization.swift */,
+				D9692DC01EC2201600727C93 /* Client.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -502,13 +527,16 @@
 			files = (
 				D96AACA21EBC832200E9CD41 /* Shots.swift in Sources */,
 				D9A4B0211EC1658D00302D2C /* Cache.swift in Sources */,
+				D9692DC11EC2201600727C93 /* Client.swift in Sources */,
 				D96AAC9F1EBC324A00E9CD41 /* Like.swift in Sources */,
 				D9F7B1A81EBCAD2900FBE743 /* Dribbbler.swift in Sources */,
 				D96AAC9D1EBC2B0700E9CD41 /* Follow.swift in Sources */,
 				D96AAC991EB8D45800E9CD41 /* Team.swift in Sources */,
+				D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */,
 				D96AAC9B1EBC1C9F00E9CD41 /* Bucket.swift in Sources */,
 				D9D1AE021EB464BB00CD4748 /* User.swift in Sources */,
 				D96AAC971EB89F9C00E9CD41 /* Shot.swift in Sources */,
+				D9692DBD1EC2144800727C93 /* Authorization.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
