@@ -19,4 +19,8 @@ final class _Authorization: Object {  // swiftlint:disable:this type_name
         get { return _scope.components(separatedBy: " ").flatMap(OAuth.Scope.init(rawValue:)) }
         set { _scope = newValue.map { $0.rawValue }.joined(separator: " ") }
     }
+
+    override class func primaryKey() -> String? {
+        return "accessToken"
+    }
 }

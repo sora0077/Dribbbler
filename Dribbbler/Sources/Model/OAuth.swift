@@ -77,9 +77,11 @@ public final class OAuth: NetworkStateHolder {
                 auth.accessToken = response.data.accessToken
                 auth.tokenType = response.data.tokenType
                 auth.scopes = response.data.scopes
+                realm.add(auth, update: true)
 
                 if let client = latestClient(realm) {
                     client.authorization = auth
+                    realm.add(client, update: true)
                     session.authorization = response.data
                 } else {
                     throw Error.parametricError

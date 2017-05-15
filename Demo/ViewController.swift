@@ -39,7 +39,10 @@ class ViewController: UIViewController {
             let clientId = clientIdField.text, !clientId.isEmpty,
             let clientSecret = clientSecretField.text, !clientSecret.isEmpty else { return }
 
-        OAuth().saveClient(id: clientId, secret: clientSecret)
+        let client = OAuth().client()
+        if client?.id != clientId && client?.secret != clientSecret {
+            OAuth().saveClient(id: clientId, secret: clientSecret)
+        }
         performSegue(withIdentifier: "Launch", sender: nil)
     }
 }

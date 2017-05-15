@@ -9,17 +9,50 @@
 import UIKit
 import Dribbbler
 
+private enum Row: String {
+    case userShots
+
+    var title: String { return rawValue }
+}
+
 final class APIListViewController: UITableViewController {
+    fileprivate let rows: [Row] = [
+        .userShots
+    ]
 
     @IBAction
     private func authorizeAction() {
         do {
             try UIApplication.shared.open(
                 OAuth().authorizeURL(with: [.public]), options: [:], completionHandler: nil)
-        } catch let error as OAuth.Error {
+        } catch _ as OAuth.Error {
 
         } catch {
 
+        }
+    }
+}
+
+extension APIListViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rows.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = rows[indexPath.row].title
+        return cell
+    }
+}
+
+extension APIListViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        switch rows[indexPath.row] {
+        case .userShots:
+            let vc = ShotsViewController(timeline: UserShots(userId: 1))
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

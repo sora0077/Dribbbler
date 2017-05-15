@@ -41,7 +41,10 @@ class ASessionAdapter: URLSessionAdapter {
 }
 
 //let session = DribbbleKit.Session(adapter: ASessionAdapter(configuration: .default))
-let session = Session.shared
+let session: Session = {
+    DribbbleKit.setup(.init(perPage: 100))
+    return Session.shared
+}()
 
 public enum NetworkState {
     case waiting
@@ -82,6 +85,7 @@ final class RequestController<Request: DribbbleKit.Request> {
                 self.holder.networkState = state
                 next?()
             case .failure(let error):
+                print(error)
                 self.holder.networkState = .error(error)
             }
         }

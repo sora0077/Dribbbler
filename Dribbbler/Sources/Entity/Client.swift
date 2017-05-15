@@ -10,6 +10,8 @@ import Foundation
 import RealmSwift
 import PredicateKit
 
+extension Date: AttributeType {}
+
 final class _Client: Object {  // swiftlint:disable:this type_name
     dynamic var id: String = ""
     dynamic var secret: String = ""

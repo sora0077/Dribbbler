@@ -9,6 +9,7 @@
 import Foundation
 import DribbbleKit
 import RealmSwift
+import PredicateKit
 
 public protocol User {
     typealias Identifier = UserData.Identifier
@@ -17,6 +18,14 @@ public protocol User {
 
 extension User {
     var impl: _User { return self as! _User }  // swiftlint:disable:this force_cast
+}
+
+extension User.Identifier: AttributeType {
+    public var expression: NSExpression { return Int(self).expression }
+}
+
+extension _User {
+    static let id = Attribute<User.Identifier>("_id")
 }
 
 final class _User: Object, User, UserData {  // swiftlint:disable:this type_name

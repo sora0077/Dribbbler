@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import DribbbleKit
 
-protocol Shot {
+public protocol Shot {
 
 }
 
