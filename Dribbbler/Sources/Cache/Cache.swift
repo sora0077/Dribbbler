@@ -23,7 +23,7 @@ class Cache: Object {
 }
 
 class RequestCache: Object {
-    dynamic var path: String = ""
+    private dynamic var path: String = ""
     private dynamic var parametersJson: Data?
     var parameters: Any? {
         get {
@@ -54,4 +54,9 @@ class RequestCache: Object {
         parameters = request?.parameters
         isDone = request == nil
     }
+}
+
+class PaginatorCache: Cache {
+    private dynamic var _next: RequestCache? = RequestCache()
+    var next: RequestCache { return _next! }
 }

@@ -9,6 +9,8 @@
 import Foundation
 import DribbbleKit
 import RealmSwift
+import RxSwift
+import RxCocoa
 import PredicateKit
 
 extension Int {
@@ -36,9 +38,8 @@ extension Realm {
     }
 }
 
-final class UserShotsCache: Cache {
+final class UserShotsCache: PaginatorCache {
     private dynamic var _userId: Int = 0
-    dynamic var next: RequestCache?
     let shots = List<_Shot>()
     override var liftime: TimeInterval { return 30.min }
 
@@ -47,7 +48,6 @@ final class UserShotsCache: Cache {
     convenience init(userId: User.Identifier) {
         self.init()
         _userId = Int(userId)
-        next = RequestCache()
     }
 }
 
@@ -57,8 +57,11 @@ extension UserShotsCache {
 
 public protocol Timeline {
     associatedtype Element
+    typealias Changes = _TimelineChanges
 
     var count: Int { get }
+    var changes: Driver<Changes> { get }
+    subscript (idx: Int) -> Element { get }
     func reload(force: Bool)
     func fetch()
 }
@@ -75,10 +78,30 @@ public final class Shots {
     }
 }
 
+public enum _TimelineChanges {  // swiftlint:disable:this type_name
+    case initial
+    case update(deletions: [Int], insertions: [Int], modifications: [Int])
+
+    init<T>(_ changes: RealmCollectionChange<T>) {
+        switch changes {
+        case .initial:
+            self = .initial
+        case let .update(_, deletions, insertions, modifications):
+            self = .update(deletions: deletions, insertions: insertions, modifications: modifications)
+        case let .error(error):
+            fatalError("\(error)")
+        }
+    }
+}
+
 public final class UserShots: Timeline, NetworkStateHolder {
     public typealias Element = Shot
+    public subscript(idx: Int) -> Shot { return cache.shots[idx] }
+    public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
+    private let _changes = PublishSubject<Changes>()
     private let userId: User.Identifier
     private let cache: UserShotsCache
+    private var token: NotificationToken!
     private var next: ListUserShots?
     var networkState: NetworkState = .waiting
 
@@ -94,8 +117,11 @@ public final class UserShots: Timeline, NetworkStateHolder {
         cache = realm.objects(UserShotsCache.self).filter(UserShotsCache.user == userId).first ?? realm.write {
             UserShotsCache(userId: userId)
         }
-        if !(cache.next?.isDone ?? false) {
-            next = cache.next?.request() ?? ListUserShots(id: userId)
+        if !cache.next.isDone {
+            next = cache.next.request() ?? ListUserShots(id: userId)
+        }
+        token = cache.shots.addNotificationBlock { [weak self] ch in
+            self?._changes.onNext(_TimelineChanges(ch))
         }
     }
 
@@ -136,7 +162,7 @@ public final class UserShots: Timeline, NetworkStateHolder {
                             cache.shots.removeAll()
                         }
                         cache.shots.append(objectsIn: shots)
-                        cache.next?.setRequest(paginator.data.next)
+                        cache.next.setRequest(paginator.data.next)
                     }
                 }
             }

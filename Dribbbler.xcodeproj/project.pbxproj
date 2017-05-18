@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0783B7779BF2A8D2AFE06D72 /* Pods_DribbblerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6854B567CAC3F55C38271A8 /* Pods_DribbblerTests.framework */; };
+		D91867161ECE08EC0016DD75 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D91867151ECE08EC0016DD75 /* RxSwift.framework */; };
+		D91867181ECE08F20016DD75 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D91867171ECE08F20016DD75 /* RxCocoa.framework */; };
+		D91867191ECE090C0016DD75 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D91867171ECE08F20016DD75 /* RxCocoa.framework */; };
+		D918671A1ECE090C0016DD75 /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D91867171ECE08F20016DD75 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D918671B1ECE092A0016DD75 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D91867151ECE08EC0016DD75 /* RxSwift.framework */; };
+		D918671C1ECE092A0016DD75 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D91867151ECE08EC0016DD75 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D9692DBD1EC2144800727C93 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBC1EC2144800727C93 /* Authorization.swift */; };
 		D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBE1EC216D300727C93 /* OAuth.swift */; };
 		D9692DC11EC2201600727C93 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DC01EC2201600727C93 /* Client.swift */; };
@@ -96,8 +102,10 @@
 				D9D1AE371EB49EA100CD4748 /* Result.framework in Embed Frameworks */,
 				D9D1AE331EB49EA100CD4748 /* DribbbleKit.framework in Embed Frameworks */,
 				D9D1AE2D1EB49EA100CD4748 /* RealmSwift.framework in Embed Frameworks */,
+				D918671C1ECE092A0016DD75 /* RxSwift.framework in Embed Frameworks */,
 				D9D1AE2F1EB49EA100CD4748 /* Alter.framework in Embed Frameworks */,
 				D9D1AE311EB49EA100CD4748 /* APIKit.framework in Embed Frameworks */,
+				D918671A1ECE090C0016DD75 /* RxCocoa.framework in Embed Frameworks */,
 				D9D1AE281EB49E5300CD4748 /* Dribbbler.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -111,6 +119,8 @@
 		AFEF257D597CF41E4B11B245 /* Pods-Dribbbler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dribbbler.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dribbbler/Pods-Dribbbler.release.xcconfig"; sourceTree = "<group>"; };
 		C433290E2B282D48FCF336E0 /* Pods-DribbblerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbblerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DribbblerTests/Pods-DribbblerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D8EF78FEBEC0EFCCDFCB232E /* Pods-Dribbbler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dribbbler.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dribbbler/Pods-Dribbbler.debug.xcconfig"; sourceTree = "<group>"; };
+		D91867151ECE08EC0016DD75 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		D91867171ECE08F20016DD75 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 		D9692DBC1EC2144800727C93 /* Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
 		D9692DBE1EC216D300727C93 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		D9692DC01EC2201600727C93 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
@@ -159,11 +169,13 @@
 			files = (
 				D9692DC31EC23BB900727C93 /* PredicateKit.framework in Frameworks */,
 				D9692DC51EC23BC100727C93 /* ErrorEventHandler.framework in Frameworks */,
+				D91867161ECE08EC0016DD75 /* RxSwift.framework in Frameworks */,
 				D9D1ADF81EB3A37D00CD4748 /* APIKit.framework in Frameworks */,
 				D9D1ADF71EB3A37D00CD4748 /* Alter.framework in Frameworks */,
 				D9D1ADFE1EB3A6B600CD4748 /* RealmSwift.framework in Frameworks */,
 				D9D1ADFB1EB3A37D00CD4748 /* Result.framework in Frameworks */,
 				D9D1ADF91EB3A37D00CD4748 /* DribbbleKit.framework in Frameworks */,
+				D91867181ECE08F20016DD75 /* RxCocoa.framework in Frameworks */,
 				D9D1ADFA1EB3A37D00CD4748 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,8 +199,10 @@
 				D9D1AE361EB49EA100CD4748 /* Result.framework in Frameworks */,
 				D9D1AE321EB49EA100CD4748 /* DribbbleKit.framework in Frameworks */,
 				D9D1AE2C1EB49EA100CD4748 /* RealmSwift.framework in Frameworks */,
+				D918671B1ECE092A0016DD75 /* RxSwift.framework in Frameworks */,
 				D9D1AE2E1EB49EA100CD4748 /* Alter.framework in Frameworks */,
 				D9D1AE301EB49EA100CD4748 /* APIKit.framework in Frameworks */,
+				D91867191ECE090C0016DD75 /* RxCocoa.framework in Frameworks */,
 				D9D1AE271EB49E5300CD4748 /* Dribbbler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +220,8 @@
 		93F2C702610E85870FB0FEC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D91867171ECE08F20016DD75 /* RxCocoa.framework */,
+				D91867151ECE08EC0016DD75 /* RxSwift.framework */,
 				D9692DC41EC23BC100727C93 /* ErrorEventHandler.framework */,
 				D9692DC21EC23BB900727C93 /* PredicateKit.framework */,
 				D9D1ADFD1EB3A6B600CD4748 /* RealmSwift.framework */,

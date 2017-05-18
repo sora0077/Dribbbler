@@ -8,6 +8,7 @@
 
 import UIKit
 import Dribbbler
+import RxSwift
 
 final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewController where Timeline.Element == Shot {
     private let timeline: Timeline
@@ -26,6 +27,8 @@ final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewC
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        _ = timeline.changes
+            .drive(onNext: { [weak self] _ in self?.collectionView?.reloadData() })
         timeline.fetch()
     }
 
@@ -36,6 +39,14 @@ final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewC
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         cell.backgroundColor = .white
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+        cell.contentView.addSubview({
+            let label = UILabel()
+            label.text = "\(indexPath.item)"
+            label.frame = cell.bounds
+            label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            return label
+        }())
         return cell
     }
 }

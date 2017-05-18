@@ -1,4 +1,5 @@
-github "realm/realm-cocoa"
+github "realm/realm-cocoa" "master"
+github "ReactiveX/RxSwift"
 github "sora0077/DribbbleKit" "master"
 github "sora0077/PredicateKit" "master"
 github "sora0077/ErrorEventHandler" "master"

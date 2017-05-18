@@ -10,6 +10,10 @@ import UIKit
 import RealmSwift
 import Dribbbler
 
+func print(_ items: Any?..., separator: String = " ", terminator: String = "\n") {
+    Swift.print(items.map(String.init(describing:)), separator: separator, terminator: terminator)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
