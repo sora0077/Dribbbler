@@ -13,32 +13,8 @@ import RxSwift
 import RxCocoa
 import PredicateKit
 
-extension Int {
-    var min: TimeInterval {
-        return TimeInterval(self) * 60
-    }
-}
-
-extension Realm {
-    func recreate<T: Cache>(_ object: T, of predicateFormat: String, _ args: Any...) {
-        recreate(object, of: NSPredicate(format: predicateFormat, argumentArray: args))
-    }
-
-    func recreate<T: Cache>(_ object: T, of predicate: NSPredicate) {
-        delete(objects(T.self).filter(predicate))
-        add(object)
-    }
-
-    func write<T: Object>(_ block: () -> T) -> T {
-        beginWrite()
-        let ret = block()
-        add(ret)
-        try! commitWrite()  // swiftlint:disable:this force_try
-        return ret
-    }
-}
-
-final class UserShotsCache: PaginatorCache {
+@objc(UserShotsCache)
+private final class UserShotsCache: PaginatorCache {
     private dynamic var _userId: Int = 0
     let shots = List<_Shot>()
     override var liftime: TimeInterval { return 30.min }
@@ -55,45 +31,13 @@ extension UserShotsCache {
     static let user = Attribute<User.Identifier>("_userId")
 }
 
-public protocol Timeline {
-    associatedtype Element
-    typealias Changes = _TimelineChanges
-
-    var count: Int { get }
-    var changes: Driver<Changes> { get }
-    subscript (idx: Int) -> Element { get }
-    func reload(force: Bool)
-    func fetch()
-}
-
-extension Timeline {
-    public func reload() {
-        reload(force: false)
-    }
-}
-
 public final class Shots {
     public init() {
 
     }
 }
 
-public enum _TimelineChanges {  // swiftlint:disable:this type_name
-    case initial
-    case update(deletions: [Int], insertions: [Int], modifications: [Int])
-
-    init<T>(_ changes: RealmCollectionChange<T>) {
-        switch changes {
-        case .initial:
-            self = .initial
-        case let .update(_, deletions, insertions, modifications):
-            self = .update(deletions: deletions, insertions: insertions, modifications: modifications)
-        case let .error(error):
-            fatalError("\(error)")
-        }
-    }
-}
-
+// MARK: - UserShots
 public final class UserShots: Timeline, NetworkStateHolder {
     public typealias Element = Shot
     public subscript(idx: Int) -> Shot { return cache.shots[idx] }
@@ -121,7 +65,7 @@ public final class UserShots: Timeline, NetworkStateHolder {
             next = cache.next.request() ?? ListUserShots(id: userId)
         }
         token = cache.shots.addNotificationBlock { [weak self] ch in
-            self?._changes.onNext(_TimelineChanges(ch))
+            self?._changes.onNext(TimelineChanges(ch))
         }
     }
 
