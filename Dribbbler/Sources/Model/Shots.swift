@@ -114,6 +114,6 @@ extension UserShots {
     public var startIndex: Int { return cache.shots.startIndex }
     public var endIndex: Int { return cache.shots.endIndex }
     public func index(after i: Int) -> Int { return cache.shots.index(after: i) }
-    
+
     public var count: Int { return cache.shots.count }
 }

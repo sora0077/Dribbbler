@@ -1,5 +1,5 @@
 //
-//  Authorization.swift
+//  EntityAuthorization.swift
 //  Dribbbler
 //
 //  Created by 林達也 on 2017/05/10.

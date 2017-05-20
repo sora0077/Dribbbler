@@ -1,35 +1,17 @@
 //
-//  User.swift
+//  EntityTeam.swift
 //  Dribbbler
 //
-//  Created by 林達也 on 2017/04/29.
+//  Created by 林達也 on 2017/05/02.
 //  Copyright © 2017年 jp.sora0077. All rights reserved.
 //
 
 import Foundation
-import DribbbleKit
 import RealmSwift
-import PredicateKit
+import DribbbleKit
 
-public protocol User {
-    typealias Identifier = UserData.Identifier
-    var id: Identifier { get }
-}
-
-extension User {
-    var impl: _User { return self as! _User }  // swiftlint:disable:this force_cast
-}
-
-extension User.Identifier: AttributeType {
-    public var expression: NSExpression { return Int(self).expression }
-}
-
-extension _User {
-    static let id = Attribute<User.Identifier>("_id")
-}
-
-final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
-    private(set) dynamic var _id: Int = 0
+final class _Team: Object, TeamData {  // swiftlint:disable:this type_name
+    private(set) dynamic var id: Int = 0
     private(set) dynamic var name: String = ""
     private(set) dynamic var username: String = ""
     private(set) dynamic var bio: String = ""
@@ -43,24 +25,22 @@ final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
     private(set) dynamic var projectsCount: Int = 0
     private(set) dynamic var reboundsReceivedCount: Int = 0
     private(set) dynamic var shotsCount: Int = 0
-    private(set) dynamic var teamsCount: Int = 0
     private(set) dynamic var canUploadShot: Bool = false
     private(set) dynamic var type: String = ""
     private(set) dynamic var pro: Bool = false
     private(set) dynamic var createdAt: Date = .distantPast
     private(set) dynamic var updatedAt: Date = .distantPast
-    let _shots = LinkingObjects(fromType: _Shot.self, property: "_user")
-    let _buckets = LinkingObjects(fromType: _Bucket.self, property: "_user")
+    let _shots = LinkingObjects(fromType: _Shot.self, property: "_team")
 
-    var id: Identifier { return DribbbleKit.User.Identifier(_id) }
     private(set) lazy var htmlURL: URL = URL(string: self._htmlUrl)!
     private(set) lazy var avatarURL: URL = URL(string: self._avatarUrl)!
     private(set) lazy var bucketsURL: URL = URL(string: self._bucketsUrl)!
     private(set) lazy var followersURL: URL = URL(string: self._followersUrl)!
     private(set) lazy var followingURL: URL = URL(string: self._followingUrl)!
     private(set) lazy var likesURL: URL = URL(string: self._likesUrl)!
+    private(set) lazy var membersURL: URL = URL(string: self._membersUrl)!
     private(set) lazy var shotsURL: URL = URL(string: self._shotsUrl)!
-    private(set) lazy var teamsURL: URL = URL(string: self._teamsUrl)!
+    private(set) lazy var teamShotsURL: URL = URL(string: self._teamShotsUrl)!
 
     private dynamic var _htmlUrl: String = ""
     private dynamic var _avatarUrl: String = ""
@@ -68,13 +48,14 @@ final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
     private dynamic var _followersUrl: String = ""
     private dynamic var _followingUrl: String = ""
     private dynamic var _likesUrl: String = ""
+    private dynamic var _membersUrl: String = ""
     private dynamic var _shotsUrl: String = ""
-    private dynamic var _teamsUrl: String = ""
+    private dynamic var _teamShotsUrl: String = ""
 
-    override class func primaryKey() -> String? { return "_id" }
+    override class func primaryKey() -> String? { return "id" }
 
     override class func ignoredProperties() -> [String] {
-        return ["htmlURL", "avatarURL", "bucketsURL", "followersURL", "followingURL", "likesURL", "shotsURL", "teamsURL"]
+        return ["htmlURL", "avatarURL", "bucketsURL", "followersURL", "followingURL", "likesURL", "membersURL", "shotsURL", "teamShotsURL"]
     }
 
     convenience init(
@@ -92,10 +73,10 @@ final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
         followingsCount: Int,
         likesCount: Int,
         likesReceivedCount: Int,
+        membersCount: Int,
         projectsCount: Int,
         reboundsReceivedCount: Int,
         shotsCount: Int,
-        teamsCount: Int,
         canUploadShot: Bool,
         type: String,
         pro: Bool,
@@ -103,13 +84,14 @@ final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
         followersURL: URL,
         followingURL: URL,
         likesURL: URL,
+        membersURL: URL,
         shotsURL: URL,
-        teamsURL: URL,
+        teamShotsURL: URL,
         createdAt: Date,
         updatedAt: Date
         ) throws {
         self.init()
-        self._id = Int(id)
+        self.id = Int(id)
         self.name = name
         self.username = username
         self._htmlUrl = htmlURL.absoluteString
@@ -125,7 +107,6 @@ final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
         self.projectsCount = projectsCount
         self.reboundsReceivedCount = reboundsReceivedCount
         self.shotsCount = shotsCount
-        self.teamsCount = teamsCount
         self.canUploadShot = canUploadShot
         self.type = type
         self.pro = pro
@@ -134,7 +115,7 @@ final class _User: Object, User, UserData {  // swiftlint:disable:this type_name
         self._followingUrl = followingURL.absoluteString
         self._likesUrl = likesURL.absoluteString
         self._shotsUrl = shotsURL.absoluteString
-        self._teamsUrl = teamsURL.absoluteString
+        self._teamShotsUrl = teamShotsURL.absoluteString
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }

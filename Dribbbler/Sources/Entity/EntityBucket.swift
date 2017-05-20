@@ -1,5 +1,5 @@
 //
-//  Bucket.swift
+//  EntityBucket.swift
 //  Dribbbler
 //
 //  Created by 林達也 on 2017/05/05.
