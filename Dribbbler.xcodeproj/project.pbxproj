@@ -16,6 +16,7 @@
 		D918671C1ECE092A0016DD75 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D91867151ECE08EC0016DD75 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D91867201ECF32DC0016DD75 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D918671F1ECF32DB0016DD75 /* Timeline.swift */; };
 		D91867221ECF38BC0016DD75 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91867211ECF38BC0016DD75 /* Utils.swift */; };
+		D91867241ECF3E910016DD75 /* UserShotsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91867231ECF3E910016DD75 /* UserShotsRepository.swift */; };
 		D9692DBD1EC2144800727C93 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBC1EC2144800727C93 /* Authorization.swift */; };
 		D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBE1EC216D300727C93 /* OAuth.swift */; };
 		D9692DC11EC2201600727C93 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DC01EC2201600727C93 /* Client.swift */; };
@@ -125,6 +126,7 @@
 		D91867171ECE08F20016DD75 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 		D918671F1ECF32DB0016DD75 /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		D91867211ECF38BC0016DD75 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		D91867231ECF3E910016DD75 /* UserShotsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserShotsRepository.swift; sourceTree = "<group>"; };
 		D9692DBC1EC2144800727C93 /* Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
 		D9692DBE1EC216D300727C93 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		D9692DC01EC2201600727C93 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 		D918671D1ECF317C0016DD75 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				D91867231ECF3E910016DD75 /* UserShotsRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 			files = (
 				D96AACA21EBC832200E9CD41 /* Shots.swift in Sources */,
 				D9A4B0211EC1658D00302D2C /* Cache.swift in Sources */,
+				D91867241ECF3E910016DD75 /* UserShotsRepository.swift in Sources */,
 				D9692DC11EC2201600727C93 /* Client.swift in Sources */,
 				D91867221ECF38BC0016DD75 /* Utils.swift in Sources */,
 				D96AAC9F1EBC324A00E9CD41 /* Like.swift in Sources */,

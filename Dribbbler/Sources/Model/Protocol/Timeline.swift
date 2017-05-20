@@ -11,13 +11,12 @@ import RealmSwift
 import RxSwift
 import RxCocoa
 
-public protocol Timeline {
-    associatedtype Element
+public protocol Timeline: Collection {
+    typealias Element = Iterator.Element
     typealias Changes = TimelineChanges
 
     var count: Int { get }
     var changes: Driver<Changes> { get }
-    subscript (idx: Int) -> Element { get }
     func reload(force: Bool)
     func fetch()
 }

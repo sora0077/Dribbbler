@@ -51,7 +51,8 @@ extension APIListViewController {
 
         switch rows[indexPath.row] {
         case .userShots:
-            let vc = ShotsViewController(timeline: UserShots(userId: 1))
+            let userShots = repository.userShots[userId: 1]
+            let vc = ShotsViewController(timeline: userShots)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

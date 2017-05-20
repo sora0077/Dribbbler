@@ -39,23 +39,16 @@ public final class Shots {
 
 // MARK: - UserShots
 public final class UserShots: Timeline, NetworkStateHolder {
-    public typealias Element = Shot
     public subscript(idx: Int) -> Shot { return cache.shots[idx] }
     public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
     private let _changes = PublishSubject<Changes>()
     private let userId: User.Identifier
-    private let cache: UserShotsCache
     private var token: NotificationToken!
     private var next: ListUserShots?
+    fileprivate let cache: UserShotsCache
     var networkState: NetworkState = .waiting
 
-    public var count: Int { return cache.shots.count }
-
-    public convenience init(user: User) {
-        self.init(userId: user.id)
-    }
-
-    public init(userId: User.Identifier) {
+    init(userId: User.Identifier) {
         self.userId = userId
         let realm = Realm()
         cache = realm.objects(UserShotsCache.self).filter(UserShotsCache.user == userId).first ?? realm.write {
@@ -118,5 +111,9 @@ public final class UserShots: Timeline, NetworkStateHolder {
 }
 
 extension UserShots {
-
+    public var startIndex: Int { return cache.shots.startIndex }
+    public var endIndex: Int { return cache.shots.endIndex }
+    public func index(after i: Int) -> Int { return cache.shots.index(after: i) }
+    
+    public var count: Int { return cache.shots.count }
 }
