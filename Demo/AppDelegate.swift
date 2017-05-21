@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         print(String(describing: try? Realm().configuration.fileURL))
         OAuth().activate()
+        let user = repository.users[id: 1]
+        print(user.data)
         return true
     }
 

@@ -37,31 +37,35 @@ public final class Shots {
     }
 }
 
-// MARK: - UserShots
-public final class UserShots: Timeline, NetworkStateHolder {
-    public subscript(idx: Int) -> Shot { return cache.shots[idx] }
-    public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
-    private let _changes = PublishSubject<Changes>()
-    private let userId: User.Identifier
-    private var token: NotificationToken!
-    private var next: ListUserShots?
-    fileprivate let cache: UserShotsCache
-    var networkState: NetworkState = .waiting
+extension Model {
+    public final class UserShots: Timeline, NetworkStateHolder {
+        public subscript(idx: Int) -> Shot { return cache.shots[idx] }
+        public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
+        fileprivate let _changes = PublishSubject<Changes>()
+        fileprivate let userId: Dribbbler.User.Identifier
+        fileprivate var token: NotificationToken!
+        fileprivate var next: ListUserShots?
+        fileprivate let cache: UserShotsCache
+        var networkState: NetworkState = .waiting
 
-    init(userId: User.Identifier) {
-        self.userId = userId
-        let realm = Realm()
-        cache = realm.objects(UserShotsCache.self).filter(UserShotsCache.user == userId).first ?? realm.write {
-            UserShotsCache(userId: userId)
-        }
-        if !cache.next.isDone {
-            next = cache.next.request() ?? ListUserShots(id: userId)
-        }
-        token = cache.shots.addNotificationBlock { [weak self] ch in
-            self?._changes.onNext(TimelineChanges(ch))
+        init(userId: Dribbbler.User.Identifier) {
+            self.userId = userId
+            let realm = Realm()
+            cache = realm.objects(UserShotsCache.self).filter(UserShotsCache.user == userId).first ?? realm.write {
+                UserShotsCache(userId: userId)
+            }
+            if !cache.next.isDone {
+                next = cache.next.request() ?? ListUserShots(id: userId)
+            }
+            token = cache.shots.addNotificationBlock { [weak self] ch in
+                self?._changes.onNext(TimelineChanges(ch))
+            }
         }
     }
+}
 
+// MARK: - UserShots
+extension Model.UserShots {
     public func reload(force: Bool = false) {
         _fetch(refreshing: force || cache.isOutdated)
     }
@@ -74,8 +78,7 @@ public final class UserShots: Timeline, NetworkStateHolder {
         guard Realm().objects(_User.self).filter(_User.id == userId).first != nil else {
             RequestController(GetUser(id: userId), stateHolder: self).runNext { response in
                 write { realm in
-                    let user = response.data
-                    realm.add(user, update: true)
+                    realm.add(response.data, update: true)
                 }
                 return (.waiting, self.fetch)
             }
@@ -110,7 +113,7 @@ public final class UserShots: Timeline, NetworkStateHolder {
     }
 }
 
-extension UserShots {
+extension Model.UserShots {
     public var startIndex: Int { return cache.shots.startIndex }
     public var endIndex: Int { return cache.shots.endIndex }
     public func index(after i: Int) -> Int { return cache.shots.index(after: i) }

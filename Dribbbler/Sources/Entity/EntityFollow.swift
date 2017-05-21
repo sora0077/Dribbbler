@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import DribbbleKit
 
-final class _Follow: Object, FollowerData {  // swiftlint:disable:this type_name
+final class _Follow: Entity, FollowerData {  // swiftlint:disable:this type_name
     private(set) dynamic var id: Int = 0
     private(set) dynamic var createdAt: Date = .distantPast
 

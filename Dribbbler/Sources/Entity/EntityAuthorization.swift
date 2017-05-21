@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import DribbbleKit
 
-final class _Authorization: Object {  // swiftlint:disable:this type_name
+final class _Authorization: Entity {  // swiftlint:disable:this type_name
     dynamic var accessToken: String = ""
     dynamic var tokenType: String = ""
     private dynamic var _scope: String = ""

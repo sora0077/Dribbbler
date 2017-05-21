@@ -46,7 +46,7 @@ let session: Session = {
     return Session.shared
 }()
 
-public enum NetworkState {
+public enum NetworkState: Equatable {
     case waiting
     case loading
     case error(Error)
@@ -55,6 +55,16 @@ public enum NetworkState {
     var isRunnable: Bool {
         switch self {
         case .waiting: return true
+        default: return false
+        }
+    }
+
+    public static func == (lhs: NetworkState, rhs: NetworkState) -> Bool {
+        switch (lhs, rhs) {
+        case (.waiting, .waiting): return true
+        case (.loading, .loading): return true
+        case (.error, .error): return true
+        case (.done, .done): return true
         default: return false
         }
     }

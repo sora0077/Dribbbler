@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import PredicateKit
 
-final class _Client: Object {  // swiftlint:disable:this type_name
+final class _Client: Entity {  // swiftlint:disable:this type_name
     dynamic var id: String = ""
     dynamic var secret: String = ""
     dynamic var state: String?

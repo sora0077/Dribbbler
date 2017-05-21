@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import DribbbleKit
 
-final class _Team: Object, TeamData {  // swiftlint:disable:this type_name
+final class _Team: Entity, TeamData {  // swiftlint:disable:this type_name
     private(set) dynamic var id: Int = 0
     private(set) dynamic var name: String = ""
     private(set) dynamic var username: String = ""

@@ -14,7 +14,7 @@ public protocol Shot {
 
 }
 
-final class _Shot: Object, Shot, ShotData {  // swiftlint:disable:this type_name
+final class _Shot: Entity, Shot, ShotData {  // swiftlint:disable:this type_name
     private(set) dynamic var id: Int = 0
     private(set) dynamic var title: String = ""
     private(set) dynamic var width: Int = 0

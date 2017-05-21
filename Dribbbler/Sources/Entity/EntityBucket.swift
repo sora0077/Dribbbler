@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import DribbbleKit
 
-final class _Bucket: Object, BucketData {  // swiftlint:disable:this type_name
+final class _Bucket: Entity, BucketData {  // swiftlint:disable:this type_name
     private(set) dynamic var id: Int = 0
     private(set) dynamic var name: String = ""
     private(set) dynamic var shotsCount: Int = 0
