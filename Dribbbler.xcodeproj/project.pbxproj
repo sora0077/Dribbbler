@@ -19,6 +19,7 @@
 		D91867241ECF3E910016DD75 /* UserShotsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91867231ECF3E910016DD75 /* UserShotsRepository.swift */; };
 		D91867281ED0788E0016DD75 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91867271ED0788E0016DD75 /* User.swift */; };
 		D918672A1ED0795A0016DD75 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91867291ED0795A0016DD75 /* Model.swift */; };
+		D918672C1ED344240016DD75 /* Shots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D918672B1ED344240016DD75 /* Shots.swift */; };
 		D9692DBD1EC2144800727C93 /* EntityAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBC1EC2144800727C93 /* EntityAuthorization.swift */; };
 		D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBE1EC216D300727C93 /* OAuth.swift */; };
 		D9692DC11EC2201600727C93 /* EntityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DC01EC2201600727C93 /* EntityClient.swift */; };
@@ -33,7 +34,7 @@
 		D96AAC9B1EBC1C9F00E9CD41 /* EntityBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC9A1EBC1C9F00E9CD41 /* EntityBucket.swift */; };
 		D96AAC9D1EBC2B0700E9CD41 /* EntityFollow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC9C1EBC2B0700E9CD41 /* EntityFollow.swift */; };
 		D96AAC9F1EBC324A00E9CD41 /* EntityLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC9E1EBC324A00E9CD41 /* EntityLike.swift */; };
-		D96AACA21EBC832200E9CD41 /* Shots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AACA11EBC832200E9CD41 /* Shots.swift */; };
+		D96AACA21EBC832200E9CD41 /* UserShots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AACA11EBC832200E9CD41 /* UserShots.swift */; };
 		D99CBA581EC4B8C000067B85 /* ShotsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99CBA571EC4B8C000067B85 /* ShotsViewController.swift */; };
 		D9A4B0211EC1658D00302D2C /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A4B0201EC1658D00302D2C /* Cache.swift */; };
 		D9A4B0231EC1946E00302D2C /* APIListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A4B0221EC1946E00302D2C /* APIListViewController.swift */; };
@@ -131,6 +132,7 @@
 		D91867231ECF3E910016DD75 /* UserShotsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserShotsRepository.swift; sourceTree = "<group>"; };
 		D91867271ED0788E0016DD75 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D91867291ED0795A0016DD75 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		D918672B1ED344240016DD75 /* Shots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shots.swift; sourceTree = "<group>"; };
 		D9692DBC1EC2144800727C93 /* EntityAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAuthorization.swift; sourceTree = "<group>"; };
 		D9692DBE1EC216D300727C93 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		D9692DC01EC2201600727C93 /* EntityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityClient.swift; sourceTree = "<group>"; };
@@ -141,7 +143,7 @@
 		D96AAC9A1EBC1C9F00E9CD41 /* EntityBucket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityBucket.swift; sourceTree = "<group>"; };
 		D96AAC9C1EBC2B0700E9CD41 /* EntityFollow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityFollow.swift; sourceTree = "<group>"; };
 		D96AAC9E1EBC324A00E9CD41 /* EntityLike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityLike.swift; sourceTree = "<group>"; };
-		D96AACA11EBC832200E9CD41 /* Shots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shots.swift; sourceTree = "<group>"; };
+		D96AACA11EBC832200E9CD41 /* UserShots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserShots.swift; sourceTree = "<group>"; };
 		D99CBA571EC4B8C000067B85 /* ShotsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotsViewController.swift; sourceTree = "<group>"; };
 		D9A4B0201EC1658D00302D2C /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		D9A4B0221EC1946E00302D2C /* APIListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIListViewController.swift; sourceTree = "<group>"; };
@@ -267,7 +269,8 @@
 			children = (
 				D91867291ED0795A0016DD75 /* Model.swift */,
 				D918671E1ECF32C50016DD75 /* Protocol */,
-				D96AACA11EBC832200E9CD41 /* Shots.swift */,
+				D96AACA11EBC832200E9CD41 /* UserShots.swift */,
+				D918672B1ED344240016DD75 /* Shots.swift */,
 				D91867271ED0788E0016DD75 /* User.swift */,
 				D9692DBE1EC216D300727C93 /* OAuth.swift */,
 			);
@@ -575,13 +578,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D96AACA21EBC832200E9CD41 /* Shots.swift in Sources */,
+				D96AACA21EBC832200E9CD41 /* UserShots.swift in Sources */,
 				D9A4B0211EC1658D00302D2C /* Cache.swift in Sources */,
 				D91867241ECF3E910016DD75 /* UserShotsRepository.swift in Sources */,
 				D9692DC11EC2201600727C93 /* EntityClient.swift in Sources */,
 				D91867281ED0788E0016DD75 /* User.swift in Sources */,
 				D91867221ECF38BC0016DD75 /* Utils.swift in Sources */,
 				D96AAC9F1EBC324A00E9CD41 /* EntityLike.swift in Sources */,
+				D918672C1ED344240016DD75 /* Shots.swift in Sources */,
 				D9F7B1A81EBCAD2900FBE743 /* Dribbbler.swift in Sources */,
 				D96AAC9D1EBC2B0700E9CD41 /* EntityFollow.swift in Sources */,
 				D96AAC991EB8D45800E9CD41 /* EntityTeam.swift in Sources */,

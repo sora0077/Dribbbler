@@ -7,5 +7,8 @@
 //
 
 import Foundation
+import RxSwift
+import DribbbleKit
 
-public struct Model {}
+public struct Model {
+}

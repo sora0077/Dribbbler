@@ -14,6 +14,7 @@ import Result
 
 typealias Session = DribbbleKit.Session
 typealias GetUser = DribbbleKit.GetUser<_User>
+typealias ListShots = DribbbleKit.ListShots<_Shot, _User, _Team>
 typealias ListUserShots = DribbbleKit.ListUserShots<_Shot, _Team>
 
 func Realm() -> RealmSwift.Realm {

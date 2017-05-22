@@ -2,7 +2,7 @@
 //  Shots.swift
 //  Dribbbler
 //
-//  Created by 林達也 on 2017/05/05.
+//  Created by 林達也 on 2017/05/23.
 //  Copyright © 2017年 jp.sora0077. All rights reserved.
 //
 
@@ -13,49 +13,39 @@ import RxSwift
 import RxCocoa
 import PredicateKit
 
-@objc(UserShotsCache)
-private final class UserShotsCache: PaginatorCache {
-    private dynamic var _userId: Int = 0
+@objc(ShotsCache)
+private final class ShotsCache: PaginatorCache {
     let shots = List<_Shot>()
     override var liftime: TimeInterval { return 30.min }
-
-    var userId: User.Identifier { return DribbbleKit.User.Identifier(_userId) }
-
-    convenience init(userId: User.Identifier) {
-        self.init()
-        _userId = Int(userId)
-    }
-}
-
-extension UserShotsCache {
-    static let user = Attribute<User.Identifier>("_userId")
-}
-
-public final class Shots {
-    public init() {
-
-    }
 }
 
 extension Model {
-    public final class UserShots: Timeline, NetworkStateHolder {
-        public subscript(idx: Int) -> Shot { return cache.shots[idx] }
+    public final class Shots: Timeline, NetworkStateHolder {
+        public enum List {
+            case animated, attachments, debuts, playoffs, rebounds, terms
+        }
+        public enum Sort {
+            public enum Timeframe {
+                case week, month, year, ever
+            }
+            case comments(Timeframe?), views(Timeframe?), recent
+        }
         public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
         fileprivate let _changes = PublishSubject<Changes>()
-        fileprivate let userId: Dribbbler.User.Identifier
         fileprivate var token: NotificationToken!
-        fileprivate var next: ListUserShots?
-        fileprivate let cache: UserShotsCache
+        fileprivate var next: ListShots?
+        fileprivate let cache: ShotsCache
+        fileprivate let initRequest: () -> ListShots
         var networkState: NetworkState = .waiting
 
-        init(userId: Dribbbler.User.Identifier) {
-            self.userId = userId
+        public init(list: List? = nil, date: Date? = nil, sort: Sort? = nil) {
+            initRequest = { ListShots(list: list?.actual, date: date, sort: sort?.actual) }
             let realm = Realm()
-            cache = realm.objects(UserShotsCache.self).filter(UserShotsCache.user == userId).first ?? realm.write {
-                UserShotsCache(userId: userId)
+            cache = realm.objects(ShotsCache.self).first ?? realm.write {
+                ShotsCache()
             }
             if !cache.next.isDone {
-                next = cache.next.request() ?? ListUserShots(id: userId)
+                next = cache.next.request() ?? ListShots()
             }
             token = cache.shots.addNotificationBlock { [weak self] ch in
                 self?._changes.onNext(TimelineChanges(ch))
@@ -64,8 +54,7 @@ extension Model {
     }
 }
 
-// MARK: - UserShots
-extension Model.UserShots {
+extension Model.Shots {
     public func reload(force: Bool = false) {
         _fetch(refreshing: force || cache.isOutdated)
     }
@@ -75,28 +64,18 @@ extension Model.UserShots {
     }
 
     private func _fetch(refreshing: Bool) {
-        guard Realm().objects(_User.self).filter(_User.id == userId).first != nil else {
-            RequestController(GetUser(id: userId), stateHolder: self).runNext { response in
-                write { realm in
-                    realm.add(response.data, update: true)
-                }
-                return (.waiting, self.fetch)
-            }
-            return
-        }
-        if refreshing { next = ListUserShots(id: userId) }
+        if refreshing { next = initRequest() }
         guard let next = next else { return }
         RequestController(next, stateHolder: self).run { paginator in
             write { realm in
-                let owner = realm.object(ofType: _User.self, forPrimaryKey: Int(self.userId))
-                let shots = paginator.data.elements.map { shot, team -> _Shot in
+                let shots = paginator.data.elements.map { shot, user, team -> _Shot in
+                    shot._user = user
                     shot._team = team
-                    shot._user = owner
                     return shot
                 }
                 realm.add(shots, update: true)
 
-                if let cache = realm.objects(UserShotsCache.self).filter(UserShotsCache.user == self.userId).first {
+                if let cache = realm.objects(ShotsCache.self).first {
                     cache.update {
                         if refreshing {
                             cache.shots.removeAll()
@@ -113,10 +92,46 @@ extension Model.UserShots {
     }
 }
 
-extension Model.UserShots {
+extension Model.Shots {
+    public var count: Int { return cache.shots.count }
     public var startIndex: Int { return cache.shots.startIndex }
     public var endIndex: Int { return cache.shots.endIndex }
-    public func index(after i: Int) -> Int { return cache.shots.index(after: i) }
+    public subscript(idx: Int) -> Shot { return cache.shots[idx] }
 
-    public var count: Int { return cache.shots.count }
+    public func index(after i: Int) -> Int { return cache.shots.index(after: i) }
+}
+
+// MARK: - 
+extension Model.Shots.List {
+    fileprivate var actual: ListShots.List {
+        switch self {
+        case .animated: return .animated
+        case .attachments: return .attachments
+        case .debuts: return .debuts
+        case .playoffs: return .playoffs
+        case .rebounds: return .rebounds
+        case .terms: return .terms
+        }
+    }
+}
+
+extension Model.Shots.Sort {
+    fileprivate var actual: ListShots.Sort {
+        switch self {
+        case .comments(let timeframe): return .comments(timeframe?.actual)
+        case .views(let timeframe): return .views(timeframe?.actual)
+        case .recent: return .recent
+        }
+    }
+}
+
+extension Model.Shots.Sort.Timeframe {
+    fileprivate var actual: ListShots.Timeframe {
+        switch self {
+        case .week: return .week
+        case .month: return .month
+        case .year: return .year
+        case .ever: return .ever
+        }
+    }
 }

@@ -16,7 +16,7 @@ public final class Repositories {
 }
 
 struct Weak<T: AnyObject> {
-    let value: T?
+    weak var value: T?
     init(_ value: T) {
         self.value = value
     }
