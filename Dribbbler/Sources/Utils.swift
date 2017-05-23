@@ -33,3 +33,12 @@ extension Realm {
         return ret
     }
 }
+
+extension Date {
+    var nearestHour: Date? {
+        var components = Calendar.current.dateComponents([.minute], from: self)
+        let minute = components.minute ?? 0
+        components.minute = minute >= 30 ? 60 - minute : -minute
+        return Calendar.current.date(byAdding: components, to: self)
+    }
+}

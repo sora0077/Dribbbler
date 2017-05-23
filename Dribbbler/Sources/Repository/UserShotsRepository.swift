@@ -11,8 +11,15 @@ import Foundation
 public let repository = Repositories()
 
 public final class Repositories {
+    private var _shots: Weak<Model.Shots>?
     public let userShots = UserShotsRepository()
     public let users = UserRepository()
+    public func shots(list: Model.Shots.List? = nil, date: Date? = nil, sort: Model.Shots.Sort? = nil) -> Model.Shots {
+        if let shots = _shots?.value { return shots }
+        let shots = Model.Shots(list: list, date: date, sort: sort)
+        _shots = Weak(shots)
+        return shots
+    }
 }
 
 struct Weak<T: AnyObject> {

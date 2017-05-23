@@ -10,14 +10,15 @@ import UIKit
 import Dribbbler
 
 private enum Row: String {
-    case userShots
+    case userShots, shots
 
     var title: String { return rawValue }
 }
 
 final class APIListViewController: UITableViewController {
     fileprivate let rows: [Row] = [
-        .userShots
+        .userShots,
+        .shots
     ]
 
     @IBAction
@@ -53,6 +54,10 @@ extension APIListViewController {
         case .userShots:
             let userShots = repository.userShots[userId: 1]
             let vc = ShotsViewController(timeline: userShots)
+            navigationController?.pushViewController(vc, animated: true)
+        case .shots:
+            let shots = repository.shots()
+            let vc = ShotsViewController(timeline: shots)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

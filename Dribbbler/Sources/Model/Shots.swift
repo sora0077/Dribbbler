@@ -15,19 +15,35 @@ import PredicateKit
 
 @objc(ShotsCache)
 private final class ShotsCache: PaginatorCache {
+    private dynamic var list: String?
+    private dynamic var timeframe: String?
+    private dynamic var sort: String?
+    private dynamic var date: Date?
     let shots = List<_Shot>()
     override var liftime: TimeInterval { return 30.min }
+
+    convenience init(list: String?, timeframe: String?, sort: String?, date: Date?) {
+        self.init()
+        self.list = list
+        self.timeframe = timeframe
+        self.sort = sort
+        self.date = date
+    }
+}
+
+extension ShotsCache {
+    static let list = Attribute<String>("list")
+    static let timeframe = Attribute<String>("timeframe")
+    static let sort = Attribute<String>("sort")
+    static let date = Attribute<Date>("date")
 }
 
 extension Model {
     public final class Shots: Timeline, NetworkStateHolder {
-        public enum List {
+        public enum List: String {
             case animated, attachments, debuts, playoffs, rebounds, terms
         }
         public enum Sort {
-            public enum Timeframe {
-                case week, month, year, ever
-            }
             case comments(Timeframe?), views(Timeframe?), recent
         }
         public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
@@ -39,10 +55,15 @@ extension Model {
         var networkState: NetworkState = .waiting
 
         public init(list: List? = nil, date: Date? = nil, sort: Sort? = nil) {
+            let date = date?.nearestHour
             initRequest = { ListShots(list: list?.actual, date: date, sort: sort?.actual) }
             let realm = Realm()
-            cache = realm.objects(ShotsCache.self).first ?? realm.write {
-                ShotsCache()
+            cache = realm.objects(ShotsCache.self)
+                .filter(ShotsCache.list == list?.rawValue &&
+                        ShotsCache.timeframe == sort?.timeframe?.rawValue &&
+                        ShotsCache.sort == sort?.rawValue &&
+                        ShotsCache.date == date).first ?? realm.write {
+                ShotsCache(list: list?.rawValue, timeframe: sort?.timeframe?.rawValue, sort: sort?.rawValue, date: date)
             }
             if !cache.next.isDone {
                 next = cache.next.request() ?? ListShots()
@@ -68,8 +89,8 @@ extension Model.Shots {
         guard let next = next else { return }
         RequestController(next, stateHolder: self).run { paginator in
             write { realm in
-                let shots = paginator.data.elements.map { shot, user, team -> _Shot in
-                    shot._user = user
+                let shots = paginator.data.elements.map { shot, userOrTeam, team -> _Shot in
+                    shot._user = userOrTeam.user
                     shot._team = team
                     return shot
                 }
@@ -116,6 +137,22 @@ extension Model.Shots.List {
 }
 
 extension Model.Shots.Sort {
+    public enum Timeframe: String {
+        case week, month, year, ever
+    }
+    fileprivate var rawValue: String {
+        switch self {
+        case .comments: return "comments"
+        case .recent: return "recent"
+        case .views: return "views"
+        }
+    }
+    fileprivate var timeframe: Model.Shots.Sort.Timeframe? {
+        switch self {
+        case .comments(let timeframe), .views(let timeframe): return timeframe
+        case .recent: return nil
+        }
+    }
     fileprivate var actual: ListShots.Sort {
         switch self {
         case .comments(let timeframe): return .comments(timeframe?.actual)
@@ -126,7 +163,7 @@ extension Model.Shots.Sort {
 }
 
 extension Model.Shots.Sort.Timeframe {
-    fileprivate var actual: ListShots.Timeframe {
+    fileprivate var actual: ListShots.Sort.Timeframe {
         switch self {
         case .week: return .week
         case .month: return .month

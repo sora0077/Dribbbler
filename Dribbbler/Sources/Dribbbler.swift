@@ -41,10 +41,10 @@ class ASessionAdapter: URLSessionAdapter {
     }
 }
 
-//let session = DribbbleKit.Session(adapter: ASessionAdapter(configuration: .default))
 let session: Session = {
     DribbbleKit.setup(.init(perPage: 100))
     return Session.shared
+//    return DribbbleKit.Session(adapter: ASessionAdapter(configuration: .default))
 }()
 
 public enum NetworkState: Equatable {
@@ -105,6 +105,15 @@ final class RequestController<Request: DribbbleKit.Request> {
     func run(_ completion: @escaping (Request.Response) -> NetworkState) {
         runNext { response in
             return (completion(response), nil)
+        }
+    }
+}
+
+extension UserOrTeam {
+    var user: User? {
+        switch self {
+        case .user(let user): return user
+        case .team: return nil
         }
     }
 }
