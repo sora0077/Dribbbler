@@ -35,10 +35,10 @@ extension Realm {
 }
 
 extension Date {
-    var nearestHour: Date? {
-        var components = Calendar.current.dateComponents([.minute], from: self)
-        let minute = components.minute ?? 0
-        components.minute = minute >= 30 ? 60 - minute : -minute
-        return Calendar.current.date(byAdding: components, to: self)
+    var dateWithoutTime: Date {
+        let timeZone = TimeZone.current
+        let timeIntervalWithTimeZone = timeIntervalSinceReferenceDate + Double(timeZone.secondsFromGMT())
+        let timeInterval = floor(timeIntervalWithTimeZone / 86400) * 86400
+        return Date(timeIntervalSinceReferenceDate: timeInterval)
     }
 }

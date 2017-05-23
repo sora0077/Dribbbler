@@ -18,16 +18,16 @@ private final class ShotsCache: PaginatorCache {
     private dynamic var list: String?
     private dynamic var timeframe: String?
     private dynamic var sort: String?
-    private dynamic var date: Date?
+    private let date = RealmOptional<Int>()
     let shots = List<_Shot>()
     override var liftime: TimeInterval { return 30.min }
 
-    convenience init(list: String?, timeframe: String?, sort: String?, date: Date?) {
+    convenience init(list: String?, timeframe: String?, sort: String?, date: Int?) {
         self.init()
         self.list = list
         self.timeframe = timeframe
         self.sort = sort
-        self.date = date
+        self.date.value = date
     }
 }
 
@@ -35,7 +35,7 @@ extension ShotsCache {
     static let list = Attribute<String>("list")
     static let timeframe = Attribute<String>("timeframe")
     static let sort = Attribute<String>("sort")
-    static let date = Attribute<Date>("date")
+    static let date = Attribute<Int>("date")
 }
 
 extension Model {
@@ -52,18 +52,25 @@ extension Model {
         fileprivate var next: ListShots?
         fileprivate let cache: ShotsCache
         fileprivate let initRequest: () -> ListShots
+        fileprivate let filtered: (Realm) -> ShotsCache?
         var networkState: NetworkState = .waiting
 
         public init(list: List? = nil, date: Date? = nil, sort: Sort? = nil) {
-            let date = date?.nearestHour
+            let date = date?.dateWithoutTime
+            let dateInt = date.flatMap { Int($0.timeIntervalSince1970) }
             initRequest = { ListShots(list: list?.actual, date: date, sort: sort?.actual) }
+            filtered = {
+                $0.objects(ShotsCache.self).filter(
+                    ShotsCache.list == list?.rawValue &&
+                    ShotsCache.timeframe == sort?.timeframe?.rawValue &&
+                    ShotsCache.sort == sort?.rawValue &&
+                    ShotsCache.date == dateInt).first }
             let realm = Realm()
-            cache = realm.objects(ShotsCache.self)
-                .filter(ShotsCache.list == list?.rawValue &&
-                        ShotsCache.timeframe == sort?.timeframe?.rawValue &&
-                        ShotsCache.sort == sort?.rawValue &&
-                        ShotsCache.date == date).first ?? realm.write {
-                ShotsCache(list: list?.rawValue, timeframe: sort?.timeframe?.rawValue, sort: sort?.rawValue, date: date)
+            cache = filtered(realm) ?? realm.write {
+                ShotsCache(list: list?.rawValue,
+                           timeframe: sort?.timeframe?.rawValue,
+                           sort: sort?.rawValue,
+                           date: dateInt)
             }
             if !cache.next.isDone {
                 next = cache.next.request() ?? ListShots()
@@ -96,7 +103,7 @@ extension Model.Shots {
                 }
                 realm.add(shots, update: true)
 
-                if let cache = realm.objects(ShotsCache.self).first {
+                if let cache = self.filtered(realm) {
                     cache.update {
                         if refreshing {
                             cache.shots.removeAll()

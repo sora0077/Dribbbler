@@ -28,7 +28,9 @@ final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewC
         super.viewDidLoad()
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         _ = timeline.changes
-            .drive(onNext: { [weak self] _ in self?.collectionView?.reloadData() })
+            .drive(onNext: { [weak self] _ in
+                self?.collectionView?.reloadData()
+            })
         timeline.fetch()
     }
 
