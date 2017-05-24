@@ -9,6 +9,15 @@
 import UIKit
 import Dribbbler
 import RxSwift
+import RxCocoa
+
+extension Reactive where Base: UICollectionView {
+    func reloadData() -> UIBindingObserver<Base, Void> {
+        return UIBindingObserver(UIElement: base, binding: { (base, _) in
+            base.reloadData()
+        })
+    }
+}
 
 final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewController where Timeline.Element == Shot {
     private let timeline: Timeline
@@ -26,20 +35,17 @@ final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewC
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        guard let collectionView = collectionView else { return }
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
 
         let refreshControl = UIRefreshControl()
-        collectionView?.refreshControl = refreshControl
-        _ = refreshControl.rx.controlEvent(.valueChanged)
-            .asDriver()
-            .drive(onNext: { [weak self] in
-                self?.timeline.reload(force: true)
-            })
-        _ = timeline.isLoading.debug().drive(refreshControl.rx.isRefreshing)
-        _ = timeline.changes
-            .drive(onNext: { [weak self] _ in
-                self?.collectionView?.reloadData()
-            })
+        collectionView.refreshControl = refreshControl
+        _ = refreshControl.rx.controlEvent(.valueChanged).asDriver()
+            .drive(timeline.rx.reload(force: true))
+        _ = timeline.isLoading
+            .drive(refreshControl.rx.isRefreshing)
+        _ = timeline.changes.map { _ in }
+            .drive(collectionView.rx.reloadData())
         timeline.reload()
     }
 

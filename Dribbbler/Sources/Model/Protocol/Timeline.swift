@@ -11,7 +11,7 @@ import RealmSwift
 import RxSwift
 import RxCocoa
 
-public protocol Timeline: Collection {
+public protocol Timeline: class, Collection, ReactiveCompatible {
     typealias Element = Iterator.Element
     typealias Changes = TimelineChanges
 
@@ -25,6 +25,20 @@ public protocol Timeline: Collection {
 extension Timeline {
     public func reload() {
         reload(force: false)
+    }
+}
+
+extension Reactive where Base: Timeline {
+    public func reload(force: Bool = false) -> UIBindingObserver<Base, Void> {
+        return UIBindingObserver(UIElement: base, binding: { (base, _) in
+            base.reload(force: force)
+        })
+    }
+
+    public func fetch() -> UIBindingObserver<Base, Void> {
+        return UIBindingObserver(UIElement: base, binding: { (base, _) in
+            base.fetch()
+        })
     }
 }
 
