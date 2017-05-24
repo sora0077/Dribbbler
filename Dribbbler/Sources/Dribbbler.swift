@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 import RealmSwift
 import DribbbleKit
 import APIKit
@@ -118,6 +119,24 @@ extension UserOrTeam {
         switch self {
         case .user(let user): return user
         case .team: return nil
+        }
+    }
+}
+
+extension Session {
+    func send<Request: DribbbleKit.Request>(_ request: Request) -> Single<Request.Response> {
+        return Single.create { observer in
+            let task = self.send(request) { result in
+                switch result {
+                case .success(let response):
+                    observer(.success(response))
+                case .failure(let error):
+                    observer(.error(error))
+                }
+            }
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 }

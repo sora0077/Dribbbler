@@ -14,13 +14,15 @@ import RxCocoa
 import PredicateKit
 
 @objc(ShotsCache)
-private final class ShotsCache: PaginatorCache {
+private final class ShotsCache: PaginatorCache, TimelineCache {
     private dynamic var list: String?
     private dynamic var timeframe: String?
     private dynamic var sort: String?
     private let date = RealmOptional<Int>()
     let shots = List<_Shot>()
     override var liftime: TimeInterval { return 30.min }
+
+    var objects: List<_Shot> { return shots }
 
     convenience init(list: String?, timeframe: String?, sort: String?, date: Int?) {
         self.init()
@@ -39,100 +41,79 @@ extension ShotsCache {
 }
 
 extension Model {
-    public final class Shots: Timeline, NetworkStateHolder {
+    public final class Shots: Timeline, TimelineDelegate {
+        typealias Request = ListShots
         public enum List: String {
             case animated, attachments, debuts, playoffs, rebounds, terms
         }
         public enum Sort {
             case comments(Timeframe?), views(Timeframe?), recent
         }
-        public private(set) lazy var isLoading: Driver<Bool> = self._isLoading.asDriver(onErrorJustReturn: false)
-        public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
-        private let _changes = PublishSubject<Changes>()
-        private let _isLoading = PublishSubject<Bool>()
-        fileprivate var token: NotificationToken!
-        fileprivate var next: ListShots?
-        fileprivate let cache: ShotsCache
-        fileprivate let initRequest: () -> ListShots
-        fileprivate let filtered: (Realm) -> ShotsCache?
-        var networkState: NetworkState = .waiting {
-            didSet {
-                _isLoading.onNext(networkState == .loading)
-            }
-        }
+        public var isLoading: Driver<Bool> { return impl.isLoading }
+        public var changes: Driver<Changes> { return impl.changes }
+        fileprivate let impl: _TimelineModel<ShotsCache, Model.Shots>
 
         public init(list: List? = nil, date: Date? = nil, sort: Sort? = nil) {
             let date = date?.dateWithoutTime
             let dateInt = date.flatMap { Int($0.timeIntervalSince1970) }
-            initRequest = { ListShots(list: list?.actual, date: date, sort: sort?.actual) }
-            filtered = {
-                $0.objects(ShotsCache.self).filter(
+            impl = _TimelineModel(
+                request: {
+                    ListShots(list: list?.actual, date: date, sort: sort?.actual)
+                },
+                cache: {
+                    ShotsCache(list: list?.rawValue,
+                               timeframe: sort?.timeframe?.rawValue,
+                               sort: sort?.rawValue,
+                               date: dateInt)
+                },
+                predicate: {
                     ShotsCache.list == list?.rawValue &&
-                    ShotsCache.timeframe == sort?.timeframe?.rawValue &&
-                    ShotsCache.sort == sort?.rawValue &&
-                    ShotsCache.date == dateInt).first }
-            let realm = Realm()
-            cache = filtered(realm) ?? realm.write {
-                ShotsCache(list: list?.rawValue,
-                           timeframe: sort?.timeframe?.rawValue,
-                           sort: sort?.rawValue,
-                           date: dateInt)
-            }
-            if !cache.next.isDone {
-                next = cache.next.request() ?? ListShots()
-            }
-            token = cache.shots.addNotificationBlock { [weak self] ch in
-                self?._changes.onNext(TimelineChanges(ch))
-            }
+                        ShotsCache.timeframe == sort?.timeframe?.rawValue &&
+                        ShotsCache.sort == sort?.rawValue &&
+                        ShotsCache.date == dateInt
+                })
+            impl.delegate = self
         }
-    }
-}
 
-extension Model.Shots {
-    public func reload(force: Bool = false) {
-        _fetch(refreshing: force || cache.isOutdated)
-    }
+        public func reload(force: Bool = false) {
+            impl.reload(force: force)
+        }
 
-    public func fetch() {
-        _fetch(refreshing: cache.isOutdated)
-    }
+        public func fetch() {
+            impl.fetch()
+        }
 
-    private func _fetch(refreshing: Bool) {
-        if refreshing && networkState != .loading { networkState = .waiting }
-        if refreshing { next = initRequest() }
-        RequestController(next, stateHolder: self).run { paginator in
+        func timelineProcessResponse(_ response: Request.Response, refreshing: Bool) -> Request? {
             write { realm in
-                let shots = paginator.data.elements.map { shot, userOrTeam, team -> _Shot in
+                let shots = response.data.elements.map { shot, userOrTeam, team -> _Shot in
                     shot._user = userOrTeam.user
                     shot._team = team
                     return shot
                 }
                 realm.add(shots, update: true)
 
-                if let cache = self.filtered(realm) {
+                if let cache = impl.cache(from: realm) {
                     cache.update {
                         if refreshing {
                             cache.shots.removeAll()
                         }
                         cache.shots.distinctAppend(contentsOf: shots)
-                        cache.next.setRequest(paginator.data.next)
+                        cache.next.setRequest(response.data.next)
                     }
                 }
             }
-            self.next = paginator.data.next
-            print(self.next)
-            return self.next == nil ? .done : .waiting
+            return response.data.next
         }
     }
 }
 
 extension Model.Shots {
-    public var count: Int { return cache.shots.count }
-    public var startIndex: Int { return cache.shots.startIndex }
-    public var endIndex: Int { return cache.shots.endIndex }
-    public subscript(idx: Int) -> Shot { return cache.shots[idx] }
+    public var count: Int { return impl.cache.objects.count }
+    public var startIndex: Int { return impl.cache.objects.startIndex }
+    public var endIndex: Int { return impl.cache.objects.endIndex }
+    public subscript(idx: Int) -> Shot { return impl.cache.objects[idx] }
 
-    public func index(after i: Int) -> Int { return cache.shots.index(after: i) }
+    public func index(after i: Int) -> Int { return impl.cache.objects.index(after: i) }
 }
 
 // MARK: - 
