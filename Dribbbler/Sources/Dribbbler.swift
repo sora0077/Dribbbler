@@ -76,11 +76,11 @@ protocol NetworkStateHolder: class {
 }
 
 final class RequestController<Request: DribbbleKit.Request> {
-    private let request: Request
+    private let request: Request?
     private let session: Session
     private let holder: NetworkStateHolder
 
-    init(_ request: Request, session: Session = Dribbbler.session, stateHolder: NetworkStateHolder) {
+    init(_ request: Request?, session: Session = Dribbbler.session, stateHolder: NetworkStateHolder) {
         self.request = request
         self.session = session
         holder = stateHolder
@@ -88,6 +88,10 @@ final class RequestController<Request: DribbbleKit.Request> {
 
     func runNext(_ completion: @escaping (Request.Response) -> (NetworkState, (() -> Void)?)) {
         guard holder.networkState.isRunnable else { return }
+        guard let request = request else {
+            holder.networkState = .done
+            return
+        }
         holder.networkState = .loading
         session.send(request) { result in
             switch result {

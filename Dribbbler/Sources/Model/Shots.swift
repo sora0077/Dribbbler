@@ -46,14 +46,20 @@ extension Model {
         public enum Sort {
             case comments(Timeframe?), views(Timeframe?), recent
         }
+        public private(set) lazy var isLoading: Driver<Bool> = self._isLoading.asDriver(onErrorJustReturn: false)
         public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
-        fileprivate let _changes = PublishSubject<Changes>()
+        private let _changes = PublishSubject<Changes>()
+        private let _isLoading = PublishSubject<Bool>()
         fileprivate var token: NotificationToken!
         fileprivate var next: ListShots?
         fileprivate let cache: ShotsCache
         fileprivate let initRequest: () -> ListShots
         fileprivate let filtered: (Realm) -> ShotsCache?
-        var networkState: NetworkState = .waiting
+        var networkState: NetworkState = .waiting {
+            didSet {
+                _isLoading.onNext(networkState == .loading)
+            }
+        }
 
         public init(list: List? = nil, date: Date? = nil, sort: Sort? = nil) {
             let date = date?.dateWithoutTime
@@ -92,8 +98,8 @@ extension Model.Shots {
     }
 
     private func _fetch(refreshing: Bool) {
+        if refreshing && networkState != .loading { networkState = .waiting }
         if refreshing { next = initRequest() }
-        guard let next = next else { return }
         RequestController(next, stateHolder: self).run { paginator in
             write { realm in
                 let shots = paginator.data.elements.map { shot, userOrTeam, team -> _Shot in

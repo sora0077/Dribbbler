@@ -33,13 +33,19 @@ extension UserShotsCache {
 
 extension Model {
     public final class UserShots: Timeline, NetworkStateHolder {
+        public private(set) lazy var isLoading: Driver<Bool> = self._isLoading.asDriver(onErrorJustReturn: false)
         public private(set) lazy var changes: Driver<Changes> = self._changes.asDriver(onErrorDriveWith: .empty())
-        fileprivate let _changes = PublishSubject<Changes>()
+        private let _changes = PublishSubject<Changes>()
+        private let _isLoading = PublishSubject<Bool>()
         fileprivate let userId: Dribbbler.User.Identifier
         fileprivate var token: NotificationToken!
         fileprivate var next: ListUserShots?
         fileprivate let cache: UserShotsCache
-        var networkState: NetworkState = .waiting
+        var networkState: NetworkState = .waiting {
+            didSet {
+                _isLoading.onNext(networkState == .loading)
+            }
+        }
 
         init(userId: Dribbbler.User.Identifier) {
             self.userId = userId
@@ -67,18 +73,22 @@ extension Model.UserShots {
         _fetch(refreshing: cache.isOutdated)
     }
 
+    private func _reload() {
+        reload(force: true)
+    }
+
     private func _fetch(refreshing: Bool) {
         guard Realm().objects(_User.self).filter(_User.id == userId).first != nil else {
             RequestController(GetUser(id: userId), stateHolder: self).runNext { response in
                 write { realm in
                     realm.add(response.data, update: true)
                 }
-                return (.waiting, self.fetch)
+                return (.waiting, self._reload)
             }
             return
         }
+        if refreshing && networkState != .loading { networkState = .waiting }
         if refreshing { next = ListUserShots(id: userId) }
-        guard let next = next else { return }
         RequestController(next, stateHolder: self).run { paginator in
             write { realm in
                 let owner = realm.object(ofType: _User.self, forPrimaryKey: Int(self.userId))

@@ -16,7 +16,7 @@ final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewC
     init(timeline: Timeline) {
         self.timeline = timeline
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 30, height: 30)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 30)
         super.init(collectionViewLayout: layout)
     }
 
@@ -27,11 +27,20 @@ final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewC
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+
+        let refreshControl = UIRefreshControl()
+        collectionView?.refreshControl = refreshControl
+        _ = refreshControl.rx.controlEvent(.valueChanged)
+            .asDriver()
+            .drive(onNext: { [weak self] in
+                self?.timeline.reload(force: true)
+            })
+        _ = timeline.isLoading.debug().drive(refreshControl.rx.isRefreshing)
         _ = timeline.changes
             .drive(onNext: { [weak self] _ in
                 self?.collectionView?.reloadData()
             })
-        timeline.fetch()
+        timeline.reload()
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

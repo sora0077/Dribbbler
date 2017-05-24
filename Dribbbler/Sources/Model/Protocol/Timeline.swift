@@ -17,6 +17,7 @@ public protocol Timeline: Collection {
 
     var count: Int { get }
     var changes: Driver<Changes> { get }
+    var isLoading: Driver<Bool> { get }
     func reload(force: Bool)
     func fetch()
 }
