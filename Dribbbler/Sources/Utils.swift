@@ -42,3 +42,39 @@ extension Date {
         return Date(timeIntervalSinceReferenceDate: timeInterval)
     }
 }
+
+extension List {
+    func distinctAppend<S: Sequence>(contentsOf elements: S) where S.Iterator.Element == T {
+        var set = OrderedSet(self)
+        set.append(contentsOf: elements)
+        append(objectsIn: set.appendings)
+    }
+}
+
+private struct OrderedSet<Element: Hashable> {
+    private var set: Set<Element> = []
+    private var order: [Element] = []
+    private(set) var appendings: [Element] = []
+
+    init(_ elements: [Element]) {
+        for e in elements where !set.contains(e) {
+            set.insert(e)
+            order.append(e)
+        }
+    }
+
+    init<S: Sequence>(_ elements: S) where S.Iterator.Element == Element {
+        for e in elements where !set.contains(e) {
+            set.insert(e)
+            order.append(e)
+        }
+    }
+
+    mutating func append<S: Sequence>(contentsOf elements: S) where S.Iterator.Element == Element {
+        for e in elements where !set.contains(e) {
+            set.insert(e)
+            order.append(e)
+            appendings.append(e)
+        }
+    }
+}

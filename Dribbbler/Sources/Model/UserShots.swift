@@ -104,7 +104,7 @@ extension Model.UserShots {
                         if refreshing {
                             cache.shots.removeAll()
                         }
-                        cache.shots.append(objectsIn: shots)
+                        cache.shots.distinctAppend(contentsOf: shots)
                         cache.next.setRequest(paginator.data.next)
                     }
                 }
