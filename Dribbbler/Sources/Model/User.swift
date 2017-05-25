@@ -13,42 +13,33 @@ import RxCocoa
 import PredicateKit
 
 extension Model {
-    public final class User: NetworkStateHolder {
-        public var data: Dribbbler.User? { return cache.first }
-        public private(set) lazy var change: Driver<Void> = self._change.asDriver(onErrorDriveWith: .empty())
-        private let _change = PublishSubject<Void>()
-        fileprivate let id: Dribbbler.User.Identifier
-        fileprivate var cache: Results<_User>
-        private var token: NotificationToken!
-        var networkState: NetworkState = .waiting
+    public final class User: EntityDelegate {
+        typealias Request = GetUser
+        public var data: Dribbbler.User? { return impl.data }
+        public var isLoading: Driver<Bool> { return impl.isLoading }
+        public var change: Driver<Void> { return impl.change }
+        fileprivate let impl: _EntityModel<_User, Model.User>
 
         init(id: Dribbbler.User.Identifier) {
-            self.id = id
-            cache = Realm().objects(_User.self).filter(_User.id == id)
-            token = cache.addNotificationBlock { [weak self] _ in
-                self?._change.onNext(())
-            }
-            networkState = data == nil ? .waiting : .done
+            impl = _EntityModel(
+                request: { GetUser(id: id) },
+                predicate: { _User.id == id })
+            impl.delegate = self
         }
-    }
-}
 
-extension Model.User {
-    public func reload(force: Bool) {
-        _fetch(refreshing: force || cache.first?.isOutdated ?? true)
-    }
+        public func reload(force: Bool = false) {
+            impl.reload(force: force)
+        }
 
-    public func fetch() {
-        _fetch(refreshing: cache.first?.isOutdated ?? true)
-    }
+        public func fetch() {
+            impl.fetch()
+        }
 
-    private func _fetch(refreshing: Bool) {
-        if refreshing && networkState == .done { networkState = .waiting }
-        RequestController(GetUser(id: id), stateHolder: self).run { response in
+        func entityProcessResponse(_ response: Request.Response) -> Bool {
             write { realm in
                 realm.add(response.data, update: true)
             }
-            return .done
+            return true
         }
     }
 }

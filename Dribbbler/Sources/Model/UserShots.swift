@@ -81,7 +81,7 @@ extension Model {
 
         func timelineProcessResponse(_ response: Request.Response, refreshing: Bool) -> Request? {
             write { realm in
-                let owner = realm.object(ofType: _User.self, forPrimaryKey: Int(self.userId))
+                let owner = realm.object(ofType: _User.self, forPrimaryKey: Int(userId))
                 let shots = response.data.elements.map { shot, team -> _Shot in
                     shot._team = team
                     shot._user = owner

@@ -26,21 +26,96 @@ private extension Results {
     }
 }
 
+protocol EntityDelegate: class {
+    associatedtype Request: DribbbleKit.Request
+    func entityFetcher() -> Single<Request.Response>?
+    func entityProcessResponse(_ response: Request.Response) -> Bool
+}
+
+extension EntityDelegate {
+    func entityFetcher() -> Single<Request.Response>? { return nil }
+}
+
 protocol TimelineDelegate: class {
     associatedtype Request: PaginatorRequest
-    func timelinePrepareFetch() -> Bool
     func timelineFetcher(from request: Request) -> Single<Request.Response>?
     func timelineProcessResponse(_ response: Request.Response, refreshing: Bool) -> Request?
 }
 
 extension TimelineDelegate {
-    func timelinePrepareFetch() -> Bool { return true }
     func timelineFetcher(from request: Request) -> Single<Request.Response>? { return nil }
 }
 
 public struct Model {
-    class _EntityModel<Element: Object> {  // swiftlint:disable:this type_name
+    class _EntityModel<Element: Entity, Delegate: EntityDelegate> {  // swiftlint:disable:this type_name
+        typealias Request = Delegate.Request
+        var data: Element? { return cache.first }
+        private(set) lazy var isLoading: Driver<Bool> = self._isLoading.asDriver(onErrorJustReturn: false)
+        private(set) lazy var change: Driver<Void> = self._change.asDriver(onErrorDriveWith: .empty())
+        private let _isLoading = PublishSubject<Bool>()
+        private let _change = PublishSubject<Void>()
+        private let disposeBag = DisposeBag()
+        private let initRequest: () -> Request
+        private let predicate: () -> NSPredicate?
+        private let cache: Results<Element>
+        private var token: NotificationToken!
+        private var networkState: NetworkState = .waiting {
+            didSet { _isLoading.onNext(networkState == .loading) }
+        }
+        weak var delegate: Delegate?
 
+        init(request initRequest: @escaping () -> Request,
+             predicate: @escaping () -> NSPredicate?) {
+            self.initRequest = initRequest
+            self.predicate = predicate
+            cache = Realm().objects(Element.self).filterIf(predicate())
+            token = cache.addNotificationBlock { [weak self] _ in
+                self?._change.onNext()
+            }
+            networkState = data == nil ? .waiting : .done
+        }
+
+        func cache(from realm: Realm) -> Element? {
+            return realm.objects(Element.self).filterIf(predicate()).first
+        }
+
+        func reload(force: Bool) {
+            _fetch(refreshing: force || data?.isOutdated ?? false)
+        }
+
+        func fetch() {
+            _fetch(refreshing: data?.isOutdated ?? false)
+        }
+
+        private func fetcher() -> Single<Request.Response?> {
+            let fetcher = delegate?.entityFetcher() ?? session.send(initRequest())
+            return fetcher.map { $0 }
+        }
+
+        private func _fetch(refreshing: Bool) {
+            guard networkState.isRunnable else { return }
+            if refreshing && networkState != .loading { networkState = .waiting }
+            if !refreshing && data != nil { return }
+            disposeBag.insert(
+                fetcher()
+                    .do(
+                        onSubscribe: { [weak self] _ in
+                            self?.networkState = .loading
+                        })
+                    .subscribe(
+                        onSuccess: { [weak self] response in
+                            guard let response = response else {
+                                self?.networkState = .done
+                                return
+                            }
+                            let next = self?.delegate?.entityProcessResponse(response)
+                            self?.networkState = next ?? false ? .done : .waiting
+                        },
+                        onError: { [weak self] error in
+                            self?.networkState = .error(error)
+                        })
+            )
+        }
     }
 
     // swiftlint:disable:next type_name
@@ -84,8 +159,6 @@ public struct Model {
             return realm.objects(Cache.self).filterIf(self.predicate()).first
         }
 
-        func prepareFetch() -> Bool { return true }
-
         func reload(force: Bool) {
             _fetch(refreshing: force || cache.isOutdated)
         }
@@ -94,19 +167,18 @@ public struct Model {
             _fetch(refreshing: cache.isOutdated)
         }
 
-        func fetcher() -> Single<Request.Response?> {
+        private func fetcher(refreshing: Bool) -> Single<Request.Response?> {
+            if refreshing { next = initRequest() }
             guard let next = next else { return .just(nil) }
             let fetcher = delegate?.timelineFetcher(from: next) ?? session.send(next)
             return fetcher.map { $0 }
         }
 
-        func _fetch(refreshing: Bool) {
+        private func _fetch(refreshing: Bool) {
             guard networkState.isRunnable else { return }
-            guard delegate?.timelinePrepareFetch() ?? false else { return }
             if refreshing && networkState != .loading { networkState = .waiting }
-            if refreshing { next = initRequest() }
             disposeBag.insert(
-                fetcher()
+                fetcher(refreshing: refreshing)
                     .do(
                         onSubscribe: { [weak self] _ in
                             self?.networkState = .loading
