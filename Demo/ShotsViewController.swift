@@ -37,6 +37,7 @@ where Timeline.Element == Shot {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
         guard let collectionView = collectionView else { return }
         collectionView.register(ShotCollectionViewCell.self, forCellWithReuseIdentifier: "ShotCollectionViewCell")
 
@@ -47,6 +48,9 @@ where Timeline.Element == Shot {
                 .drive(timeline.rx.reload(force: true)),
             timeline.isLoading
                 .drive(refreshControl.rx.isRefreshing),
+            timeline.isLoading
+                .map { $0 ? 0.5 : 1 }
+                .drive(collectionView.rx.alpha),
             timeline.changes.map { _ in }
             .drive(collectionView.rx.reloadData()))
         timeline.reload()
