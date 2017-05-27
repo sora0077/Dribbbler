@@ -57,26 +57,20 @@ extension Model {
             let date = date?.dateWithoutTime
             let dateInt = date.flatMap { Int($0.timeIntervalSince1970) }
             impl = _TimelineModel(
-                request: {
-                    ListShots(list: list?.actual, date: date, sort: sort?.actual)
-                },
-                cache: {
-                    ShotsCache(list: list?.rawValue,
-                               timeframe: sort?.timeframe?.rawValue,
-                               sort: sort?.rawValue,
-                               date: dateInt)
-                },
-                predicate: {
-                    ShotsCache.list == list?.rawValue &&
-                        ShotsCache.timeframe == sort?.timeframe?.rawValue &&
-                        ShotsCache.sort == sort?.rawValue &&
-                        ShotsCache.date == dateInt
-                })
+                request: ListShots(list: list?.actual, date: date, sort: sort?.actual),
+                cache: ShotsCache(list: list?.rawValue,
+                                  timeframe: sort?.timeframe?.rawValue,
+                                  sort: sort?.rawValue,
+                                  date: dateInt),
+                predicate: ShotsCache.list == list?.rawValue &&
+                    ShotsCache.timeframe == sort?.timeframe?.rawValue &&
+                    ShotsCache.sort == sort?.rawValue &&
+                    ShotsCache.date == dateInt)
             impl.delegate = self
         }
 
-        public func reload(force: Bool = false) {
-            impl.reload(force: force)
+        public func reload(force: Bool = false) -> Bool {
+            return impl.reload(force: force)
         }
 
         public func fetch() {

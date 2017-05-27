@@ -139,9 +139,9 @@ public struct Model {
         }
         private let disposeBag = DisposeBag()
 
-        init(request initRequest: @escaping () -> Request,
-             cache initCache: () -> Cache,
-             predicate: @escaping () -> NSPredicate?) {
+        init(request initRequest: @autoclosure @escaping () -> Request,
+             cache initCache: @autoclosure () -> Cache,
+             predicate: @autoclosure @escaping () -> NSPredicate?) {
             self.initRequest = initRequest
             self.predicate = predicate
 
@@ -159,8 +159,10 @@ public struct Model {
             return realm.objects(Cache.self).filterIf(self.predicate()).first
         }
 
-        func reload(force: Bool) {
-            _fetch(refreshing: force || cache.isOutdated)
+        func reload(force: Bool) -> Bool {
+            guard force || cache.isOutdated else { return false }
+            _fetch(refreshing: true)
+            return true
         }
 
         func fetch() {
@@ -170,6 +172,7 @@ public struct Model {
         private func fetcher(refreshing: Bool) -> Single<Request.Response?> {
             if refreshing { next = initRequest() }
             guard let next = next else { return .just(nil) }
+            print("fetch: ", next)
             let fetcher = delegate?.timelineFetcher(from: next) ?? session.send(next)
             return fetcher.map { $0 }
         }
@@ -186,12 +189,17 @@ public struct Model {
                     .subscribe(
                         onSuccess: { [weak self] response in
                             guard let response = response else {
-                                self?.networkState = .done
+                                self?.next = nil
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+                                    self?.networkState = .done
+                                })
                                 return
                             }
-                            let next = self?.delegate?.timelineProcessResponse(response, refreshing: refreshing)
-                            self?.networkState = next == nil ? .done : .waiting
-                            print(next)
+                            self?.next = self?.delegate?.timelineProcessResponse(response, refreshing: refreshing)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+                                self?.networkState = self?.next == nil ? .done : .waiting
+                            })
+                            print(self?.next)
                         },
                         onError: { [weak self] error in
                             self?.networkState = .error(error)

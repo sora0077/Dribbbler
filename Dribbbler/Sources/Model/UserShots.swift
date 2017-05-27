@@ -44,20 +44,14 @@ extension Model {
         init(userId: Dribbbler.User.Identifier) {
             self.userId = userId
             impl = _TimelineModel(
-                request: {
-                    ListUserShots(id: userId)
-                },
-                cache: {
-                    UserShotsCache(userId: userId)
-                },
-                predicate: {
-                    UserShotsCache.user == userId
-                })
+                request: ListUserShots(id: userId),
+                cache: UserShotsCache(userId: userId),
+                predicate: UserShotsCache.user == userId)
             impl.delegate = self
         }
 
-        public func reload(force: Bool = false) {
-            impl.reload(force: force)
+        public func reload(force: Bool = false) -> Bool {
+            return impl.reload(force: force)
         }
 
         public func fetch() {

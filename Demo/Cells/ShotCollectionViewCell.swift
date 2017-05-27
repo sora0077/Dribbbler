@@ -37,7 +37,7 @@ final class ShotCollectionViewCell: UICollectionViewCell {
 
     func apply(_ data: Shot) {
         let url = data.images.hidpi ?? data.images.normal
-        print(url)
+//        print(url)
         imageView.pin_setImage(from: url)
     }
 }

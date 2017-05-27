@@ -20,13 +20,16 @@ public protocol Timeline: class, Collection, ReactiveCompatible {
     var isLoading: Driver<Bool> { get }
 
     subscript (idx: Int) -> Element { get }
-    func reload(force: Bool)
+
+    @discardableResult
+    func reload(force: Bool) -> Bool
     func fetch()
 }
 
 extension Timeline {
-    public func reload() {
-        reload(force: false)
+    @discardableResult
+    public func reload() -> Bool {
+        return reload(force: false)
     }
 }
 
