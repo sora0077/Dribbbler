@@ -9,9 +9,17 @@
 import UIKit
 import RealmSwift
 import Dribbbler
+import PINRemoteImage
+import RxSwift
 
 func print(_ items: Any?..., separator: String = " ", terminator: String = "\n") {
     Swift.print(items.map(String.init(describing:)), separator: separator, terminator: terminator)
+}
+
+extension DisposeBag {
+    func insert(_ disposables: Disposable...) {
+        disposables.forEach(insert(_:))
+    }
 }
 
 @UIApplicationMain
@@ -24,8 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         print(String(describing: try? Realm().configuration.fileURL))
         OAuth().activate()
-        let user = repository.users[id: 1]
-        print(user.data)
+//        let user = repository.users[id: 1]
+        print(USE_FLANIMATED_IMAGE)
         return true
     }
 

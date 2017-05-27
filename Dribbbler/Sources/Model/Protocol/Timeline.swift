@@ -18,6 +18,8 @@ public protocol Timeline: class, Collection, ReactiveCompatible {
     var count: Int { get }
     var changes: Driver<Changes> { get }
     var isLoading: Driver<Bool> { get }
+
+    subscript (idx: Int) -> Element { get }
     func reload(force: Bool)
     func fetch()
 }

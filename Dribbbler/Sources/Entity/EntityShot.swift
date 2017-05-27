@@ -11,11 +11,32 @@ import RealmSwift
 import DribbbleKit
 
 public protocol Shot {
+    typealias Identifier = ShotData.Identifier
+    var id: Identifier { get }
+    var width: Int { get }
+    var height: Int { get }
+    var images: Images { get }
+}
 
+extension Shot {
+    public var ratio: CGFloat? {
+        guard width != 0 || height != 0 else { return nil }
+        return CGFloat(height) / CGFloat(width)
+    }
+}
+
+public struct Images {
+    public let hidpi: URL?
+    public let normal: URL?
+    public let teaser: URL?
+}
+
+extension _Shot {
+    var id: Identifier { return DribbbleKit.Shot.Identifier(_id) }
 }
 
 final class _Shot: Entity, Shot, ShotData {  // swiftlint:disable:this type_name
-    private(set) dynamic var id: Int = 0
+    private(set) dynamic var _id: Int = 0
     private(set) dynamic var title: String = ""
     private(set) dynamic var width: Int = 0
     private(set) dynamic var height: Int = 0
@@ -40,6 +61,10 @@ final class _Shot: Entity, Shot, ShotData {  // swiftlint:disable:this type_name
     private(set) lazy var projectsURL: URL = URL(string: self._projectsUrl)!
     private(set) lazy var reboundsURL: URL = URL(string: self._reboundsUrl)!
 
+    private(set) lazy var images: Images = Images(hidpi: URL(string: self._hidpiUrl),
+                                                  normal: URL(string: self._normalUrl),
+                                                  teaser: URL(string: self._teaserUrl))
+
     private dynamic var _description: String = ""
     private dynamic var _htmlUrl: String = ""
     private dynamic var _attachmentsUrl: String = ""
@@ -49,7 +74,11 @@ final class _Shot: Entity, Shot, ShotData {  // swiftlint:disable:this type_name
     private dynamic var _projectsUrl: String = ""
     private dynamic var _reboundsUrl: String = ""
 
-    override class func primaryKey() -> String? { return "id" }
+    private dynamic var _hidpiUrl: String = ""
+    private dynamic var _normalUrl: String = ""
+    private dynamic var _teaserUrl: String = ""
+
+    override class func primaryKey() -> String? { return "_id" }
 
     override class func ignoredProperties() -> [String] {
         return ["htmlURL", "attachmentsURL", "bucketsURL", "commentsURL", "likesURL", "projectsURL", "reboundsURL"]
@@ -81,7 +110,7 @@ final class _Shot: Entity, Shot, ShotData {  // swiftlint:disable:this type_name
         tags: [String]
         ) throws {
         self.init()
-        self.id = Int(id)
+        self._id = Int(id)
         self.title = title
         self._description = description
         self.width = width
@@ -101,6 +130,9 @@ final class _Shot: Entity, Shot, ShotData {  // swiftlint:disable:this type_name
         self._likesUrl = likesURL.absoluteString
         self._projectsUrl = projectsURL.absoluteString
         self._reboundsUrl = reboundsURL.absoluteString
+        self._hidpiUrl = images["hidpi"]?.absoluteString ?? ""
+        self._normalUrl = images["normal"]?.absoluteString ?? ""
+        self._teaserUrl = images["teaser"]?.absoluteString ?? ""
         self.animated = animated
     }
 }

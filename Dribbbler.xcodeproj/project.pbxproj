@@ -20,6 +20,17 @@
 		D91867281ED0788E0016DD75 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91867271ED0788E0016DD75 /* User.swift */; };
 		D918672A1ED0795A0016DD75 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91867291ED0795A0016DD75 /* Model.swift */; };
 		D918672C1ED344240016DD75 /* Shots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D918672B1ED344240016DD75 /* Shots.swift */; };
+		D93494EF1ED88B08007CC261 /* ShotCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93494EE1ED88B08007CC261 /* ShotCollectionViewCell.swift */; };
+		D93494F31ED88B44007CC261 /* PINCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93494F01ED88B3F007CC261 /* PINCache.framework */; };
+		D93494F41ED88B44007CC261 /* PINCache.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D93494F01ED88B3F007CC261 /* PINCache.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D93494F51ED88B44007CC261 /* PINOperation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93494F11ED88B3F007CC261 /* PINOperation.framework */; };
+		D93494F61ED88B44007CC261 /* PINOperation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D93494F11ED88B3F007CC261 /* PINOperation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D93494F71ED88B44007CC261 /* PINRemoteImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93494F21ED88B3F007CC261 /* PINRemoteImage.framework */; };
+		D93494F81ED88B44007CC261 /* PINRemoteImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D93494F21ED88B3F007CC261 /* PINRemoteImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D93494FD1ED89149007CC261 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93494FC1ED89145007CC261 /* SnapKit.framework */; };
+		D93494FE1ED89149007CC261 /* SnapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D93494FC1ED89145007CC261 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D93495001ED89A08007CC261 /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93494FF1ED89A02007CC261 /* FLAnimatedImage.framework */; };
+		D93495011ED89A08007CC261 /* FLAnimatedImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D93494FF1ED89A02007CC261 /* FLAnimatedImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D9692DBD1EC2144800727C93 /* EntityAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBC1EC2144800727C93 /* EntityAuthorization.swift */; };
 		D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBE1EC216D300727C93 /* OAuth.swift */; };
 		D9692DC11EC2201600727C93 /* EntityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DC01EC2201600727C93 /* EntityClient.swift */; };
@@ -107,11 +118,16 @@
 				D9692DC71EC23BD300727C93 /* ErrorEventHandler.framework in Embed Frameworks */,
 				D9D1AE371EB49EA100CD4748 /* Result.framework in Embed Frameworks */,
 				D9D1AE331EB49EA100CD4748 /* DribbbleKit.framework in Embed Frameworks */,
+				D93494F41ED88B44007CC261 /* PINCache.framework in Embed Frameworks */,
 				D9D1AE2D1EB49EA100CD4748 /* RealmSwift.framework in Embed Frameworks */,
 				D918671C1ECE092A0016DD75 /* RxSwift.framework in Embed Frameworks */,
 				D9D1AE2F1EB49EA100CD4748 /* Alter.framework in Embed Frameworks */,
+				D93494FE1ED89149007CC261 /* SnapKit.framework in Embed Frameworks */,
 				D9D1AE311EB49EA100CD4748 /* APIKit.framework in Embed Frameworks */,
+				D93494F81ED88B44007CC261 /* PINRemoteImage.framework in Embed Frameworks */,
 				D918671A1ECE090C0016DD75 /* RxCocoa.framework in Embed Frameworks */,
+				D93495011ED89A08007CC261 /* FLAnimatedImage.framework in Embed Frameworks */,
+				D93494F61ED88B44007CC261 /* PINOperation.framework in Embed Frameworks */,
 				D9D1AE281EB49E5300CD4748 /* Dribbbler.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -133,6 +149,12 @@
 		D91867271ED0788E0016DD75 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D91867291ED0795A0016DD75 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		D918672B1ED344240016DD75 /* Shots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shots.swift; sourceTree = "<group>"; };
+		D93494EE1ED88B08007CC261 /* ShotCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotCollectionViewCell.swift; sourceTree = "<group>"; };
+		D93494F01ED88B3F007CC261 /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = Carthage/Build/iOS/PINCache.framework; sourceTree = "<group>"; };
+		D93494F11ED88B3F007CC261 /* PINOperation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINOperation.framework; path = Carthage/Build/iOS/PINOperation.framework; sourceTree = "<group>"; };
+		D93494F21ED88B3F007CC261 /* PINRemoteImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINRemoteImage.framework; path = Carthage/Build/iOS/PINRemoteImage.framework; sourceTree = "<group>"; };
+		D93494FC1ED89145007CC261 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
+		D93494FF1ED89A02007CC261 /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = Carthage/Build/iOS/FLAnimatedImage.framework; sourceTree = "<group>"; };
 		D9692DBC1EC2144800727C93 /* EntityAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAuthorization.swift; sourceTree = "<group>"; };
 		D9692DBE1EC216D300727C93 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		D9692DC01EC2201600727C93 /* EntityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityClient.swift; sourceTree = "<group>"; };
@@ -210,11 +232,16 @@
 				D9692DC61EC23BD300727C93 /* ErrorEventHandler.framework in Frameworks */,
 				D9D1AE361EB49EA100CD4748 /* Result.framework in Frameworks */,
 				D9D1AE321EB49EA100CD4748 /* DribbbleKit.framework in Frameworks */,
+				D93494F31ED88B44007CC261 /* PINCache.framework in Frameworks */,
 				D9D1AE2C1EB49EA100CD4748 /* RealmSwift.framework in Frameworks */,
 				D918671B1ECE092A0016DD75 /* RxSwift.framework in Frameworks */,
 				D9D1AE2E1EB49EA100CD4748 /* Alter.framework in Frameworks */,
+				D93494FD1ED89149007CC261 /* SnapKit.framework in Frameworks */,
 				D9D1AE301EB49EA100CD4748 /* APIKit.framework in Frameworks */,
+				D93494F71ED88B44007CC261 /* PINRemoteImage.framework in Frameworks */,
 				D91867191ECE090C0016DD75 /* RxCocoa.framework in Frameworks */,
+				D93495001ED89A08007CC261 /* FLAnimatedImage.framework in Frameworks */,
+				D93494F51ED88B44007CC261 /* PINOperation.framework in Frameworks */,
 				D9D1AE271EB49E5300CD4748 /* Dribbbler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +259,11 @@
 		93F2C702610E85870FB0FEC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D93494FF1ED89A02007CC261 /* FLAnimatedImage.framework */,
+				D93494FC1ED89145007CC261 /* SnapKit.framework */,
+				D93494F01ED88B3F007CC261 /* PINCache.framework */,
+				D93494F11ED88B3F007CC261 /* PINOperation.framework */,
+				D93494F21ED88B3F007CC261 /* PINRemoteImage.framework */,
 				D91867171ECE08F20016DD75 /* RxCocoa.framework */,
 				D91867151ECE08EC0016DD75 /* RxSwift.framework */,
 				D9692DC41EC23BC100727C93 /* ErrorEventHandler.framework */,
@@ -262,6 +294,14 @@
 				D918671F1ECF32DB0016DD75 /* Timeline.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		D93494ED1ED88AD9007CC261 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D93494EE1ED88B08007CC261 /* ShotCollectionViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		D96AACA01EBC823600E9CD41 /* Model */ = {
@@ -359,6 +399,7 @@
 		D9D1AE081EB49E4700CD4748 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				D93494ED1ED88AD9007CC261 /* Cells */,
 				D9D1AE091EB49E4700CD4748 /* AppDelegate.swift */,
 				D9D1AE0B1EB49E4700CD4748 /* ViewController.swift */,
 				D9A4B0221EC1946E00302D2C /* APIListViewController.swift */,
@@ -613,6 +654,7 @@
 			files = (
 				D99CBA581EC4B8C000067B85 /* ShotsViewController.swift in Sources */,
 				D9D1AE0C1EB49E4700CD4748 /* ViewController.swift in Sources */,
+				D93494EF1ED88B08007CC261 /* ShotCollectionViewCell.swift in Sources */,
 				D9A4B0231EC1946E00302D2C /* APIListViewController.swift in Sources */,
 				D9D1AE0A1EB49E4700CD4748 /* AppDelegate.swift in Sources */,
 			);
@@ -847,6 +889,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -864,6 +907,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

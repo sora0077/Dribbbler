@@ -53,27 +53,15 @@ extension List {
 
 private struct OrderedSet<Element: Hashable> {
     private var set: Set<Element> = []
-    private var order: [Element] = []
     private(set) var appendings: [Element] = []
 
-    init(_ elements: [Element]) {
-        for e in elements where !set.contains(e) {
-            set.insert(e)
-            order.append(e)
-        }
-    }
-
     init<S: Sequence>(_ elements: S) where S.Iterator.Element == Element {
-        for e in elements where !set.contains(e) {
-            set.insert(e)
-            order.append(e)
-        }
+        set = Set(elements)
     }
 
     mutating func append<S: Sequence>(contentsOf elements: S) where S.Iterator.Element == Element {
         for e in elements where !set.contains(e) {
             set.insert(e)
-            order.append(e)
             appendings.append(e)
         }
     }

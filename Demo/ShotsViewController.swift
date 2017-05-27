@@ -19,8 +19,10 @@ extension Reactive where Base: UICollectionView {
     }
 }
 
-final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewController where Timeline.Element == Shot {
+final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewController, UICollectionViewDelegateFlowLayout
+where Timeline.Element == Shot {
     private let timeline: Timeline
+    private let disposeBag = DisposeBag()
 
     init(timeline: Timeline) {
         self.timeline = timeline
@@ -36,16 +38,17 @@ final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewC
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let collectionView = collectionView else { return }
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(ShotCollectionViewCell.self, forCellWithReuseIdentifier: "ShotCollectionViewCell")
 
         let refreshControl = UIRefreshControl()
         collectionView.refreshControl = refreshControl
-        _ = refreshControl.rx.controlEvent(.valueChanged).asDriver()
-            .drive(timeline.rx.reload(force: true))
-        _ = timeline.isLoading
-            .drive(refreshControl.rx.isRefreshing)
-        _ = timeline.changes.map { _ in }
-            .drive(collectionView.rx.reloadData())
+        disposeBag.insert(
+            refreshControl.rx.controlEvent(.valueChanged).asDriver()
+                .drive(timeline.rx.reload(force: true)),
+            timeline.isLoading
+                .drive(refreshControl.rx.isRefreshing),
+            timeline.changes.map { _ in }
+            .drive(collectionView.rx.reloadData()))
         timeline.reload()
     }
 
@@ -54,16 +57,18 @@ final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewC
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = .white
-        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
-        cell.contentView.addSubview({
-            let label = UILabel()
-            label.text = "\(indexPath.item)"
-            label.frame = cell.bounds
-            label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            return label
-        }())
+        // swiftlint:disable:next force_cast
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShotCollectionViewCell", for: indexPath) as! ShotCollectionViewCell
+        let item = timeline[indexPath.item]
+        cell.apply(item)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width
+        let item = timeline[indexPath.item]
+        return CGSize(width: width, height: width * (item.ratio ?? 1))
     }
 }

@@ -1,0 +1,3 @@
+github "pinterest/PINRemoteImage" "master"
+github "Flipboard/FLAnimatedImage"
+github "SnapKit/SnapKit" "master"
