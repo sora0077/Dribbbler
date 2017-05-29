@@ -17,9 +17,12 @@ typealias Session = DribbbleKit.Session
 typealias GetUser = DribbbleKit.GetUser<_User>
 typealias ListShots = DribbbleKit.ListShots<_Shot, _User, _Team>
 typealias ListUserShots = DribbbleKit.ListUserShots<_Shot, _Team>
+typealias ListShotComments = DribbbleKit.ListShotComments<_Comment, _User>
 
 func Realm() -> RealmSwift.Realm {
-    return try! RealmSwift.Realm()  // swiftlint:disable:this force_try
+    let config = RealmSwift.Realm.Configuration.defaultConfiguration
+//    config.inMemoryIdentifier = "jp.sora0077.realm"
+    return try! RealmSwift.Realm(configuration: config)  // swiftlint:disable:this force_try
 }
 
 func write(_ block: (Realm) throws -> Void) {
@@ -43,7 +46,7 @@ class ASessionAdapter: URLSessionAdapter {
 }
 
 let session: Session = {
-    DribbbleKit.setup(.init(perPage: 100))
+    DribbbleKit.setup(.init(perPage: 40))
     return Session.shared
 //    return DribbbleKit.Session(adapter: ASessionAdapter(configuration: .default))
 }()

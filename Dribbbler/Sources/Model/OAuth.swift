@@ -20,9 +20,7 @@ public final class OAuth: NetworkStateHolder {
     }
     var networkState: NetworkState = .waiting
 
-    public init() {
-
-    }
+    public init() {}
 
     public func client() -> (id: String, secret: String, accessToken: String?)? {  // swiftlint:disable:this large_tuple
         guard let client = latestClient(Realm()) else { return nil }

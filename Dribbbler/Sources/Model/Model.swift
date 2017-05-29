@@ -17,6 +17,8 @@ protocol TimelineCache {
     var objects: List<Element> { get }
     var next: RequestCache { get }
     var isOutdated: Bool { get }
+
+    func update(_ block: () throws -> Void) rethrows
 }
 
 private extension Results {
@@ -28,18 +30,26 @@ private extension Results {
 
 protocol EntityDelegate: class {
     associatedtype Request: DribbbleKit.Request
+    associatedtype Element: Object
     func entityFetcher() -> Single<Request.Response>?
-    func entityProcessResponse(_ response: Request.Response) -> Bool
+    func entityProcessResponse(_ response: Request.Response, realm: Realm) throws
 }
 
 extension EntityDelegate {
     func entityFetcher() -> Single<Request.Response>? { return nil }
 }
 
+extension EntityDelegate where Request.Response == DribbbleKit.Response<Element> {
+    func entityProcessResponse(_ response: Request.Response, realm: Realm) throws {
+        realm.add(response.data, update: true)
+    }
+}
+
 protocol TimelineDelegate: class {
     associatedtype Request: PaginatorRequest
+    associatedtype Element: Object
     func timelineFetcher(from request: Request) -> Single<Request.Response>?
-    func timelineProcessResponse(_ response: Request.Response, refreshing: Bool) -> Request?
+    func timelineProcessResponse(_ response: Request.Response, refreshing: Bool, realm: Realm) throws -> [Element]
 }
 
 extension TimelineDelegate {
@@ -64,8 +74,8 @@ public struct Model {
         }
         weak var delegate: Delegate?
 
-        init(request initRequest: @escaping () -> Request,
-             predicate: @escaping () -> NSPredicate?) {
+        init(request initRequest: @autoclosure @escaping () -> Request,
+             predicate: @autoclosure @escaping () -> NSPredicate?) {
             self.initRequest = initRequest
             self.predicate = predicate
             cache = Realm().objects(Element.self).filterIf(predicate())
@@ -108,8 +118,10 @@ public struct Model {
                                 self?.networkState = .done
                                 return
                             }
-                            let next = self?.delegate?.entityProcessResponse(response)
-                            self?.networkState = next ?? false ? .done : .waiting
+                            write { realm in
+                                try self?.delegate?.entityProcessResponse(response, realm: realm)
+                                self?.networkState = .done
+                            }
                         },
                         onError: { [weak self] error in
                             self?.networkState = .error(error)
@@ -119,7 +131,11 @@ public struct Model {
     }
 
     // swiftlint:disable:next type_name
-    class _TimelineModel<Cache: TimelineCache, Delegate: TimelineDelegate> where Cache: Object {
+    class _TimelineModel<Cache: TimelineCache, Delegate: TimelineDelegate>
+    where
+        Cache: Object,
+        Cache.Element == Delegate.Element,
+        Delegate.Request.Response == DribbbleKit.Response<Page<Delegate.Request>> {
         typealias Request = Delegate.Request
         private(set) lazy var isLoading: Driver<Bool> = self._isLoading.asDriver(onErrorJustReturn: false)
         private(set) lazy var changes: Driver<TimelineChanges> = self._changes.asDriver(onErrorDriveWith: .empty())
@@ -195,7 +211,19 @@ public struct Model {
                                 })
                                 return
                             }
-                            self?.next = self?.delegate?.timelineProcessResponse(response, refreshing: refreshing)
+                            write { realm in
+                                guard let cache = self?.cache(from: realm) else { return }
+                                try cache.update {
+                                    if refreshing {
+                                        cache.objects.removeAll()
+                                    }
+                                    let objects = try self?.delegate?.timelineProcessResponse(
+                                        response, refreshing: refreshing, realm: realm)
+                                    cache.objects.distinctAppend(contentsOf: objects ?? [])
+                                    cache.next.setRequest(response.data.next)
+                                    self?.next = response.data.next
+                                }
+                            }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
                                 self?.networkState = self?.next == nil ? .done : .waiting
                             })

@@ -15,15 +15,14 @@ import PredicateKit
 extension Model {
     public final class User: EntityDelegate {
         typealias Request = GetUser
+        typealias Element = _User
         public var data: Dribbbler.User? { return impl.data }
         public var isLoading: Driver<Bool> { return impl.isLoading }
         public var change: Driver<Void> { return impl.change }
         fileprivate let impl: _EntityModel<_User, Model.User>
 
         init(id: Dribbbler.User.Identifier) {
-            impl = _EntityModel(
-                request: { GetUser(id: id) },
-                predicate: { _User.id == id })
+            impl = _EntityModel(request: GetUser(id: id), predicate: _User.id == id)
             impl.delegate = self
         }
 
@@ -33,13 +32,6 @@ extension Model {
 
         public func fetch() {
             impl.fetch()
-        }
-
-        func entityProcessResponse(_ response: Request.Response) -> Bool {
-            write { realm in
-                realm.add(response.data, update: true)
-            }
-            return true
         }
     }
 }

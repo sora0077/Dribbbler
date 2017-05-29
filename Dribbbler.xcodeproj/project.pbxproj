@@ -31,6 +31,9 @@
 		D93494FE1ED89149007CC261 /* SnapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D93494FC1ED89145007CC261 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D93495001ED89A08007CC261 /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D93494FF1ED89A02007CC261 /* FLAnimatedImage.framework */; };
 		D93495011ED89A08007CC261 /* FLAnimatedImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D93494FF1ED89A02007CC261 /* FLAnimatedImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D93495031EDC81B5007CC261 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93495021EDC81B5007CC261 /* CommentsViewController.swift */; };
+		D93495051EDC820B007CC261 /* EntityComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93495041EDC820B007CC261 /* EntityComment.swift */; };
+		D93495071EDC86E0007CC261 /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93495061EDC86E0007CC261 /* Comments.swift */; };
 		D9692DBD1EC2144800727C93 /* EntityAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBC1EC2144800727C93 /* EntityAuthorization.swift */; };
 		D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBE1EC216D300727C93 /* OAuth.swift */; };
 		D9692DC11EC2201600727C93 /* EntityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DC01EC2201600727C93 /* EntityClient.swift */; };
@@ -155,6 +158,9 @@
 		D93494F21ED88B3F007CC261 /* PINRemoteImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINRemoteImage.framework; path = Carthage/Build/iOS/PINRemoteImage.framework; sourceTree = "<group>"; };
 		D93494FC1ED89145007CC261 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		D93494FF1ED89A02007CC261 /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = Carthage/Build/iOS/FLAnimatedImage.framework; sourceTree = "<group>"; };
+		D93495021EDC81B5007CC261 /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
+		D93495041EDC820B007CC261 /* EntityComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityComment.swift; sourceTree = "<group>"; };
+		D93495061EDC86E0007CC261 /* Comments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
 		D9692DBC1EC2144800727C93 /* EntityAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAuthorization.swift; sourceTree = "<group>"; };
 		D9692DBE1EC216D300727C93 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		D9692DC01EC2201600727C93 /* EntityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityClient.swift; sourceTree = "<group>"; };
@@ -312,6 +318,7 @@
 				D96AACA11EBC832200E9CD41 /* UserShots.swift */,
 				D918672B1ED344240016DD75 /* Shots.swift */,
 				D91867271ED0788E0016DD75 /* User.swift */,
+				D93495061EDC86E0007CC261 /* Comments.swift */,
 				D9692DBE1EC216D300727C93 /* OAuth.swift */,
 			);
 			path = Model;
@@ -386,6 +393,7 @@
 			children = (
 				D9D1AE011EB464BB00CD4748 /* EntityUser.swift */,
 				D96AAC961EB89F9C00E9CD41 /* EntityShot.swift */,
+				D93495041EDC820B007CC261 /* EntityComment.swift */,
 				D96AAC981EB8D45800E9CD41 /* EntityTeam.swift */,
 				D96AAC9A1EBC1C9F00E9CD41 /* EntityBucket.swift */,
 				D96AAC9C1EBC2B0700E9CD41 /* EntityFollow.swift */,
@@ -404,6 +412,7 @@
 				D9D1AE0B1EB49E4700CD4748 /* ViewController.swift */,
 				D9A4B0221EC1946E00302D2C /* APIListViewController.swift */,
 				D99CBA571EC4B8C000067B85 /* ShotsViewController.swift */,
+				D93495021EDC81B5007CC261 /* CommentsViewController.swift */,
 				D9D1AE0D1EB49E4700CD4748 /* Main.storyboard */,
 				D9D1AE101EB49E4700CD4748 /* Assets.xcassets */,
 				D9D1AE121EB49E4700CD4748 /* LaunchScreen.storyboard */,
@@ -540,6 +549,7 @@
 					};
 					D9D1AE061EB49E4700CD4748 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = B2TD54U4MA;
 						ProvisioningStyle = Automatic;
 					};
 					D9D1AE191EB49E4700CD4748 = {
@@ -630,6 +640,8 @@
 				D9F7B1A81EBCAD2900FBE743 /* Dribbbler.swift in Sources */,
 				D96AAC9D1EBC2B0700E9CD41 /* EntityFollow.swift in Sources */,
 				D96AAC991EB8D45800E9CD41 /* EntityTeam.swift in Sources */,
+				D93495071EDC86E0007CC261 /* Comments.swift in Sources */,
+				D93495051EDC820B007CC261 /* EntityComment.swift in Sources */,
 				D918672A1ED0795A0016DD75 /* Model.swift in Sources */,
 				D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */,
 				D96AAC9B1EBC1C9F00E9CD41 /* EntityBucket.swift in Sources */,
@@ -654,6 +666,7 @@
 			files = (
 				D99CBA581EC4B8C000067B85 /* ShotsViewController.swift in Sources */,
 				D9D1AE0C1EB49E4700CD4748 /* ViewController.swift in Sources */,
+				D93495031EDC81B5007CC261 /* CommentsViewController.swift in Sources */,
 				D93494EF1ED88B08007CC261 /* ShotCollectionViewCell.swift in Sources */,
 				D9A4B0231EC1946E00302D2C /* APIListViewController.swift in Sources */,
 				D9D1AE0A1EB49E4700CD4748 /* AppDelegate.swift in Sources */,
@@ -890,7 +903,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = B2TD54U4MA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -910,7 +923,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = B2TD54U4MA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

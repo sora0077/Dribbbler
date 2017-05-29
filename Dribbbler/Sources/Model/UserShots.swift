@@ -23,6 +23,8 @@ private final class UserShotsCache: PaginatorCache, TimelineCache {
 
     var userId: User.Identifier { return DribbbleKit.User.Identifier(_userId) }
 
+    override class func primaryKey() -> String? { return "_userId" }
+
     convenience init(userId: User.Identifier) {
         self.init()
         _userId = Int(userId)
@@ -73,27 +75,15 @@ extension Model {
             return userFetcher().flatMap { session.send(request) }
         }
 
-        func timelineProcessResponse(_ response: Request.Response, refreshing: Bool) -> Request? {
-            write { realm in
-                let owner = realm.object(ofType: _User.self, forPrimaryKey: Int(userId))
-                let shots = response.data.elements.map { shot, team -> _Shot in
-                    shot._team = team
-                    shot._user = owner
-                    return shot
-                }
-                realm.add(shots, update: true)
-
-                if let cache = impl.cache(from: realm) {
-                    cache.update {
-                        if refreshing {
-                            cache.shots.removeAll()
-                        }
-                        cache.shots.distinctAppend(contentsOf: shots)
-                        cache.next.setRequest(response.data.next)
-                    }
-                }
+        func timelineProcessResponse(_ response: Request.Response, refreshing: Bool, realm: Realm) throws -> [_Shot] {
+            let owner = realm.object(ofType: _User.self, forPrimaryKey: Int(userId))
+            let shots = response.data.elements.map { shot, team -> _Shot in
+                shot._team = team
+                shot._user = owner
+                return shot
             }
-            return response.data.next
+            realm.add(shots, update: true)
+            return shots
         }
     }
 }

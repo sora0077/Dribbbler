@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 import DribbbleKit
+import PredicateKit
 
 public protocol Shot {
     typealias Identifier = ShotData.Identifier
@@ -16,6 +17,8 @@ public protocol Shot {
     var width: Int { get }
     var height: Int { get }
     var images: Images { get }
+
+    var commentsCount: Int { get }
 }
 
 extension Shot {
@@ -23,6 +26,10 @@ extension Shot {
         guard width != 0 || height != 0 else { return nil }
         return CGFloat(height) / CGFloat(width)
     }
+}
+
+extension Shot.Identifier: AttributeType {
+    public var expression: NSExpression { return Int(self).expression }
 }
 
 public struct Images {

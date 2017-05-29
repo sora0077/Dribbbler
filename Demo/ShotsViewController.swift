@@ -138,4 +138,14 @@ where Timeline.Element == Shot {
         let item = timeline[indexPath.item]
         return CGSize(width: width, height: width * (item.ratio ?? 1))
     }
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = timeline[indexPath.item]
+        print(item)
+        let comments = Model.Comments(id: item.id)
+        comments.reload()
+        store = comments
+    }
 }
+
+private var store: Any?

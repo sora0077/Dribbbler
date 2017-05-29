@@ -16,8 +16,8 @@ class Cache: Object {
     var liftime: TimeInterval { fatalError() }
     var isOutdated: Bool { return Date().timeIntervalSince(updateAt) > liftime }
 
-    func update(_ block: () -> Void) {
-        block()
+    func update(_ block: () throws -> Void) rethrows {
+        try block()
         updateAt = Date()
     }
 }
