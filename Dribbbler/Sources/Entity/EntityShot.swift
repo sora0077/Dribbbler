@@ -42,6 +42,10 @@ extension _Shot {
     var id: Identifier { return DribbbleKit.Shot.Identifier(_id) }
 }
 
+extension _Shot {
+    static let id = Attribute<Shot.Identifier>("_id")
+}
+
 final class _Shot: Entity, Shot, ShotData {  // swiftlint:disable:this type_name
     private(set) dynamic var _id: Int = 0
     private(set) dynamic var title: String = ""

@@ -15,9 +15,11 @@ import Result
 
 typealias Session = DribbbleKit.Session
 typealias GetUser = DribbbleKit.GetUser<_User>
+typealias GetShot = DribbbleKit.GetShot<_Shot, _User>
 typealias ListShots = DribbbleKit.ListShots<_Shot, _User, _Team>
 typealias ListUserShots = DribbbleKit.ListUserShots<_Shot, _Team>
 typealias ListShotComments = DribbbleKit.ListShotComments<_Comment, _User>
+typealias ListShotLikes = DribbbleKit.ListShotLikes<_Like, _User>
 
 func Realm() -> RealmSwift.Realm {
     let config = RealmSwift.Realm.Configuration.defaultConfiguration
