@@ -11,70 +11,6 @@ import Dribbbler
 import RxSwift
 import RxCocoa
 
-extension Reactive where Base: UICollectionView {
-    func reloadData() -> UIBindingObserver<Base, Void> {
-        return UIBindingObserver(UIElement: base, binding: { (base, _) in
-            base.reloadData()
-        })
-    }
-}
-
-extension Reactive where Base: UIView {
-    func animate<T>(
-        withDuration duration: TimeInterval,
-        delay: TimeInterval = 0,
-        options: UIViewAnimationOptions = [],
-        animations: @escaping (Base, T) -> Void,
-        completion: ((_ finished: Bool) -> Void)? = nil) -> UIBindingObserver<Base, T> {
-        return UIBindingObserver(UIElement: base, binding: { (base, val) in
-            UIView.animate(
-                withDuration: duration,
-                animations: {
-                    animations(base, val)
-                },
-                completion: completion)
-        })
-    }
-
-    func animate<T>(
-        withDuration duration: TimeInterval,
-        delay: TimeInterval = 0,
-        usingSpringWithDamping damping: CGFloat,
-        initialSpringVelocity velocity: CGFloat,
-        options: UIViewAnimationOptions = [],
-        animations: @escaping (Base, T) -> Void,
-        completion: ((_ finished: Bool) -> Void)? = nil) -> UIBindingObserver<Base, T> {
-        return UIBindingObserver(UIElement: base, binding: { (base, val) in
-            UIView.animate(
-                withDuration: duration,
-                delay: delay,
-                usingSpringWithDamping: damping,
-                initialSpringVelocity: velocity,
-                options: options,
-                animations: {
-                    animations(base, val)
-                },
-                completion: completion)
-        })
-    }
-}
-
-extension Reactive where Base: UIScrollView {
-    var reachedBottom: ControlEvent<Void> {
-        let observable = contentOffset
-            .flatMap { [weak base] contentOffset -> Observable<Void> in
-                guard let scrollView = base else { return .empty() }
-                let visibleHeight = scrollView.frame.height - scrollView.contentInset.top - scrollView.contentInset.bottom
-                let y = contentOffset.y + scrollView.contentInset.top
-                let threshold = max(0.0, scrollView.contentSize.height - visibleHeight)
-
-                return y > threshold ? .just() : .empty()
-        }
-
-        return ControlEvent(events: observable)
-    }
-}
-
 final class ShotsViewController<Timeline: Dribbbler.Timeline>: UICollectionViewController, UICollectionViewDelegateFlowLayout
 where Timeline.Element == Shot {
     private let timeline: Timeline
@@ -102,7 +38,7 @@ where Timeline.Element == Shot {
         disposeBag.insert(
             refreshControl.rx.controlEvent(.valueChanged).asDriver()
                 .drive(timeline.rx.reload(force: true)),
-            collectionView.rx.reachedBottom.asDriver()
+            collectionView.rx.reachedBottom(offset: 80).asDriver()
                 .drive(timeline.rx.fetch()),
             timeline.isLoading
                 .drive(refreshControl.rx.isRefreshing),
@@ -111,7 +47,6 @@ where Timeline.Element == Shot {
                 .drive(collectionView.rx
                     .animate(withDuration: 0.3, animations: { $0.alpha = $1 })),
             timeline.changes
-                .map { _ in }
                 .drive(collectionView.rx.reloadData()))
 
         if timeline.reload() {

@@ -28,12 +28,6 @@ extension _User {
     static let id = Attribute<User.Identifier>("_id")
 }
 
-class Entity: Object {
-    private dynamic var cachedAt: Date = Date()
-    var liftime: TimeInterval { return 120.min }
-    var isOutdated: Bool { return Date().timeIntervalSince(cachedAt) > liftime }
-}
-
 final class _User: Entity, User, UserData {  // swiftlint:disable:this type_name
     private(set) dynamic var _id: Int = 0
     private(set) dynamic var name: String = ""

@@ -54,6 +54,10 @@
 		D9A4B0231EC1946E00302D2C /* APIListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A4B0221EC1946E00302D2C /* APIListViewController.swift */; };
 		D9B8A21A1EDD642300AC5F81 /* ShotLikes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8A2191EDD642300AC5F81 /* ShotLikes.swift */; };
 		D9B8A21E1EDD693F00AC5F81 /* Shot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8A21D1EDD693F00AC5F81 /* Shot.swift */; };
+		D9B8A2201EDD738F00AC5F81 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8A21F1EDD738F00AC5F81 /* Entity.swift */; };
+		D9B8A2221EDD73E000AC5F81 /* UIView+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8A2211EDD73E000AC5F81 /* UIView+Reactive.swift */; };
+		D9B8A2241EDD742700AC5F81 /* UICollectionView+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8A2231EDD742700AC5F81 /* UICollectionView+Reactive.swift */; };
+		D9B8A2261EDD75A800AC5F81 /* UIScrollView+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8A2251EDD75A800AC5F81 /* UIScrollView+Reactive.swift */; };
 		D9D1ADE21EB39D1500CD4748 /* Dribbbler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D1ADD81EB39D1500CD4748 /* Dribbbler.framework */; };
 		D9D1ADE71EB39D1500CD4748 /* DribbblerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D1ADE61EB39D1500CD4748 /* DribbblerTests.swift */; };
 		D9D1ADE91EB39D1500CD4748 /* Dribbbler.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D1ADDB1EB39D1500CD4748 /* Dribbbler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -179,6 +183,10 @@
 		D9A4B0221EC1946E00302D2C /* APIListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIListViewController.swift; sourceTree = "<group>"; };
 		D9B8A2191EDD642300AC5F81 /* ShotLikes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotLikes.swift; sourceTree = "<group>"; };
 		D9B8A21D1EDD693F00AC5F81 /* Shot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shot.swift; sourceTree = "<group>"; };
+		D9B8A21F1EDD738F00AC5F81 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		D9B8A2211EDD73E000AC5F81 /* UIView+Reactive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Reactive.swift"; sourceTree = "<group>"; };
+		D9B8A2231EDD742700AC5F81 /* UICollectionView+Reactive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Reactive.swift"; sourceTree = "<group>"; };
+		D9B8A2251EDD75A800AC5F81 /* UIScrollView+Reactive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Reactive.swift"; sourceTree = "<group>"; };
 		D9D1ADD81EB39D1500CD4748 /* Dribbbler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dribbbler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D1ADDB1EB39D1500CD4748 /* Dribbbler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dribbbler.h; sourceTree = "<group>"; };
 		D9D1ADDC1EB39D1500CD4748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -397,6 +405,7 @@
 		D9D1AE001EB4647C00CD4748 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				D9B8A21F1EDD738F00AC5F81 /* Entity.swift */,
 				D9D1AE011EB464BB00CD4748 /* EntityUser.swift */,
 				D96AAC961EB89F9C00E9CD41 /* EntityShot.swift */,
 				D93495041EDC820B007CC261 /* EntityComment.swift */,
@@ -419,6 +428,9 @@
 				D9A4B0221EC1946E00302D2C /* APIListViewController.swift */,
 				D99CBA571EC4B8C000067B85 /* ShotsViewController.swift */,
 				D93495021EDC81B5007CC261 /* CommentsViewController.swift */,
+				D9B8A2211EDD73E000AC5F81 /* UIView+Reactive.swift */,
+				D9B8A2251EDD75A800AC5F81 /* UIScrollView+Reactive.swift */,
+				D9B8A2231EDD742700AC5F81 /* UICollectionView+Reactive.swift */,
 				D9D1AE0D1EB49E4700CD4748 /* Main.storyboard */,
 				D9D1AE101EB49E4700CD4748 /* Assets.xcassets */,
 				D9D1AE121EB49E4700CD4748 /* LaunchScreen.storyboard */,
@@ -645,6 +657,7 @@
 				D9B8A21E1EDD693F00AC5F81 /* Shot.swift in Sources */,
 				D918672C1ED344240016DD75 /* Shots.swift in Sources */,
 				D9F7B1A81EBCAD2900FBE743 /* Dribbbler.swift in Sources */,
+				D9B8A2201EDD738F00AC5F81 /* Entity.swift in Sources */,
 				D96AAC9D1EBC2B0700E9CD41 /* EntityFollow.swift in Sources */,
 				D9B8A21A1EDD642300AC5F81 /* ShotLikes.swift in Sources */,
 				D96AAC991EB8D45800E9CD41 /* EntityTeam.swift in Sources */,
@@ -676,8 +689,11 @@
 				D9D1AE0C1EB49E4700CD4748 /* ViewController.swift in Sources */,
 				D93495031EDC81B5007CC261 /* CommentsViewController.swift in Sources */,
 				D93494EF1ED88B08007CC261 /* ShotCollectionViewCell.swift in Sources */,
+				D9B8A2261EDD75A800AC5F81 /* UIScrollView+Reactive.swift in Sources */,
 				D9A4B0231EC1946E00302D2C /* APIListViewController.swift in Sources */,
+				D9B8A2241EDD742700AC5F81 /* UICollectionView+Reactive.swift in Sources */,
 				D9D1AE0A1EB49E4700CD4748 /* AppDelegate.swift in Sources */,
+				D9B8A2221EDD73E000AC5F81 /* UIView+Reactive.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
