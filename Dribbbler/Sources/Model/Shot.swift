@@ -35,7 +35,8 @@ extension Model {
         }
 
         func entityProcessResponse(_ response: Request.Response, realm: Realm) throws {
-            response.data.shot._user = response.data.user
+            response.data.shot._user = response.data.userOrTeam.user
+            response.data.shot._team = response.data.team
             realm.add(response.data.shot, update: true)
         }
     }

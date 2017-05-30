@@ -105,7 +105,10 @@ public struct Model {
         private func _fetch(refreshing: Bool) {
             guard networkState.isRunnable else { return }
             if refreshing && networkState != .loading { networkState = .waiting }
-            if !refreshing && data != nil { return }
+            if !refreshing && cache(from: Realm()) != nil {
+                networkState = .done
+                return
+            }
             disposeBag.insert(
                 fetcher()
                     .do(
