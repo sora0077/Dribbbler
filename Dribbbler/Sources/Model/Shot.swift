@@ -12,6 +12,10 @@ import RxSwift
 import RxCocoa
 import PredicateKit
 
+extension Shot {
+    public var model: Model.Shot { return .init(id: id) }
+}
+
 extension Model {
     public final class Shot: ModelOperation, EntityDelegate {
         typealias Request = GetShot
@@ -19,9 +23,11 @@ extension Model {
         public var data: Dribbbler.Shot? { return impl.data }
         public var isLoading: Driver<Bool> { return impl.isLoading }
         public var change: Driver<EntityChange> { return impl.change }
+        fileprivate let id: Dribbbler.Shot.Identifier
         fileprivate let impl: _EntityModel<_Shot, Model.Shot>
 
         public init(id: Dribbbler.Shot.Identifier) {
+            self.id = id
             impl = stateRepository(forKey: id, default: .init(request: GetShot(id: id), predicate: _Shot.id == id))
             impl.delegate = self
         }
@@ -46,16 +52,74 @@ func reference<Confined: ThreadConfined>(_ data: Confined?) -> ThreadSafeReferen
     return data.map(ThreadSafeReference.init(to:))
 }
 
+protocol ActionDelegate: class {
+    func action() -> Observable<Void>
+
+}
+
+extension Model {
+    final class _ActionModel<Delegate: ActionDelegate> {  // swiftlint:disable:this type_name
+        private(set) lazy var isLoading: Driver<Bool> = self._isLoading.asDriver(onErrorJustReturn: false)
+        private let _isLoading = PublishSubject<Bool>()
+        private let disposeBag = DisposeBag()
+        private var networkState: NetworkState = .waiting {
+            didSet { _isLoading.onNext(networkState == .loading) }
+        }
+        weak var delegate: Delegate?
+
+        deinit {
+            print("deinit _ActionModel")
+        }
+
+        func action() {
+            guard networkState.isRunnable else { return }
+            guard let delegate = delegate else { fatalError() }
+            var strongDelegate: Delegate? = delegate
+            disposeBag.insert((strongDelegate ?? delegate).action()
+                .do(
+                    onSubscribe: { [weak self] _ in
+                        self?.networkState = .loading
+                    })
+                .subscribe(
+                    onNext: { [weak self] _ in
+                        self?.networkState = .waiting
+                        strongDelegate = nil
+                    },
+                    onError: { [weak self] error in
+                        self?.networkState = .error(error)
+                        strongDelegate = nil
+                    }))
+        }
+
+        func reset() {
+            if case .error = networkState {
+                networkState = .waiting
+            }
+        }
+    }
+}
+
 extension Model.Shot {
-    public final class Like {
+    public final class Like: ActionDelegate {
         private let id: Shot.Identifier
         private let disposeBag = DisposeBag()
+        private let impl: Model._ActionModel<Model.Shot.Like>
 
         public init(id: Shot.Identifier) {
             self.id = id
+            impl = stateRepository(forKey: id, default: .init())
+            impl.delegate = self
         }
 
-        public func toggle() {
+        deinit {
+            print("deinit Model.Shot.Like")
+        }
+
+        public func action() {
+            impl.action()
+        }
+
+        func action() -> Observable<Void> {
             let id = self.id
             let precond = Observable.combineLatest(
                 Single<User?>.create(Model.User.Authenticated()).map { $0?.impl }.map(reference).asObservable(),
@@ -79,11 +143,9 @@ extension Model.Shot {
                     }
                 }
             }
-
-            disposeBag.insert(
-                precond.flatMap { user, like in like == nil ? likeAction(user) : unlikeAction(like) }
-                    .subscribe(onNext: { _ in })
-            )
+            return precond.flatMap { user, like in like == nil ? likeAction(user) : unlikeAction(like) }
         }
     }
+
+    public var like: Like { return Like(id: id) }
 }

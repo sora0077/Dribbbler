@@ -56,8 +56,9 @@ func write<C: ThreadConfined>(_ ref1: ThreadSafeReference<C>?, _ block: (Realm, 
 
 class ASessionAdapter: URLSessionAdapter {
     override func createTask(with URLRequest: URLRequest, handler: @escaping (Data?, URLResponse?, Error?) -> Void) -> SessionTask {
+        print(URLRequest.httpMethod ?? "", URLRequest)
         return super.createTask(with: URLRequest, handler: { (data, response, error) in
-            print(data.flatMap { String(data: $0, encoding: .utf8) } ?? "[]")
+//            print(data.flatMap { String(data: $0, encoding: .utf8) } ?? "[]")
             handler(data, response, error)
         })
     }
@@ -65,8 +66,8 @@ class ASessionAdapter: URLSessionAdapter {
 
 let session: Session = {
     DribbbleKit.setup(.init(perPage: 40))
-    return Session.shared
-//    return DribbbleKit.Session(adapter: ASessionAdapter(configuration: .default))
+//    return Session.shared
+    return DribbbleKit.Session(adapter: ASessionAdapter(configuration: .default))
 }()
 
 public enum NetworkState: Equatable {

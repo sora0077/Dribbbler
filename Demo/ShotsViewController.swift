@@ -75,11 +75,7 @@ where Timeline.Element == Shot {
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = timeline[indexPath.item]
-        print(item)
-        let like = Model.Shot.Like(id: item.id)
-        like.toggle()
-        store = like
+        timeline[indexPath.item].model.like.action()
     }
 }
 

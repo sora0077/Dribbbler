@@ -39,9 +39,11 @@ extension Model {
         typealias Request = ListShotComments
         public var isLoading: Driver<Bool> { return impl.isLoading }
         public var changes: Driver<Changes> { return impl.changes }
+        private let id: Dribbbler.Shot.Identifier
         fileprivate let impl: _TimelineModel<CommentsCache, Model.Comments>
 
         public init(id: Dribbbler.Shot.Identifier) {
+            self.id = id
             impl = stateRepository(forKey: id, default: .init(
                 request: ListShotComments(id: id),
                 cache: CommentsCache(shotId: id),
@@ -56,6 +58,10 @@ extension Model {
 
         public func fetch() {
             impl.fetch()
+        }
+
+        func timelineFetcher(from request: ListShotComments) -> Single<Request.Response>? {
+            return Single<Shot?>.create(Shot(id: id)).flatMap { _ in session.send(request) }
         }
 
         func timelineProcessResponse(_ response: Request.Response, refreshing: Bool, realm: Realm) throws -> [_Comment] {

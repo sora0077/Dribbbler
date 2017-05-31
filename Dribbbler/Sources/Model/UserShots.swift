@@ -60,19 +60,8 @@ extension Model {
             impl.fetch()
         }
 
-        private func userFetcher() -> Single<Void> {
-            guard Realm().object(ofType: _User.self, forPrimaryKey: Int(userId)) != nil else {
-                return session.send(GetUser(id: userId)).map { $0.data }.do(onNext: { user in
-                    write { realm in
-                        realm.add(user, update: true)
-                    }
-                }).map { _ in }
-            }
-            return .just()
-        }
-
         func timelineFetcher(from request: Request) -> Single<Request.Response>? {
-            return userFetcher().flatMap { session.send(request) }
+            return Single<User?>.create(User(id: userId)).flatMap { _ in session.send(request) }
         }
 
         func timelineProcessResponse(_ response: Request.Response, refreshing: Bool, realm: Realm) throws -> [_Shot] {
