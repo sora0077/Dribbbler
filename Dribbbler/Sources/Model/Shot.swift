@@ -41,3 +41,24 @@ extension Model {
         }
     }
 }
+
+extension Model.Shot {
+    public final class Like {
+        private let id: Shot.Identifier
+        private let disposeBag = DisposeBag()
+
+        public init(id: Shot.Identifier) {
+            self.id = id
+        }
+
+        public func toggle() {
+            let user = Model.User.Authenticated()
+            if user.data == nil {
+                user.fetch()
+            }
+            disposeBag.insert(
+                session.send(LikeShot(id: id)).subscribe(onSuccess: { print($0) })
+            )
+        }
+    }
+}

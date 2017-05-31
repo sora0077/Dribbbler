@@ -221,8 +221,9 @@ public struct Model {
                                         cache.objects.removeAll()
                                     }
                                     let objects = try self?.delegate?.timelineProcessResponse(
-                                        response, refreshing: refreshing, realm: realm)
-                                    cache.objects.distinctAppend(contentsOf: objects ?? [])
+                                        response, refreshing: refreshing, realm: realm) ?? []
+                                    realm.add(objects, update: true)
+                                    cache.objects.distinctAppend(contentsOf: objects)
                                     cache.next.setRequest(response.data.next)
                                     self?.next = response.data.next
                                 }

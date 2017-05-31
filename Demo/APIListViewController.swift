@@ -25,7 +25,7 @@ final class APIListViewController: UITableViewController {
     private func authorizeAction() {
         do {
             try UIApplication.shared.open(
-                OAuth().authorizeURL(with: [.public]), options: [:], completionHandler: nil)
+                OAuth().authorizeURL(with: [.public, .write]), options: [:], completionHandler: nil)
         } catch _ as OAuth.Error {
 
         } catch {

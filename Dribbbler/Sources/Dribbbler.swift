@@ -15,11 +15,15 @@ import Result
 
 typealias Session = DribbbleKit.Session
 typealias GetUser = DribbbleKit.GetUser<_User>
+typealias GetAuthenticatedUser = DribbbleKit.GetAuthenticatedUser<_User>
 typealias GetShot = DribbbleKit.GetShot<_Shot, _User, _Team>
 typealias ListShots = DribbbleKit.ListShots<_Shot, _User, _Team>
 typealias ListUserShots = DribbbleKit.ListUserShots<_Shot, _Team>
 typealias ListShotComments = DribbbleKit.ListShotComments<_Comment, _User>
 typealias ListShotLikes = DribbbleKit.ListShotLikes<_Like, _User>
+typealias GetLike = DribbbleKit.GetLike<_Like>
+typealias LikeShot = DribbbleKit.LikeShot<_Like>
+typealias UnlikeShot = DribbbleKit.UnlikeShot
 
 func Realm() -> RealmSwift.Realm {
     let config = RealmSwift.Realm.Configuration.defaultConfiguration

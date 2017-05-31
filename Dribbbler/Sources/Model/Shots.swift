@@ -78,13 +78,11 @@ extension Model {
         }
 
         func timelineProcessResponse(_ response: Request.Response, refreshing: Bool, realm: Realm) throws -> [_Shot] {
-            let shots = response.data.elements.map { shot, userOrTeam, team -> _Shot in
+            return response.data.elements.map { shot, userOrTeam, team in
                 shot._user = userOrTeam.user
                 shot._team = team
                 return shot
             }
-            realm.add(shots, update: true)
-            return shots
         }
     }
 }

@@ -61,7 +61,7 @@ extension Model {
         }
 
         private func userFetcher() -> Single<Void> {
-            guard Realm().objects(_User.self).filter(_User.id == userId).first != nil else {
+            guard Realm().object(ofType: _User.self, forPrimaryKey: Int(userId)) != nil else {
                 return session.send(GetUser(id: userId)).map { $0.data }.do(onNext: { user in
                     write { realm in
                         realm.add(user, update: true)
@@ -77,13 +77,11 @@ extension Model {
 
         func timelineProcessResponse(_ response: Request.Response, refreshing: Bool, realm: Realm) throws -> [_Shot] {
             let owner = realm.object(ofType: _User.self, forPrimaryKey: Int(userId))
-            let shots = response.data.elements.map { shot, team -> _Shot in
+            return response.data.elements.map { shot, team in
                 shot._team = team
                 shot._user = owner
                 return shot
             }
-            realm.add(shots, update: true)
-            return shots
         }
     }
 }

@@ -23,7 +23,7 @@ public protocol Shot {
 
 extension Shot {
     public var ratio: CGFloat? {
-        guard width != 0 || height != 0 else { return nil }
+        guard width != 0 && height != 0 else { return nil }
         return CGFloat(height) / CGFloat(width)
     }
 }
