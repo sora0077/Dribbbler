@@ -229,6 +229,7 @@ public struct Model {
 
         private func _fetch(refreshing: Bool) {
             guard networkState.isRunnable else { return }
+            var strongDelegate = delegate
             if refreshing && networkState != .loading { networkState = .waiting }
             disposeBag.insert(
                 fetcher(refreshing: refreshing)
@@ -242,6 +243,7 @@ public struct Model {
                                 self?.next = nil
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
                                     self?.networkState = .done
+                                    strongDelegate = nil
                                 })
                                 return
                             }
@@ -251,7 +253,7 @@ public struct Model {
                                     if refreshing {
                                         cache.objects.removeAll()
                                     }
-                                    let objects = try self?.delegate?.timelineProcessResponse(
+                                    let objects = try strongDelegate?.timelineProcessResponse(
                                         response, refreshing: refreshing, realm: realm) ?? []
                                     realm.add(objects, update: true)
                                     cache.objects.distinctAppend(contentsOf: objects)
@@ -261,11 +263,13 @@ public struct Model {
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
                                 self?.networkState = self?.next == nil ? .done : .waiting
+                                strongDelegate = nil
                             })
                             print(self?.next)
                         },
                         onError: { [weak self] error in
                             self?.networkState = .error(error)
+                            strongDelegate = nil
                         })
             )
         }
