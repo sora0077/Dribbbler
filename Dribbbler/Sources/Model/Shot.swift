@@ -48,57 +48,6 @@ extension Model {
     }
 }
 
-func reference<Confined: ThreadConfined>(_ data: Confined?) -> ThreadSafeReference<Confined>? {
-    return data.map(ThreadSafeReference.init(to:))
-}
-
-protocol ActionDelegate: class {
-    func action() -> Observable<Void>
-
-}
-
-extension Model {
-    final class _ActionModel<Delegate: ActionDelegate> {  // swiftlint:disable:this type_name
-        private(set) lazy var isLoading: Driver<Bool> = self._isLoading.asDriver(onErrorJustReturn: false)
-        private let _isLoading = PublishSubject<Bool>()
-        private let disposeBag = DisposeBag()
-        private var networkState: NetworkState = .waiting {
-            didSet { _isLoading.onNext(networkState == .loading) }
-        }
-        weak var delegate: Delegate?
-
-        deinit {
-            print("deinit _ActionModel")
-        }
-
-        func action() {
-            guard networkState.isRunnable else { return }
-            guard let delegate = delegate else { fatalError() }
-            var strongDelegate: Delegate? = delegate
-            disposeBag.insert((strongDelegate ?? delegate).action()
-                .do(
-                    onSubscribe: { [weak self] _ in
-                        self?.networkState = .loading
-                    })
-                .subscribe(
-                    onNext: { [weak self] _ in
-                        self?.networkState = .waiting
-                        strongDelegate = nil
-                    },
-                    onError: { [weak self] error in
-                        self?.networkState = .error(error)
-                        strongDelegate = nil
-                    }))
-        }
-
-        func reset() {
-            if case .error = networkState {
-                networkState = .waiting
-            }
-        }
-    }
-}
-
 extension Model.Shot {
     public final class Like: ActionDelegate {
         private let id: Shot.Identifier
@@ -119,29 +68,34 @@ extension Model.Shot {
             impl.action()
         }
 
-        func action() -> Observable<Void> {
+        func actionGeberator() -> Observable<Void> {
             let id = self.id
             let precond = Observable.combineLatest(
                 Single<User?>.create(Model.User.Authenticated()).map { $0?.impl }.map(reference).asObservable(),
                 session.send(GetLike(id: id)).map { $0.data }.asObservable())
 
             let likeAction = { (user: ThreadSafeReference<_User>?) -> Observable<Void> in
-                session.send(LikeShot(id: id)).map { $0.data }.asObservable().map { like in
-                    write(user) { realm, user in
-                        like._user = user
-                        realm.add(like, update: true)
-                    }
-                }
+                session.send(LikeShot(id: id))
+                    .map { $0.data }
+                    .do(onNext: { like in
+                        write(user) { realm, user in
+                            like._user = user
+                            realm.add(like, update: true)
+                        }
+                    })
+                    .map { _ in }.asObservable()
             }
             let unlikeAction = { (like: _Like?) -> Observable<Void> in
-                session.send(UnlikeShot(id: id)).asObservable().map { _ in
-                    write { realm in
-                        if let like = like {
-                            realm.add(like, update: true)
-                            realm.delete(like)
+                session.send(UnlikeShot(id: id))
+                    .do(onNext: { _ in
+                        write { realm in
+                            if let like = like {
+                                realm.add(like, update: true)
+                                realm.delete(like)
+                            }
                         }
-                    }
-                }
+                    })
+                    .map { _ in }.asObservable()
             }
             return precond.flatMap { user, like in like == nil ? likeAction(user) : unlikeAction(like) }
         }

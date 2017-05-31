@@ -52,6 +52,10 @@ extension Model {
             impl.delegate = self
         }
 
+        deinit {
+            print("deinit", self)
+        }
+
         public func reload(force: Bool = false) -> Bool {
             return impl.reload(force: force)
         }

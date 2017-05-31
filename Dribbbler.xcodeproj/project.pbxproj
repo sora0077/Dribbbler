@@ -33,6 +33,9 @@
 		D93495031EDC81B5007CC261 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93495021EDC81B5007CC261 /* CommentsViewController.swift */; };
 		D93495051EDC820B007CC261 /* EntityComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93495041EDC820B007CC261 /* EntityComment.swift */; };
 		D93495071EDC86E0007CC261 /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93495061EDC86E0007CC261 /* Comments.swift */; };
+		D93495091EDF1137007CC261 /* Model+Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93495081EDF1137007CC261 /* Model+Action.swift */; };
+		D934950B1EDF1181007CC261 /* Model+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D934950A1EDF1181007CC261 /* Model+Entity.swift */; };
+		D934950D1EDF11DB007CC261 /* Model+Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D934950C1EDF11DB007CC261 /* Model+Timeline.swift */; };
 		D9692DBD1EC2144800727C93 /* EntityAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBC1EC2144800727C93 /* EntityAuthorization.swift */; };
 		D9692DBF1EC216D300727C93 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DBE1EC216D300727C93 /* OAuth.swift */; };
 		D9692DC11EC2201600727C93 /* EntityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9692DC01EC2201600727C93 /* EntityClient.swift */; };
@@ -166,6 +169,9 @@
 		D93495021EDC81B5007CC261 /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		D93495041EDC820B007CC261 /* EntityComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityComment.swift; sourceTree = "<group>"; };
 		D93495061EDC86E0007CC261 /* Comments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
+		D93495081EDF1137007CC261 /* Model+Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Model+Action.swift"; sourceTree = "<group>"; };
+		D934950A1EDF1181007CC261 /* Model+Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Model+Entity.swift"; sourceTree = "<group>"; };
+		D934950C1EDF11DB007CC261 /* Model+Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Model+Timeline.swift"; sourceTree = "<group>"; };
 		D9692DBC1EC2144800727C93 /* EntityAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAuthorization.swift; sourceTree = "<group>"; };
 		D9692DBE1EC216D300727C93 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		D9692DC01EC2201600727C93 /* EntityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityClient.swift; sourceTree = "<group>"; };
@@ -326,6 +332,9 @@
 			isa = PBXGroup;
 			children = (
 				D91867291ED0795A0016DD75 /* Model.swift */,
+				D934950A1EDF1181007CC261 /* Model+Entity.swift */,
+				D934950C1EDF11DB007CC261 /* Model+Timeline.swift */,
+				D93495081EDF1137007CC261 /* Model+Action.swift */,
 				D918671E1ECF32C50016DD75 /* Protocol */,
 				D91867271ED0788E0016DD75 /* User.swift */,
 				D9B8A21D1EDD693F00AC5F81 /* Shot.swift */,
@@ -659,6 +668,7 @@
 				D9B8A2201EDD738F00AC5F81 /* Entity.swift in Sources */,
 				D96AAC9D1EBC2B0700E9CD41 /* EntityFollow.swift in Sources */,
 				D9B8A21A1EDD642300AC5F81 /* ShotLikes.swift in Sources */,
+				D934950B1EDF1181007CC261 /* Model+Entity.swift in Sources */,
 				D96AAC991EB8D45800E9CD41 /* EntityTeam.swift in Sources */,
 				D93495071EDC86E0007CC261 /* Comments.swift in Sources */,
 				D93495051EDC820B007CC261 /* EntityComment.swift in Sources */,
@@ -670,6 +680,8 @@
 				D91867201ECF32DC0016DD75 /* Timeline.swift in Sources */,
 				D96AAC971EB89F9C00E9CD41 /* EntityShot.swift in Sources */,
 				D9692DBD1EC2144800727C93 /* EntityAuthorization.swift in Sources */,
+				D934950D1EDF11DB007CC261 /* Model+Timeline.swift in Sources */,
+				D93495091EDF1137007CC261 /* Model+Action.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

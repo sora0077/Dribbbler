@@ -14,29 +14,18 @@ import PredicateKit
 
 extension Single {
     static func create<M: ModelOperation>(_ model: M) -> Single<M.Data?> {
+        if let data = model.data {
+            return .just(data)
+        }
         return Single.create { observer in
-            if let data = model.data {
-                observer(.success(data))
-                return Disposables.create()
-            }
-            model.reload(force: false)
-            let disposable = model.change.filter { $0 == .update }.drive(onNext: { [weak model] _ in
-                observer(.success(model?.data))
+            let disposable = model.change.filter { $0 == .update }.drive(onNext: { _ in
+                observer(.success(model.data))
             })
+            model.reload(force: false)
 
             return Disposables.create([disposable])
         }
     }
-}
-
-protocol ModelOperation: class {
-    associatedtype Data
-    var data: Data? { get }
-    var change: Driver<EntityChange> { get }
-
-    @discardableResult
-    func reload(force: Bool) -> Bool
-    func fetch()
 }
 
 extension Model {
@@ -51,6 +40,10 @@ extension Model {
         public init(id: Dribbbler.User.Identifier) {
             impl = stateRepository(forKey: id, default: .init(request: GetUser(id: id), predicate: _User.id == id))
             impl.delegate = self
+        }
+
+        deinit {
+            print("deinit", self)
         }
 
         public func reload(force: Bool = false) -> Bool {

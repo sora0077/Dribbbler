@@ -8,7 +8,15 @@
 
 import Foundation
 
-struct Weak<T: AnyObject> {
+func stateRepository<H: Hashable, T: AnyObject>(forKey key: H, `default`: @autoclosure () -> T) -> T {
+    return StateRepositoryImpl.value(forKey: Hash<T>(key), default: `default`())
+}
+
+func stateRepository<T: AnyObject>(_ `default`: @autoclosure () -> T) -> T {
+    return StateRepositoryImpl.value(forKey: Hash<T>(), default: `default`())
+}
+
+private struct Weak<T: AnyObject> {
     weak var value: T?
     init(_ value: T) {
         self.value = value
@@ -22,14 +30,6 @@ private struct Hash<T>: Hashable {
         hashValue = hash.hashValue
     }
     static func == (lhs: Hash<T>, rhs: Hash<T>) -> Bool { return lhs.hashValue == rhs.hashValue }
-}
-
-func stateRepository<H: Hashable, T: AnyObject>(forKey key: H, `default`: @autoclosure () -> T) -> T {
-    return StateRepositoryImpl.value(forKey: Hash<T>(key), default: `default`())
-}
-
-func stateRepository<T: AnyObject>(_ `default`: @autoclosure () -> T) -> T {
-    return StateRepositoryImpl.value(forKey: Hash<T>(), default: `default`())
 }
 
 private final class StateRepositoryImpl {

@@ -9,6 +9,10 @@
 import Foundation
 import RealmSwift
 
+func reference<Confined: ThreadConfined>(_ data: Confined?) -> ThreadSafeReference<Confined>? {
+    return data.map(ThreadSafeReference.init(to:))
+}
+
 extension Int {
     var min: TimeInterval {
         return TimeInterval(self) * 60
