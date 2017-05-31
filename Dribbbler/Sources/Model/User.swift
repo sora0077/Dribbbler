@@ -12,13 +12,40 @@ import RxSwift
 import RxCocoa
 import PredicateKit
 
+extension Single {
+    static func create<M: ModelOperation>(_ model: M) -> Single<M.Data?> {
+        return Single.create { observer in
+            if let data = model.data {
+                observer(.success(data))
+                return Disposables.create()
+            }
+            model.reload(force: false)
+            let disposable = model.change.filter { $0 == .update }.drive(onNext: { [weak model] _ in
+                observer(.success(model?.data))
+            })
+
+            return Disposables.create([disposable])
+        }
+    }
+}
+
+protocol ModelOperation: class {
+    associatedtype Data
+    var data: Data? { get }
+    var change: Driver<EntityChange> { get }
+
+    @discardableResult
+    func reload(force: Bool) -> Bool
+    func fetch()
+}
+
 extension Model {
-    public final class User: EntityDelegate {
+    public final class User: ModelOperation, EntityDelegate {
         typealias Request = GetUser
         typealias Element = _User
         public var data: Dribbbler.User? { return impl.data }
         public var isLoading: Driver<Bool> { return impl.isLoading }
-        public var change: Driver<Void> { return impl.change }
+        public var change: Driver<EntityChange> { return impl.change }
         fileprivate let impl: _EntityModel<_User, Model.User>
 
         init(id: Dribbbler.User.Identifier) {
@@ -26,8 +53,8 @@ extension Model {
             impl.delegate = self
         }
 
-        public func reload(force: Bool = false) {
-            impl.reload(force: force)
+        public func reload(force: Bool = false) -> Bool {
+            return impl.reload(force: force)
         }
 
         public func fetch() {
@@ -45,12 +72,12 @@ private class AuthenticatedUserCache: Entity {
 }
 
 extension Model.User {
-    public final class Authenticated: EntityDelegate {
+    public final class Authenticated: ModelOperation, EntityDelegate {
         typealias Request = GetAuthenticatedUser
         typealias Element = _User
         public var data: Dribbbler.User? { return impl.data?.user }
         public var isLoading: Driver<Bool> { return impl.isLoading }
-        public var change: Driver<Void> { return impl.change }
+        public var change: Driver<EntityChange> { return impl.change }
         fileprivate let impl: Model._EntityModel<AuthenticatedUserCache, Model.User.Authenticated>
 
         init() {
@@ -58,8 +85,8 @@ extension Model.User {
             impl.delegate = self
         }
 
-        public func reload(force: Bool = false) {
-            impl.reload(force: force)
+        public func reload(force: Bool = false) -> Bool {
+            return impl.reload(force: force)
         }
 
         public func fetch() {

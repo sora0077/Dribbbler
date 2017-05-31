@@ -35,6 +35,20 @@ protocol EntityDelegate: class {
     func entityProcessResponse(_ response: Request.Response, realm: Realm) throws
 }
 
+public enum EntityChange {
+    case initial
+    case update
+
+    init<T>(_ changes: RealmCollectionChange<T>) {
+        switch changes {
+        case .initial: self = .initial
+        case .update: self = .update
+        case .error(let error):
+            fatalError("\(error)")
+        }
+    }
+}
+
 extension EntityDelegate {
     func entityFetcher() -> Single<Request.Response>? { return nil }
 }
@@ -59,11 +73,11 @@ extension TimelineDelegate {
 public struct Model {
     class _EntityModel<Element: Entity, Delegate: EntityDelegate> {  // swiftlint:disable:this type_name
         typealias Request = Delegate.Request
-        var data: Element? { return cache.first }
+        var data: Element? { return Thread.isMainThread ? cache.first : cache(from: Realm()) }
         private(set) lazy var isLoading: Driver<Bool> = self._isLoading.asDriver(onErrorJustReturn: false)
-        private(set) lazy var change: Driver<Void> = self._change.asDriver(onErrorDriveWith: .empty())
+        private(set) lazy var change: Driver<EntityChange> = self._change.asDriver(onErrorDriveWith: .empty())
         private let _isLoading = PublishSubject<Bool>()
-        private let _change = PublishSubject<Void>()
+        private let _change = PublishSubject<EntityChange>()
         private let disposeBag = DisposeBag()
         private let initRequest: () -> Request
         private let predicate: () -> NSPredicate?
@@ -79,8 +93,8 @@ public struct Model {
             self.initRequest = initRequest
             self.predicate = predicate
             cache = Realm().objects(Element.self).filterIf(predicate())
-            token = cache.addNotificationBlock { [weak self] _ in
-                self?._change.onNext()
+            token = cache.addNotificationBlock { [weak self] changes in
+                self?._change.onNext(EntityChange(changes))
             }
             networkState = data == nil ? .waiting : .done
         }
@@ -89,8 +103,10 @@ public struct Model {
             return realm.objects(Element.self).filterIf(predicate()).first
         }
 
-        func reload(force: Bool) {
-            _fetch(refreshing: force || data?.isOutdated ?? false)
+        func reload(force: Bool) -> Bool {
+            guard force || data?.isOutdated ?? true else { return false }
+            _fetch(refreshing: true)
+            return true
         }
 
         func fetch() {

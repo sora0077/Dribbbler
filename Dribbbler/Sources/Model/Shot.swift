@@ -13,12 +13,12 @@ import RxCocoa
 import PredicateKit
 
 extension Model {
-    public final class Shot: EntityDelegate {
+    public final class Shot: ModelOperation, EntityDelegate {
         typealias Request = GetShot
         typealias Element = _Shot
         public var data: Dribbbler.Shot? { return impl.data }
         public var isLoading: Driver<Bool> { return impl.isLoading }
-        public var change: Driver<Void> { return impl.change }
+        public var change: Driver<EntityChange> { return impl.change }
         fileprivate let impl: _EntityModel<_Shot, Model.Shot>
 
         init(id: Dribbbler.Shot.Identifier) {
@@ -26,8 +26,8 @@ extension Model {
             impl.delegate = self
         }
 
-        public func reload(force: Bool = false) {
-            impl.reload(force: force)
+        public func reload(force: Bool = false) -> Bool {
+            return impl.reload(force: force)
         }
 
         public func fetch() {
@@ -42,6 +42,10 @@ extension Model {
     }
 }
 
+func reference<Confined: ThreadConfined>(_ data: Confined?) -> ThreadSafeReference<Confined>? {
+    return data.map(ThreadSafeReference.init(to:))
+}
+
 extension Model.Shot {
     public final class Like {
         private let id: Shot.Identifier
@@ -52,12 +56,33 @@ extension Model.Shot {
         }
 
         public func toggle() {
-            let user = Model.User.Authenticated()
-            if user.data == nil {
-                user.fetch()
+            let id = self.id
+            let precond = Observable.combineLatest(
+                Single<User?>.create(Model.User.Authenticated()).map { $0?.impl }.map(reference).asObservable(),
+                session.send(GetLike(id: id)).map { $0.data }.asObservable())
+
+            let likeAction = { (user: ThreadSafeReference<_User>?) -> Observable<Void> in
+                session.send(LikeShot(id: id)).map { $0.data }.asObservable().map { like in
+                    write(user) { realm, user in
+                        like._user = user
+                        realm.add(like, update: true)
+                    }
+                }
             }
+            let unlikeAction = { (like: _Like?) -> Observable<Void> in
+                session.send(UnlikeShot(id: id)).asObservable().map { _ in
+                    write { realm in
+                        if let like = like {
+                            realm.add(like, update: true)
+                            realm.delete(like)
+                        }
+                    }
+                }
+            }
+
             disposeBag.insert(
-                session.send(LikeShot(id: id)).subscribe(onSuccess: { print($0) })
+                precond.flatMap { user, like in like == nil ? likeAction(user) : unlikeAction(like) }
+                    .subscribe(onNext: { _ in })
             )
         }
     }

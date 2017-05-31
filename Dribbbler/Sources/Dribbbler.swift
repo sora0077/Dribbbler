@@ -42,6 +42,18 @@ func write(_ block: (Realm) throws -> Void) {
     }
 }
 
+func write<C: ThreadConfined>(_ resolver1: ThreadSafeReference<C>?, _ block: (Realm, C?) throws -> Void) {
+    do {
+        let realm = try RealmSwift.Realm()
+        let resolver1 = resolver1.flatMap(realm.resolve)
+        try realm.write {
+            try block(realm, resolver1)
+        }
+    } catch {
+        print(error)
+    }
+}
+
 class ASessionAdapter: URLSessionAdapter {
     override func createTask(with URLRequest: URLRequest, handler: @escaping (Data?, URLResponse?, Error?) -> Void) -> SessionTask {
         return super.createTask(with: URLRequest, handler: { (data, response, error) in
