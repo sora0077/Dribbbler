@@ -22,7 +22,7 @@ extension Model {
         fileprivate let impl: _EntityModel<_Shot, Model.Shot>
 
         public init(id: Dribbbler.Shot.Identifier) {
-            impl = stateRepository(forKey: Hash<Shot>(id), default: .init(request: GetShot(id: id), predicate: _Shot.id == id))
+            impl = stateRepository(forKey: id, default: .init(request: GetShot(id: id), predicate: _Shot.id == id))
             impl.delegate = self
         }
 

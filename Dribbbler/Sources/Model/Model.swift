@@ -86,14 +86,6 @@ extension TimelineDelegate {
 //}
 
 public struct Model {
-    struct Hash<T>: Hashable {
-        let hashValue: Int
-        init() { hashValue = 0 }
-        init<H: Hashable>(_ hash: H) {
-            hashValue = hash.hashValue
-        }
-        static func == (lhs: Hash<T>, rhs: Hash<T>) -> Bool { return lhs.hashValue == rhs.hashValue }
-    }
     class _EntityModel<Element: Entity, Delegate: EntityDelegate> {  // swiftlint:disable:this type_name
         typealias Request = Delegate.Request
         var data: Element? { return Thread.isMainThread ? cache.first : cache(from: Realm()) }

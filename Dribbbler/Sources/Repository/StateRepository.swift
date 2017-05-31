@@ -15,8 +15,21 @@ struct Weak<T: AnyObject> {
     }
 }
 
+private struct Hash<T>: Hashable {
+    let hashValue: Int
+    init() { hashValue = 0 }
+    init<H: Hashable>(_ hash: H) {
+        hashValue = hash.hashValue
+    }
+    static func == (lhs: Hash<T>, rhs: Hash<T>) -> Bool { return lhs.hashValue == rhs.hashValue }
+}
+
 func stateRepository<H: Hashable, T: AnyObject>(forKey key: H, `default`: @autoclosure () -> T) -> T {
-    return StateRepositoryImpl.value(forKey: key, default: `default`())
+    return StateRepositoryImpl.value(forKey: Hash<T>(key), default: `default`())
+}
+
+func stateRepository<T: AnyObject>(_ `default`: @autoclosure () -> T) -> T {
+    return StateRepositoryImpl.value(forKey: Hash<T>(), default: `default`())
 }
 
 private final class StateRepositoryImpl {

@@ -49,7 +49,7 @@ extension Model {
         fileprivate let impl: _EntityModel<_User, Model.User>
 
         init(id: Dribbbler.User.Identifier) {
-            impl = stateRepository(forKey: Hash<User>(id), default: .init(request: GetUser(id: id), predicate: _User.id == id))
+            impl = stateRepository(forKey: id, default: .init(request: GetUser(id: id), predicate: _User.id == id))
             impl.delegate = self
         }
 
@@ -81,8 +81,7 @@ extension Model.User {
         fileprivate let impl: Model._EntityModel<AuthenticatedUserCache, Model.User.Authenticated>
 
         init() {
-            impl = stateRepository(forKey: Model.Hash<Model.User.Authenticated>(),
-                                   default: .init(request: GetAuthenticatedUser(), predicate: nil))
+            impl = stateRepository(.init(request: GetAuthenticatedUser(), predicate: nil))
             impl.delegate = self
         }
 
