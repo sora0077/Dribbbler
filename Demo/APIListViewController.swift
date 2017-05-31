@@ -52,11 +52,11 @@ extension APIListViewController {
 
         switch rows[indexPath.row] {
         case .userShots:
-            let userShots = repository.userShots[userId: 1]
+            let userShots = Model.UserShots(userId: 1)
             let vc = ShotsViewController(timeline: userShots)
             navigationController?.pushViewController(vc, animated: true)
         case .shots:
-            let shots = repository.shots(list: .animated, sort: .recent)
+            let shots = Model.Shots(list: .animated, sort: .recent)
             let vc = ShotsViewController(timeline: shots)
             navigationController?.pushViewController(vc, animated: true)
         }

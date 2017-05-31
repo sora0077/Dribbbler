@@ -42,22 +42,6 @@ extension ShotsCache {
 
 extension Model {
     public final class Shots: Timeline, TimelineDelegate {
-        struct Hash: Hashable {
-            var list: List?
-            var date: Date?
-            var sort: Sort?
-
-            var hashValue: Int {
-                return "\(String(describing: list))\(String(describing: date))\(String(describing: sort))".hashValue
-            }
-
-            static func == (lhs: Hash, rhs: Hash) -> Bool {
-                return lhs.list == rhs.list
-                    && lhs.sort?.rawValue == rhs.sort?.rawValue
-                    && lhs.sort?.timeframe?.rawValue == rhs.sort?.timeframe?.rawValue
-                    && lhs.date == rhs.date
-            }
-        }
         typealias Request = ListShots
         public enum List: String {
             case animated, attachments, debuts, playoffs, rebounds, terms
@@ -99,6 +83,25 @@ extension Model {
                 shot._team = team
                 return shot
             }
+        }
+    }
+}
+
+private extension Model.Shots {
+    struct Hash: Hashable {
+        var list: List?
+        var date: Date?
+        var sort: Sort?
+
+        var hashValue: Int {
+            return "\(String(describing: list))\(String(describing: date))\(String(describing: sort))".hashValue
+        }
+
+        static func == (lhs: Hash, rhs: Hash) -> Bool {
+            return lhs.list == rhs.list
+                && lhs.sort?.rawValue == rhs.sort?.rawValue
+                && lhs.sort?.timeframe?.rawValue == rhs.sort?.timeframe?.rawValue
+                && lhs.date == rhs.date
         }
     }
 }

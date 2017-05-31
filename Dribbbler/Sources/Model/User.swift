@@ -48,7 +48,7 @@ extension Model {
         public var change: Driver<EntityChange> { return impl.change }
         fileprivate let impl: _EntityModel<_User, Model.User>
 
-        init(id: Dribbbler.User.Identifier) {
+        public init(id: Dribbbler.User.Identifier) {
             impl = stateRepository(forKey: id, default: .init(request: GetUser(id: id), predicate: _User.id == id))
             impl.delegate = self
         }
@@ -80,7 +80,7 @@ extension Model.User {
         public var change: Driver<EntityChange> { return impl.change }
         fileprivate let impl: Model._EntityModel<AuthenticatedUserCache, Model.User.Authenticated>
 
-        init() {
+        public init() {
             impl = stateRepository(.init(request: GetAuthenticatedUser(), predicate: nil))
             impl.delegate = self
         }

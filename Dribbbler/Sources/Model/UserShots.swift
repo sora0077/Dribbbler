@@ -43,7 +43,7 @@ extension Model {
         fileprivate let impl: _TimelineModel<UserShotsCache, Model.UserShots>
         fileprivate let userId: Dribbbler.User.Identifier
 
-        init(userId: Dribbbler.User.Identifier) {
+        public init(userId: Dribbbler.User.Identifier) {
             self.userId = userId
             impl = stateRepository(forKey: userId, default: .init(
                 request: ListUserShots(id: userId),
