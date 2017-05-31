@@ -70,7 +70,30 @@ extension TimelineDelegate {
     func timelineFetcher(from request: Request) -> Single<Request.Response>? { return nil }
 }
 
+//struct FVN1AHash {
+//    private var hash: UInt64 = 0xcbf29ce484222325
+//    private let prime: UInt64 = 0x100000001b3
+//    
+//    var finalValue: Int {
+//        return Int(truncatingBitPattern: hash)
+//    }
+//    
+//    mutating func consume<S: Sequence>(bytes: S) where S.Iterator.Element == UInt8 {
+//        for byte in bytes {
+//            hash = (hash ^ UInt64(byte)) &* prime
+//        }
+//    }
+//}
+
 public struct Model {
+    struct Hash<T>: Hashable {
+        let hashValue: Int
+        init() { hashValue = 0 }
+        init<H: Hashable>(_ hash: H) {
+            hashValue = hash.hashValue
+        }
+        static func == (lhs: Hash<T>, rhs: Hash<T>) -> Bool { return lhs.hashValue == rhs.hashValue }
+    }
     class _EntityModel<Element: Entity, Delegate: EntityDelegate> {  // swiftlint:disable:this type_name
         typealias Request = Delegate.Request
         var data: Element? { return Thread.isMainThread ? cache.first : cache(from: Realm()) }

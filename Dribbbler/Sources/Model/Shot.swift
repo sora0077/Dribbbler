@@ -21,8 +21,8 @@ extension Model {
         public var change: Driver<EntityChange> { return impl.change }
         fileprivate let impl: _EntityModel<_Shot, Model.Shot>
 
-        init(id: Dribbbler.Shot.Identifier) {
-            impl = _EntityModel(request: GetShot(id: id), predicate: _Shot.id == id)
+        public init(id: Dribbbler.Shot.Identifier) {
+            impl = stateRepository(forKey: Hash<Shot>(id), default: .init(request: GetShot(id: id), predicate: _Shot.id == id))
             impl.delegate = self
         }
 

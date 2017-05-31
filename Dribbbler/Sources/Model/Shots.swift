@@ -42,6 +42,22 @@ extension ShotsCache {
 
 extension Model {
     public final class Shots: Timeline, TimelineDelegate {
+        struct Hash: Hashable {
+            var list: List?
+            var date: Date?
+            var sort: Sort?
+
+            var hashValue: Int {
+                return "\(String(describing: list))\(String(describing: date))\(String(describing: sort))".hashValue
+            }
+
+            static func == (lhs: Hash, rhs: Hash) -> Bool {
+                return lhs.list == rhs.list
+                    && lhs.sort?.rawValue == rhs.sort?.rawValue
+                    && lhs.sort?.timeframe?.rawValue == rhs.sort?.timeframe?.rawValue
+                    && lhs.date == rhs.date
+            }
+        }
         typealias Request = ListShots
         public enum List: String {
             case animated, attachments, debuts, playoffs, rebounds, terms
@@ -56,7 +72,7 @@ extension Model {
         public init(list: List? = nil, date: Date? = nil, sort: Sort? = nil) {
             let date = date?.dateWithoutTime
             let dateInt = date.flatMap { Int($0.timeIntervalSince1970) }
-            impl = _TimelineModel(
+            impl = stateRepository(forKey: Hash(list: list, date: date, sort: sort), default: .init(
                 request: ListShots(list: list?.actual, date: date, sort: sort?.actual),
                 cache: ShotsCache(list: list?.rawValue,
                                   timeframe: sort?.timeframe?.rawValue,
@@ -65,7 +81,7 @@ extension Model {
                 predicate: ShotsCache.list == list?.rawValue &&
                     ShotsCache.timeframe == sort?.timeframe?.rawValue &&
                     ShotsCache.sort == sort?.rawValue &&
-                    ShotsCache.date == dateInt)
+                    ShotsCache.date == dateInt))
             impl.delegate = self
         }
 

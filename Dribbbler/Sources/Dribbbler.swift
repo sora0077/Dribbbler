@@ -42,12 +42,12 @@ func write(_ block: (Realm) throws -> Void) {
     }
 }
 
-func write<C: ThreadConfined>(_ resolver1: ThreadSafeReference<C>?, _ block: (Realm, C?) throws -> Void) {
+func write<C: ThreadConfined>(_ ref1: ThreadSafeReference<C>?, _ block: (Realm, C?) throws -> Void) {
     do {
         let realm = try RealmSwift.Realm()
-        let resolver1 = resolver1.flatMap(realm.resolve)
+        let ref1 = ref1.flatMap(realm.resolve)
         try realm.write {
-            try block(realm, resolver1)
+            try block(realm, ref1)
         }
     } catch {
         print(error)

@@ -17,7 +17,7 @@ extension Reactive where Base: UIScrollView {
                 guard let scrollView = base else { return .empty() }
                 let visibleHeight = scrollView.frame.height - scrollView.contentInset.top - scrollView.contentInset.bottom
                 let y = contentOffset.y + scrollView.contentInset.top
-                let threshold = max(0.0, scrollView.contentSize.height - visibleHeight) - offset
+                let threshold = max(0.0, scrollView.contentSize.height - visibleHeight - offset)
 
                 return y > threshold ? .just() : .empty()
         })

@@ -22,13 +22,6 @@ public final class Repositories {
     }
 }
 
-struct Weak<T: AnyObject> {
-    weak var value: T?
-    init(_ value: T) {
-        self.value = value
-    }
-}
-
 public final class UserRepository {
     private var cache: [User.Identifier: Weak<Model.User>] = [:]
 

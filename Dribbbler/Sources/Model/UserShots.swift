@@ -45,10 +45,10 @@ extension Model {
 
         init(userId: Dribbbler.User.Identifier) {
             self.userId = userId
-            impl = _TimelineModel(
+            impl = stateRepository(forKey: Hash<UserShots>(userId), default: .init(
                 request: ListUserShots(id: userId),
                 cache: UserShotsCache(userId: userId),
-                predicate: UserShotsCache.user == userId)
+                predicate: UserShotsCache.user == userId))
             impl.delegate = self
         }
 
