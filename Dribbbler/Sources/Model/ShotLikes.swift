@@ -41,10 +41,10 @@ extension Model {
         fileprivate let impl: _TimelineModel<ShotLikesCache, Model.ShotLikes>
 
         public init(id: Dribbbler.Shot.Identifier) {
-            impl = _TimelineModel(
+            impl = stateRepository(forKey: id, default: .init(
                 request: ListShotLikes(id: id),
                 cache: ShotLikesCache(shotId: id),
-                predicate: ShotLikesCache.id == id)
+                predicate: ShotLikesCache.id == id))
             impl.delegate = self
         }
 
